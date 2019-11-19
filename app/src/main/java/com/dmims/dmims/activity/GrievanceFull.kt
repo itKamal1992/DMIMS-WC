@@ -17,6 +17,7 @@ import com.dmims.dmims.common.Common
 import com.dmims.dmims.dataclass.StudentGrievanceGet
 import com.dmims.dmims.model.APIResponse
 import com.dmims.dmims.remote.IMyAPI
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.activity_grievance_full.*
 import org.apache.commons.lang3.StringUtils
 import retrofit2.Call
@@ -104,24 +105,10 @@ class GrievanceFull : AppCompatActivity() {
         ll_commentOwn = findViewById(R.id.ll_commentOwn)
         ll_forwarded.visibility = View.GONE
 
-        //Insti spinner disable
-//        if (roll.equals("GREVIANCE_CELL")) {
-//            txt_insTag.visibility = View.VISIBLE
-//            layout_spin_Inst.visibility = View.VISIBLE
-////            instName.add("Select Institute")
-////            instName.add("JNMC")
-////            instName.add("RNPC")
-////            instName.add("SRMMCON")
-////            instName.add("MGAC")
-//            var InstAdap: ArrayAdapter<String> = ArrayAdapter<String>(
-//                this@GrievanceFull,
-//                R.layout.support_simple_spinner_dropdown_item, instName
-//            )
-//            spinner_selectIns!!.adapter = InstAdap
-//        } else {
-//            txt_insTag.visibility = View.GONE
-//            layout_spin_Inst.visibility = View.GONE
-//        }
+        val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
+        dialog.setMessage("Please Wait!!! \nwhile we are loading Grievance details")
+        dialog.setCancelable(false)
+        dialog.show()
         statusAction.add("Select Action")
         var statusActionAdap: ArrayAdapter<String> = ArrayAdapter<String>(
             this@GrievanceFull,
@@ -148,6 +135,8 @@ class GrievanceFull : AppCompatActivity() {
                 }
             }
         }
+
+
         //Institute selected Spinner - Convener - Start
 //        spinner_selectIns.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 //            override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -248,11 +237,14 @@ class GrievanceFull : AppCompatActivity() {
             mServices.GetStudGrievanceSubmited()
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                        dialog.dismiss()
+                        GenericUserFunction.showNegativePopUp(this@GrievanceFull,t.message.toString())
                     }
 
                     override fun onResponse(
                         call: Call<APIResponse>, response: Response<APIResponse>
                     ) {
+                        dialog.dismiss()
                         val result: APIResponse? = response.body()
                         println("result 1 >>> " + result.toString())
                         if (result!!.Status == "ok") {
@@ -341,7 +333,7 @@ class GrievanceFull : AppCompatActivity() {
                 })
 
         } catch (ex: Exception) {
-
+            dialog.dismiss()
             ex.printStackTrace()
             GenericUserFunction.showApiError(
                 this,
@@ -359,26 +351,32 @@ class GrievanceFull : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (selected_user_choice.equals("Select User")) {
-                GenericUserFunction.DisplayToast(this@GrievanceFull, "Please Select User")
-                return@setOnClickListener
-            }
+            if(strForwardedViaStatus.equals("Forward")) {
+                if (selected_user_choice.equals("Select User")) {
+                    GenericUserFunction.DisplayToast(this@GrievanceFull, "Please Select User")
+                    return@setOnClickListener
+                }
 
-            if (strForwardeTo.equals("Select Forwarded To")) {
-                GenericUserFunction.DisplayToast(this@GrievanceFull, "Please Select Forwarded To")
-                return@setOnClickListener
-            }
+                if (strForwardeTo.equals("Select Forwarded To")) {
+                    GenericUserFunction.DisplayToast(
+                        this@GrievanceFull,
+                        "Please Select Forwarded To"
+                    )
+                    return@setOnClickListener
+                }
 
-//            if (roll.equals("GREVIANCE_CELL")) {
-//
-//
-//            }
-//
+            }
             if (et_comment.text.toString().equals("")) {
                 et_comment.error = "Please enter your response"
                 GenericUserFunction.DisplayToast(this@GrievanceFull, "Please enter your response")
                 return@setOnClickListener
             }
+            if (roll.equals("GREVIANCE_CELL")) {
+                user_department = "Grievance Cell Admin"
+
+            }
+//
+
             if ((strForwardedViaStatus.equals("Attend")) && (et_comment.text.toString().isNotEmpty())) {
 
                 if (REMINDER.equals("-") && form_et_comment.equals("-")) {
@@ -472,8 +470,11 @@ class GrievanceFull : AppCompatActivity() {
         assignToID: Int,
         remainder: String
     ) {
+        val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
         try {
-
+            dialog.setMessage("Please Wait!!! \nwhile we are updating your Grievance details")
+            dialog.setCancelable(false)
+            dialog.show()
             mServices.GreivanceUpdate(
                 G_ID,
                 strForwardeTo,
@@ -485,6 +486,7 @@ class GrievanceFull : AppCompatActivity() {
             )
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                        dialog.dismiss()
                         GenericUserFunction.showNegativePopUp(
                             this@GrievanceFull,
                             t.message.toString()
@@ -494,6 +496,7 @@ class GrievanceFull : AppCompatActivity() {
                     override fun onResponse(
                         call: Call<APIResponse>, response: Response<APIResponse>
                     ) {
+                        dialog.dismiss()
                         val result: APIResponse? = response.body()
                         println("result 1 >>> " + result.toString())
                         if (result!!.Responsecode == 200) {
@@ -529,7 +532,7 @@ class GrievanceFull : AppCompatActivity() {
                 })
 
         } catch (ex: Exception) {
-
+            dialog.dismiss()
             ex.printStackTrace()
             GenericUserFunction.showApiError(
                 this,
@@ -548,7 +551,11 @@ class GrievanceFull : AppCompatActivity() {
         assignToID: Int,
         remainder: String
     ) {
+        val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
         try {
+            dialog.setMessage("Please Wait!!! \nwhile we are updating your Grievance details")
+            dialog.setCancelable(false)
+            dialog.show()
 
             mServices.GreivanceUpdate(
                 G_ID.toString(),
@@ -561,6 +568,7 @@ class GrievanceFull : AppCompatActivity() {
             )
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                        dialog.dismiss()
                         GenericUserFunction.showNegativePopUp(
                             this@GrievanceFull,
                             t.message.toString()
@@ -570,6 +578,7 @@ class GrievanceFull : AppCompatActivity() {
                     override fun onResponse(
                         call: Call<APIResponse>, response: Response<APIResponse>
                     ) {
+                        dialog.dismiss()
                         val result: APIResponse? = response.body()
                         println("result 1 >>> " + result.toString())
                         if (result!!.Responsecode == 200) {
@@ -610,7 +619,7 @@ class GrievanceFull : AppCompatActivity() {
                 })
 
         } catch (ex: Exception) {
-
+            dialog.dismiss()
             ex.printStackTrace()
             GenericUserFunction.showApiError(
                 this,
@@ -629,107 +638,131 @@ class GrievanceFull : AppCompatActivity() {
 //        instituteName1.clear()
 //        println("str_ToData ")
 //        instituteName = "JNMC"
+        val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
+        try {
+            dialog.setMessage("Please Wait!!! \nwhile we are updating your Grievance details")
+            dialog.setCancelable(false)
+            dialog.show()
 
-        mServices.GetGreivanceData(G_Instname, string)
-            .enqueue(object : Callback<APIResponse> {
-                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                    GenericUserFunction.showNegativePopUp(
-                        this@GrievanceFull,
-                        "Please wait sever is busy"
-                    )
-                }
-
-
-                override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
-
-                    instituteName1.add("Select User")
-                    val result: APIResponse? = response.body()
-                    if (result!!.Responsecode == 200) {
-
-                        listsinstz = result?.Data18!!.size
-
-                        ASSING_ID.add("0")
-                        if (stringData.equals("HOD")) {
-                            for (i in 0..listsinstz - 1) {
-
-                                if (result.Data18!![i].MNAME.isEmpty() && result.Data18!![i].LNAME.isEmpty() && result.Data18!![i].UFMID != user_id.toString()) {
-                                    hodName!!.add(result.Data18!![i].FNAME)
-                                    deptName!!.add(result.Data18!![i].DEPNAM01)
-                                    instituteName1.add(result.Data18!![i].FNAME + "(" + result.Data18!![i].DEPNAM01 + ")")
-
-                                } else {
-                                    if (result.Data18!![i].UFMID != user_id.toString()) {
-                                        hodName!!.add(result.Data18!![i].FNAME + result.Data18!![i].MNAME + result.Data18!![i].LNAME)
-                                        deptName!!.add(result.Data18!![i].DEPNAM01)
-                                        instituteName1.add(result.Data18!![i].FNAME + result.Data18!![i].MNAME + result.Data18!![i].LNAME + "(" + result.Data18!![i].DEPNAM01 + ")")
-                                    }
-                                }
-
-                                ASSING_ID.add(result.Data18!![i].UFMID)
-                            }
-
-                        } else if (stringData.equals("Principal") || stringData.equals(
-                                "Dean"
-                            )
-                        ) {
-                            for (i in 0..listsinstz - 1) {
-                                if (result.Data18!![i].MNAME.isEmpty() && result.Data18!![i].LNAME.isEmpty()) {
-                                    DeanPrinciName!!.add(result.Data18!![i].FNAME)
-                                    PrincipalDeanClg!!.add(result.Data18!![i].DEPNAM01)
-                                    deptName!!.add(result.Data18!![i].DEPNAM01)
-                                    instituteName1.add(result.Data18!![i].FNAME + "(" + result.Data18!![i].INST_NAME + ")")
-                                } else {
-                                    DeanPrinciName!!.add(result.Data18!![i].FNAME + result.Data18!![i].MNAME + result.Data18!![i].LNAME)
-                                    PrincipalDeanClg!!.add(result.Data18!![i].DEPNAM01)
-                                    deptName!!.add(result.Data18!![i].DEPNAM01)
-                                    instituteName1.add(result.Data18!![i].FNAME + result.Data18!![i].MNAME + result.Data18!![i].LNAME + "(" + result.Data18!![i].INST_NAME + ")")
-                                }
-                                ASSING_ID.add(result.Data18!![i].UFMID)
-                            }
-                        }
-                        println("result  " + result?.Data18!![0].FNAME + result?.Data18!![0].MNAME + result?.Data18!![0].LNAME)
-                        var DepartmentAdap: ArrayAdapter<String> = ArrayAdapter<String>(
-                            this@GrievanceFull,
-                            R.layout.support_simple_spinner_dropdown_item, instituteName1
-                        )
-                        spinnerForwardeName!!.adapter = DepartmentAdap
-                        spinnerForwardeName.onItemSelectedListener =
-                            object : AdapterView.OnItemSelectedListener {
-                                override fun onNothingSelected(parent: AdapterView<*>?) {
-                                }
-
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>?,
-                                    view: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    selected_user_choice = spinnerForwardeName.selectedItem.toString()
-                                    var position1 = spinnerForwardeName.selectedItemPosition
-                                    println("positipon 1 " + position1)
-                                    if (position1 == 0) {
-
-                                    } else {
-                                        println("position code " + ASSING_ID[position])
-                                        ASSING_TO_ID = ASSING_ID[position]
-                                        selected_Department = deptName[position - 1]
-                                        println("selected_Department code " + selected_Department)
-                                    }
-                                }
-                            }
-                        println(" Data found")
-
-                    } else {
+            mServices.GetGreivanceData(G_Instname, string)
+                .enqueue(object : Callback<APIResponse> {
+                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                        dialog.dismiss()
                         GenericUserFunction.showNegativePopUp(
                             this@GrievanceFull,
-                            "No data found against your choice please select proper choices"
+                            "Please wait sever is busy"
                         )
                     }
-                }
 
-            })
 
+                    override fun onResponse(
+                        call: Call<APIResponse>,
+                        response: Response<APIResponse>
+                    ) {
+                        dialog.dismiss()
+                        instituteName1.add("Select User")
+                        val result: APIResponse? = response.body()
+                        if (result!!.Responsecode == 200) {
+
+                            listsinstz = result?.Data18!!.size
+
+                            ASSING_ID.add("0")
+                            if (stringData.equals("HOD")) {
+                                for (i in 0..listsinstz - 1) {
+
+                                    if (result.Data18!![i].MNAME.isEmpty() && result.Data18!![i].LNAME.isEmpty() && result.Data18!![i].UFMID != user_id.toString()) {
+                                        hodName!!.add(result.Data18!![i].FNAME)
+                                        deptName!!.add(result.Data18!![i].DEPNAM01)
+                                        instituteName1.add(result.Data18!![i].FNAME + "(" + result.Data18!![i].DEPNAM01 + ")")
+
+                                    } else {
+                                        if (result.Data18!![i].UFMID != user_id.toString()) {
+                                            hodName!!.add(result.Data18!![i].FNAME + result.Data18!![i].MNAME + result.Data18!![i].LNAME)
+                                            deptName!!.add(result.Data18!![i].DEPNAM01)
+                                            instituteName1.add(result.Data18!![i].FNAME + result.Data18!![i].MNAME + result.Data18!![i].LNAME + "(" + result.Data18!![i].DEPNAM01 + ")")
+                                        }
+                                    }
+
+                                    ASSING_ID.add(result.Data18!![i].UFMID)
+                                }
+
+                            } else if (stringData.equals("Principal") || stringData.equals(
+                                    "Dean"
+                                )
+                            ) {
+                                for (i in 0..listsinstz - 1) {
+                                    if (result.Data18!![i].MNAME.isEmpty() && result.Data18!![i].LNAME.isEmpty()) {
+                                        DeanPrinciName!!.add(result.Data18!![i].FNAME)
+                                        PrincipalDeanClg!!.add(result.Data18!![i].DEPNAM01)
+                                        deptName!!.add(result.Data18!![i].DEPNAM01)
+                                        instituteName1.add(result.Data18!![i].FNAME + "(" + result.Data18!![i].INST_NAME + ")")
+                                    } else {
+                                        DeanPrinciName!!.add(result.Data18!![i].FNAME + result.Data18!![i].MNAME + result.Data18!![i].LNAME)
+                                        PrincipalDeanClg!!.add(result.Data18!![i].DEPNAM01)
+                                        deptName!!.add(result.Data18!![i].DEPNAM01)
+                                        instituteName1.add(result.Data18!![i].FNAME + result.Data18!![i].MNAME + result.Data18!![i].LNAME + "(" + result.Data18!![i].INST_NAME + ")")
+                                    }
+                                    ASSING_ID.add(result.Data18!![i].UFMID)
+                                }
+                            }
+                            println("result  " + result?.Data18!![0].FNAME + result?.Data18!![0].MNAME + result?.Data18!![0].LNAME)
+                            var DepartmentAdap: ArrayAdapter<String> = ArrayAdapter<String>(
+                                this@GrievanceFull,
+                                R.layout.support_simple_spinner_dropdown_item, instituteName1
+                            )
+                            spinnerForwardeName!!.adapter = DepartmentAdap
+                            spinnerForwardeName.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
+                                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                                    }
+
+                                    override fun onItemSelected(
+                                        parent: AdapterView<*>?,
+                                        view: View?,
+                                        position: Int,
+                                        id: Long
+                                    ) {
+                                        selected_user_choice =
+                                            spinnerForwardeName.selectedItem.toString()
+                                        var position1 = spinnerForwardeName.selectedItemPosition
+                                        println("positipon 1 " + position1)
+                                        if (position1 == 0) {
+
+                                        } else {
+                                            if (roll.equals("GREVIANCE_CELL")) {
+                                                ASSING_TO_ID = "0"
+                                                selected_Department = "Grievance Cell Admin"
+
+                                            }else {
+                                                println("position code " + ASSING_ID[position])
+                                                ASSING_TO_ID = ASSING_ID[position]
+                                                selected_Department = deptName[position - 1]
+                                                println("selected_Department code " + selected_Department)
+                                            }
+                                        }
+                                    }
+                                }
+                            println(" Data found")
+
+                        } else {
+                            GenericUserFunction.showNegativePopUp(
+                                this@GrievanceFull,
+                                "No data found against your choice please select proper choices"
+                            )
+                        }
+                    }
+
+                })
+        } catch (ex:java.lang.Exception) {
+            dialog.dismiss()
+            ex.printStackTrace()
+            GenericUserFunction.showApiError(
+                this,
+                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+            )
+        }
     }
+
 
 
     fun clickFromDataPicker(view: View) {

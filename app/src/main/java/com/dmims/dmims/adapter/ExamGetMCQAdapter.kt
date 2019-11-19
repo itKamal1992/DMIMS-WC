@@ -83,7 +83,7 @@ class ExamGetMCQAdapter(val userlist: ArrayList<McqFields>,context: Context) :
                         {
                             var intent: Intent = Intent(ctx, Common_PDF_Viewer::class.java)
                             intent.putExtra("url", mcqFields!!.FileUrl)
-                            intent.putExtra("actionTitle", "PDF Viewer")
+                            intent.putExtra("actionTitle", "Exam Key Viewer")
                             ctx.startActivity(intent)
                         }
 

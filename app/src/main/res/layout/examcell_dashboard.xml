@@ -250,7 +250,7 @@
                                 android:layout_height="60dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_event"
+                                android:src="@drawable/ic_result"
                                 android:background="@drawable/white_right_corner_bg"
                             />
                             <TextView
@@ -280,7 +280,7 @@
                                 android:layout_height="60dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_event"
+                                android:src="@drawable/homeic"
                                 android:background="@drawable/white_right_corner_bg"
                             />
                             <TextView
@@ -327,7 +327,7 @@
                                 android:layout_height="60dp"
                                 android:layout_marginTop="20dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_help"
+                                android:src="@drawable/ic_feedback"
                                 android:background="@drawable/white_right_corner_bg"
                                 />
                             <TextView

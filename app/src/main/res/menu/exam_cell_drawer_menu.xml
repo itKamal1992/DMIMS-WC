@@ -7,7 +7,7 @@
 	<item
 			android:id="@+id/action_noticeboard"
 			android:title="Notice Board"
-			android:icon="@drawable/ic_notice_drawer"
+			android:icon="@drawable/ic_description"
 	/>
 	<item
 			android:id="@+id/action_notification"
@@ -22,7 +22,7 @@
 	<item
 			android:id="@+id/action_mcq"
 			android:title="MCQ"
-			android:icon="@drawable/ic_event_drawer"
+			android:icon="@drawable/ic_calendar"
 	/>
 	<item
 		android:id="@+id/action_mcq_notification"
@@ -31,19 +31,19 @@
 	/>
 	<item
 		android:id="@+id/action_mcq_inbox"
-		android:title="MCQ InBox"
-		android:icon="@drawable/ic_event_drawer"
+		android:title="MCQ Inbox"
+		android:icon="@drawable/ic_notice_type"
 	/>
 
 	<item
 		android:id="@+id/action_fScheduler"
 		android:title="Feedback Scheduler"
-		android:icon="@drawable/ic_help_drawer"
+		android:icon="@drawable/ic_notice_title"
 		/>
 	<item
 			android:id="@+id/action_help"
 			android:title="Help"
-			android:icon="@drawable/ic_help_drawer"
+			android:icon="@drawable/ic_notification_alert_drawer"
 	/>
 
 
@@ -51,7 +51,7 @@
 	<item
 			android:id="@+id/action_logout"
 			android:title="Logout"
-			android:icon="@drawable/ic_help_drawer"
+			android:icon="@drawable/ic_admin_general"
 	/>
 
 

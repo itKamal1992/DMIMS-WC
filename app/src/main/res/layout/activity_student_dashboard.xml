@@ -319,7 +319,7 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="20dp"
                                     android:background="@drawable/white_right_corner_bg"
-                                    android:src="@drawable/emergency_alert" />
+                                    android:src="@drawable/ic_contact" />
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -357,7 +357,7 @@
                                     android:layout_marginTop="0dp"
                                     android:background="@drawable/white_right_corner_bg"
                                     android:padding="8dp"
-                                    android:text="Acad. Apprisal"
+                                    android:text="Acad. Appraisal"
                                     android:textAlignment="center"
                                     android:textColor="#000"
                                     android:textSize="12sp" />
@@ -420,7 +420,7 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="20dp"
                                     android:background="@drawable/white_right_corner_bg"
-                                    android:src="@drawable/ic_help" />
+                                    android:src="@drawable/ic_result" />
 
                                 <TextView
                                     android:layout_width="match_parent"

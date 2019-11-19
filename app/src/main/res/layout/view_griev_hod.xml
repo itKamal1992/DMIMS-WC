@@ -124,7 +124,15 @@
             android:textSize="15sp"/>
 
     </LinearLayout>
-
+    <ProgressBar
+        android:id="@+id/progressBar7"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="35dp"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/cardview_light_background"
+        android:layout_height="33dp"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -133,16 +141,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSubHeading1"
         android:layout_marginTop="10dp"
         tools:layout_editor_absoluteX="16dp"/>
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="35dp"
-        android:indeterminate="true"
-        android:layout_gravity="right"
-        android:indeterminateTintMode="src_atop"
-        android:indeterminateTint="@color/cardview_light_background"
-        android:layout_height="33dp" tools:ignore="MissingConstraints" tools:layout_editor_absoluteY="7dp"
-        tools:layout_editor_absoluteX="6dp"/>
+
 
 
 </LinearLayout>

@@ -52,7 +52,7 @@ class ViewRegGrievHod : AppCompatActivity() {
         from_date = findViewById(R.id.select_from_date)
         search_id = findViewById<Button>(R.id.search_id)
         recyclerView = findViewById<RecyclerView>(R.id.rv_schedledfeedback)
-
+        progressBar = findViewById<ProgressBar>(R.id.progressBar7)
         val myFormat = "dd-MM-yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
 
@@ -86,12 +86,13 @@ class ViewRegGrievHod : AppCompatActivity() {
 
 
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        progressBar!!.visibility = View.VISIBLE
         try {
             mServices.GetStudGrievanceSubmited()
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-
-
+                        progressBar!!.visibility = View.GONE
+                        GenericUserFunction.showNegativePopUp(this@ViewRegGrievHod,t.message.toString())
                     }
 
                     override fun onResponse(
@@ -99,7 +100,7 @@ class ViewRegGrievHod : AppCompatActivity() {
                         response: Response<APIResponse>
                     )
                     {
-
+                        progressBar!!.visibility = View.GONE
                         val result: APIResponse? = response.body()
                         println("result 1 >>> " + result.toString())
                         if (result!!.Status == "ok") {
@@ -251,7 +252,7 @@ class ViewRegGrievHod : AppCompatActivity() {
                 })
 
         } catch (ex: Exception) {
-
+            progressBar!!.visibility = View.GONE
             ex.printStackTrace()
             GenericUserFunction.showApiError(
                 this,
@@ -264,19 +265,20 @@ class ViewRegGrievHod : AppCompatActivity() {
     private fun GetDateGrievance() {
 
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        progressBar!!.visibility = View.VISIBLE
         try {
             mServices.GetDatewiseOnlineGrievanceReport(select_to_date.text.toString(), select_from_date.text.toString())
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-
-
+                        progressBar!!.visibility = View.GONE
+                        GenericUserFunction.showNegativePopUp(this@ViewRegGrievHod,t.message.toString())
                     }
 
                     override fun onResponse(
                         call: Call<APIResponse>,
                         response: Response<APIResponse>
                     ) {
-
+                        progressBar!!.visibility = View.GONE
                         val result: APIResponse? = response.body()
                         println("result 1 >>> " + result.toString())
                         if (result!!.Status == "ok") {
@@ -360,7 +362,7 @@ class ViewRegGrievHod : AppCompatActivity() {
                 })
 
         } catch (ex: Exception) {
-
+            progressBar!!.visibility = View.GONE
             ex.printStackTrace()
             GenericUserFunction.showApiError(
                 this,

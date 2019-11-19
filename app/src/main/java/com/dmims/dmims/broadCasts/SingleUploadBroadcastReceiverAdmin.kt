@@ -1,8 +1,5 @@
 package com.dmims.dmims.broadCasts
 
-import android.app.AlertDialog
-import com.dmims.dmims.activity.InstituteNoticeBoard
-import dmax.dialog.SpotsDialog
 import net.gotev.uploadservice.UploadServiceBroadcastReceiver
 
 class SingleUploadBroadcastReceiverAdmin : UploadServiceBroadcastReceiver() {
@@ -18,16 +15,16 @@ class SingleUploadBroadcastReceiverAdmin : UploadServiceBroadcastReceiver() {
     private var mUploadID: String? = null
     private var mDelegate: Delegate? = null
 
-    fun setUploadID(uploadID:String){
-        mUploadID=uploadID
+    fun setUploadID(uploadID: String) {
+        mUploadID = uploadID
     }
 
-    fun setDelegate(delegate: Delegate){
-        mDelegate=delegate
+    fun setDelegate(delegate: Delegate) {
+        mDelegate = delegate
     }
 
     override fun onProgress(uploadId: String?, progress: Int) {
-        if(uploadId.equals(mUploadID)&& mDelegate!=null) {
+        if (uploadId.equals(mUploadID) && mDelegate != null) {
             mDelegate!!.onProgress(progress)
         }
 
@@ -35,13 +32,13 @@ class SingleUploadBroadcastReceiverAdmin : UploadServiceBroadcastReceiver() {
     }
 
     override fun onProgress(uploadId: String?, uploadedBytes: Long, totalBytes: Long) {
-        if(uploadId.equals(mUploadID)&& mDelegate!=null) {
-            mDelegate!!.onProgress(uploadedBytes,totalBytes)
+        if (uploadId.equals(mUploadID) && mDelegate != null) {
+            mDelegate!!.onProgress(uploadedBytes, totalBytes)
         }
     }
 
     override fun onError(uploadId: String?, exception: java.lang.Exception?) {
-        if(uploadId.equals(mUploadID)&& mDelegate!=null) {
+        if (uploadId.equals(mUploadID) && mDelegate != null) {
             if (exception != null) {
                 mDelegate!!.onError(exception)
             }
@@ -53,15 +50,15 @@ class SingleUploadBroadcastReceiverAdmin : UploadServiceBroadcastReceiver() {
         serverResponseCode: Int,
         serverResponseBody: ByteArray?
     ) {
-        if(uploadId.equals(mUploadID) && mDelegate!=null) {
+        if (uploadId.equals(mUploadID) && mDelegate != null) {
             if (serverResponseBody != null) {
-                mDelegate!!.onCompleted(serverResponseCode,serverResponseBody)
+                mDelegate!!.onCompleted(serverResponseCode, serverResponseBody)
             }
         }
     }
 
     override fun onCancelled(uploadId: String?) {
-        if(uploadId.equals(mUploadID)&& mDelegate!=null) {
+        if (uploadId.equals(mUploadID) && mDelegate != null) {
             mDelegate!!.onCancelled()
         }
     }
