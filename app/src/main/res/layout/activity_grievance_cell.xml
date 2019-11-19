@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:tools="http://schemas.android.com/tools"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			tools:context=".activity.GrievanceCellBoard">
+		
+		
+		<ScrollView android:id="@+id/login_form"
+		            android:background="@drawable/background"
+		            android:layout_width="match_parent"
+		            android:layout_height="match_parent">
+			
+			<LinearLayout android:id="@+id/llSplashScreen"
+			              android:layout_width="match_parent"
+			              android:layout_height="wrap_content"
+			              android:orientation="vertical">
+				
+				<TextView
+						android:id="@+id/tvSubHeading1"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="22dp"
+						android:layout_below="@id/tvMainHeading2"
+						android:layout_gravity="center_horizontal"
+						android:fontFamily="sans-serif-medium"
+						android:text="Grievance Form"
+						android:layout_marginBottom="22dp"
+						android:textColor="#fff"
+						android:textSize="22sp"
+				/>
+				<!--Notice Date-->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					
+					<!--Note Date -->
+					
+					
+					
+					
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_title"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="match_parent"
+					              android:orientation="horizontal"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<!--<Button android:layout_width="wrap_content"-->
+						<!--android:text="Pick Date"-->
+						<!--android:id="@+id/date_dialog"-->
+						<!--android:layout_height="wrap_content"/>-->
+						<!---->
+						<!--<LinearLayout android:layout_width="wrap_content"-->
+						<!--android:orientation="horizontal"-->
+						<!---->
+						<!--android:background="@drawable/white_right_corner_bg"-->
+						<!--android:layout_height="50dp">-->
+						<!--<EditText android:layout_width="match_parent"-->
+						          <!--android:id="@+id/viewtxt_info"-->
+						          <!--android:hint="Information(*)"-->
+						          <!--android:textSize="16sp"-->
+						          <!--android:inputType="text"-->
+						          <!--android:background="@drawable/white_right_corner_bg"-->
+						          <!--android:layout_marginLeft="10dp"-->
+						          <!--android:layout_marginRight="10dp"-->
+						          <!--android:layout_height="match_parent"-->
+						          <!--android:textColor="@android:color/background_dark"/>-->
+						<Spinner
+								android:id="@+id/spinner_grevianceinfo"
+								android:layout_width="match_parent"
+								android:layout_alignParentTop="true"
+								android:layout_margin="10dp"
+								android:textSize="20dp"
+								android:textStyle="bold"
+								android:layout_height="wrap_content"/>
+
+						<!--</LinearLayout>-->
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				
+				<!--Notice Title-->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					
+					<!--Note Date -->
+					
+					
+					
+					
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_title"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viewtxt_name"
+						          android:hint="Name of Grievant(*)"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viewtxt_mobileno"
+						          android:hint="Mobile No.(*)"
+						          android:textSize="16sp"
+								  android:maxLength="10"
+						          android:inputType="number"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viewtxt_emailid"
+						          android:hint="Email Id(*)"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viewtxt_address"
+						          android:hint="Address(*)"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viewtxt_workplace"
+						          android:hint="Place of work(*)"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<!--<EditText android:layout_width="match_parent"-->
+						          <!--android:id="@+id/viewtxt_jobtitle"-->
+						          <!--android:hint="Job Title(*)"-->
+						          <!--android:textSize="16sp"-->
+						          <!--android:inputType="text"-->
+						          <!--android:background="@drawable/white_right_corner_bg"-->
+						          <!--android:layout_marginLeft="10dp"-->
+						          <!--android:layout_marginRight="10dp"-->
+						          <!--android:layout_height="match_parent"-->
+						          <!--android:textColor="@android:color/background_dark"/>-->
+						<Spinner
+								android:id="@+id/spinner_studcat"
+								android:layout_width="match_parent"
+								android:layout_alignParentTop="true"
+								android:layout_margin="10dp"
+								android:textSize="20dp"
+								android:textStyle="bold"
+								android:layout_height="wrap_content"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				//Greviance Spinner
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_type"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<Spinner
+								android:id="@+id/spinner_typeofgreviance"
+								android:layout_width="match_parent"
+								android:layout_alignParentTop="true"
+								android:layout_margin="10dp"
+								android:textSize="20dp"
+								android:textStyle="bold"
+								android:layout_height="wrap_content"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viewtxt_datetime"
+						          android:hint="Date, time and place of event(*)"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="150dp"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="150dp"
+					>
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="150dp">
+								
+								<ImageView android:background="@drawable/ic_description"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="match_parent">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viwtext_detaildescr"
+						          android:hint="Detailed description of grievance(*)"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="150dp"
+						          android:textColor="@android:color/background_dark"/>
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viewtxt_nameofindi"
+						          android:hint="Name of Individual(*)"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viewtxt_proposedsol"
+						          android:hint="Proposed solution to grievance"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/viewtxt_providename"
+						          android:hint="Please provide your Name"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<Button android:layout_width="match_parent"
+				        android:id="@+id/btn_publish_grievance"
+				        style="?android:textAppearanceSmall"
+				        android:text="submit grievance"
+				        android:fontFamily="sans-serif-condensed-medium"
+				        android:layout_marginLeft="20dp"
+				        android:layout_marginRight="20dp"
+				        android:background="@drawable/blue_button_bg"
+				        android:layout_marginTop="16dp"
+				        android:layout_height="50dp"
+				        android:textColor="@android:color/background_dark"
+				        android:textSize="15sp"/>
+				
+				
+				<LinearLayout android:id="@+id/register_form"
+				              android:layout_marginTop="40dp"
+				              android:orientation="horizontal"
+				              android:layout_gravity="center"
+				              android:layout_width="wrap_content"
+				              android:layout_height="wrap_content"/>
+			
+			</LinearLayout>
+		</ScrollView>
+	</LinearLayout>

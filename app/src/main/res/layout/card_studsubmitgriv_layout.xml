@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+
+       <android.support.v7.widget.CardView
+				
+		   android:id="@+id/card_view_innder"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:layout_marginTop="20dp"
+				app:cardBackgroundColor="#fff"
+	            app:cardCornerRadius="10dp"
+               	app:cardElevation="10dp"
+	            app:cardUseCompatPadding="true"
+ 				 >
+		
+		
+		
+		<LinearLayout android:orientation="horizontal"
+		              android:layout_width="match_parent"
+		              android:layout_height="wrap_content"
+		              android:layout_marginTop="10dp"
+		              android:layout_marginBottom="10dp"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
+			android:paddingLeft="5dp"
+		       >
+			<!-- Left icon !-->
+			<LinearLayout android:layout_width="60dp"
+				android:orientation="vertical"
+				android:layout_marginLeft="-8dp"
+				android:layout_marginRight="13dp"
+				android:layout_height="wrap_content">
+
+				<LinearLayout android:layout_width="match_parent"
+					android:orientation="vertical"
+					android:layout_marginLeft="-19dp"
+					android:layout_marginRight="-5dp"
+					android:layout_height="match_parent">
+
+					<LinearLayout android:orientation="vertical"
+						android:gravity="center_vertical|center_horizontal"
+						android:layout_width="match_parent"
+
+						android:layout_marginRight="-19dp"
+						android:layout_height="wrap_content">
+
+						<ImageView
+							android:id="@+id/camera_image"
+							android:layout_width="44dp"
+							android:layout_height="44dp"/>
+
+					</LinearLayout>
+				</LinearLayout>
+			</LinearLayout>
+
+<LinearLayout android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+
+			<LinearLayout
+				android:id="@+id/linearForPdfClick"
+				android:layout_width="match_parent"
+			              android:orientation="vertical"
+			              android:background="@drawable/white_right_corner_bg"
+			              android:layout_height="wrap_content">
+
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					>
+					<TextView
+						android:layout_width="150dp"
+						android:layout_height="wrap_content"
+						android:text="Date"
+						android:textSize="17sp"
+						android:textStyle="bold"
+						/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						/>
+					<TextView android:layout_width="match_parent"
+						android:id="@+id/tv_date"
+
+						android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+						android:text="date"
+						android:layout_marginLeft="20dp"
+						android:textSize="15sp"
+						android:textColor="@color/colorblack"
+						android:layout_height="wrap_content"/>
+
+				</LinearLayout>
+
+<LinearLayout
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	>
+	<TextView
+		android:layout_width="150dp"
+		android:layout_height="wrap_content"
+		android:text="Grievance ID"
+		android:textSize="17sp"
+		android:textStyle="bold"
+		/>
+<TextView
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text=":"
+	/>
+	<TextView android:layout_width="match_parent"
+		android:id="@+id/tv_GrievanceId"
+
+		android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+		android:text="id"
+		android:layout_marginLeft="20dp"
+		android:textSize="15sp"
+		android:textColor="@color/colorblack"
+		android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+
+
+
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					>
+
+					<TextView
+						android:layout_width="150dp"
+						android:layout_height="wrap_content"
+						android:text="Complaint To"
+						android:textSize="17sp"
+						android:textStyle="bold"
+						/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						/>
+					<TextView android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/tv_complaintTo"
+						android:text="Complaint To"
+						android:textSize="15sp"
+						android:textColor="@color/colorblack"
+						android:layout_marginLeft="20dp"
+						/>
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					>
+
+					<TextView
+						android:layout_width="150dp"
+						android:layout_height="wrap_content"
+						android:text="SUBJECT"
+						android:textSize="17sp"
+						android:textStyle="bold"
+						/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						/>
+					<TextView android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/tv_subject"
+						android:text="Subject"
+						android:textSize="15sp"
+						android:layout_marginLeft="20dp"
+						android:textColor="@color/colorblack"
+					/>
+				</LinearLayout>
+
+<LinearLayout
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+
+	<TextView
+		android:layout_width="150dp"
+		android:layout_height="wrap_content"
+		android:text="CATEGORY"
+		android:textSize="17sp"
+		android:textStyle="bold"
+		/>
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text=":"
+		/>
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/tv_category"
+		android:text="Category"
+		android:textSize="15sp"
+		android:layout_marginLeft="20dp"
+		android:textColor="@color/colorblack"
+		/>
+
+</LinearLayout>
+
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="150dp"
+						android:layout_height="wrap_content"
+						android:text="Complaint Against"
+						android:textSize="17sp"
+						android:textStyle="bold"
+						/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:id="@+id/tv_complaintAgainst"
+						android:text="Complaint against"
+						android:textSize="15sp"
+						android:layout_marginLeft="20dp"
+						android:textColor="@color/colorblack"
+						/>
+
+				</LinearLayout>
+
+				<ImageView
+					android:id="@+id/iv_moreContent"
+					android:layout_marginTop="10dp"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+                   android:src="@drawable/baseline_expand_more_black_18dp"
+					/>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/ll_moreContent"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+
+
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="150dp"
+						android:layout_height="wrap_content"
+						android:text="Status"
+						android:textSize="17sp"
+						android:textStyle="bold"
+						/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:id="@+id/tv_GrievanceStatus"
+						android:text="Status"
+						android:textSize="15sp"
+						android:layout_marginLeft="20dp"
+
+						/>
+
+				</LinearLayout>
+
+
+				<LinearLayout
+					android:id="@+id/ll_comment"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+
+					>
+
+
+					<TextView
+						android:layout_width="150dp"
+						android:layout_height="wrap_content"
+						android:text="Comment"
+						/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						/>
+
+				</LinearLayout>
+
+				<LinearLayout
+
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+
+					>
+
+					<android.support.v7.widget.CardView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+					    app:cardCornerRadius="45dp"
+						app:cardElevation="45dp"
+						app:cardMaxElevation="10dp"
+						android:padding="10dp"
+						>
+
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:background="@color/gray"
+							android:padding="5dp"
+							>
+
+
+					<TextView
+						android:layout_width="120dp"
+						android:layout_height="wrap_content"
+						android:text="Description"
+						android:textSize="17sp"
+						android:textStyle="bold"
+						/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						android:textColor="@color/black"
+						/>
+					<TextView
+						android:id="@+id/tv_description"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:text="desc"
+						android:textSize="15sp"
+						android:layout_marginLeft="10dp"
+						android:textColor="#000000"
+						/>
+
+
+
+						</LinearLayout>
+
+
+
+					</android.support.v7.widget.CardView>
+				</LinearLayout>
+
+
+
+				<LinearLayout
+
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+    <ImageView
+	android:id="@+id/iv_less_Content"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:src="@drawable/baseline_expand_less_black_18dp"
+	/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+</LinearLayout>
+
+		</LinearLayout>
+
+
+
+		<!--<LinearLayout android:layout_width="match_parent"-->
+		              <!--android:orientation="vertical"-->
+		              <!--android:padding="10dp"-->
+		              <!--android:layout_height="wrap_content">-->
+			<!---->
+			<!--<ImageView-->
+					<!--android:id="@+id/item_image_view"-->
+					<!--android:layout_width="43dp"-->
+					<!--android:layout_height="57dp"-->
+					<!--android:contentDescription="@string/app_name"-->
+					<!--android:scaleType="centerInside"-->
+					<!--android:padding="10dp"/>-->
+			<!---->
+			<!---->
+		<!---->
+	<!---->
+		<!--</LinearLayout>-->
+	</android.support.v7.widget.CardView>
+
+</LinearLayout>

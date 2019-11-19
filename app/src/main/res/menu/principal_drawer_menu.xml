@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+	<item
+			android:id="@+id/action_viewGriev"
+			android:title="View Grievance"
+			android:icon="@drawable/ic_attendence_drawer"
+	/>
+	<item
+			android:id="@+id/action_time_table"
+			android:title="Time Table"
+			android:icon="@drawable/ic_time_table_drawer"
+	/>
+
+	<item
+			android:id="@+id/action_help"
+			android:title="Help"
+			android:icon="@drawable/ic_help_drawer"
+	/>
+	<item
+			android:id="@+id/action_logout"
+			android:title="Logout"
+			android:icon="@drawable/ic_help_drawer"
+	/>
+	
+</menu>
+		

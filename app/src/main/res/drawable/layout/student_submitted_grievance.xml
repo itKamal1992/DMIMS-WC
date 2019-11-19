@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.StudentSubmittedGrievance"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Subitted Grievance"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        />
+
+
+    <!--Notice Date-->
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp">
+
+        <!--Note Date -->
+
+
+        <!-- Left icon !-->
+        <LinearLayout android:layout_width="60dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout android:layout_width="60dp"
+                android:orientation="vertical"
+                android:background="@drawable/white_right_corner_bg2"
+                android:layout_height="wrap_content">
+
+                <LinearLayout android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <ImageView android:background="@drawable/ic_calendar"
+                        android:scaleType="fitCenter"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/date_layout"
+            android:background="@drawable/white_right_corner_bg"
+            android:layout_height="50dp">
+
+            <TextView android:layout_width="80dp"
+                android:onClick="clickToDataPicker"
+                android:id="@+id/select_to_date"
+                android:layout_gravity="left"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_height="match_parent"
+                />
+
+            <TextView android:layout_width="110dp"
+                android:onClick="clickFromDataPicker"
+                android:id="@+id/select_from_date"
+                android:layout_gravity="left"
+                android:paddingStart="5dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_height="match_parent"
+                android:paddingLeft="7dp"/>
+
+            <Button android:layout_width="fill_parent"
+                android:background="@color/cardview_light_background"
+                android:id="@+id/search_id"
+                android:layout_gravity="left"
+                android:paddingStart="5dp"
+                android:drawableLeft="@android:drawable/ic_menu_search"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:padding="16dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_height="wrap_content"
+                android:paddingLeft="7dp"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp">
+        <Button android:layout_width="fill_parent"
+            android:id="@+id/btn_currentattend"
+            style="?android:textAppearanceSmall"
+            android:text="THIS MONTH NOTICE"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/blue_button_bg"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="50dp"
+            android:textColor="@android:color/background_dark"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rv_schedledfeedback"
+        android:background="@drawable/background"
+        app:layout_constraintTop_toBottomOf="@+id/tvSubHeading1"
+        android:layout_marginTop="10dp"
+        tools:layout_editor_absoluteX="16dp"/>
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="35dp"
+        android:indeterminate="true"
+        android:layout_gravity="right"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/cardview_light_background"
+        android:layout_height="33dp" tools:ignore="MissingConstraints" tools:layout_editor_absoluteY="7dp"
+        tools:layout_editor_absoluteX="6dp"/>
+
+</LinearLayout>

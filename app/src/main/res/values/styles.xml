@@ -1,0 +1,43 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+	
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+	</style>
+	<!-- Base application theme. -->
+	<style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+		<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+	</style>
+	<style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+		<item name="color">@android:color/white</item>
+	</style>
+	<style name="AppTheme.NoActionBar">
+		<item name="windowActionBar">false</item>
+		<item name="windowNoTitle">true</item>
+	</style>
+	<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+	<style name="MySpinnerLook"
+	       parent="@android:style/Widget.TextView.SpinnerItem">
+		<item name="android:textSize">26sp</item>
+	</style>
+	<style name="AppTheme4" parent="Theme.AppCompat.Light.Dialog">
+		<item name="colorAccent">#EB333D</item>
+		<item name="colorControlActivated">#EB333D</item>
+		<item name="android:selectableItemBackgroundBorderless" tools:targetApi="lollipop">@color/colorPrimaryDark2
+		</item>
+		<item name="colorControlHighlight">#EB333D</item>
+	</style>
+
+	<style name="customAccent" parent="ThemeOverlay.AppCompat.Dark">
+		<item name="colorAccent">#121211</item>
+	</style>
+
+</resources>

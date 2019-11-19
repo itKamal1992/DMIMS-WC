@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.GrievanceFull"
+    android:background="@drawable/background"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            >
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:paddingLeft="5dp"
+                    >
+                    <!-- Left icon !-->
+
+                    <LinearLayout android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="wrap_content">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Posted on"
+                                android:textSize="17sp"
+
+                                />
+
+                            <TextView android:layout_width="match_parent"
+                                android:id="@+id/tv_date"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="date"
+                                android:layout_marginLeft="10dp"
+                                android:textSize="15sp"
+                                android:textColor="@color/colorblack"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/gray"
+                            android:layout_marginTop="5dp"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp"
+                            >
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:text="Grievance ID"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                />
+                            <TextView android:layout_width="match_parent"
+                                android:id="@+id/tv_GrievanceId"
+
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="id"
+                                android:layout_marginLeft="20dp"
+                                android:textSize="15sp"
+                                android:textColor="@color/colorblack"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:text="Name"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                />
+                            <TextView android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tv_NameStud"
+                                android:text="Complaint From"
+                                android:textSize="15sp"
+                                android:textColor="@color/colorblack"
+                                android:layout_marginLeft="20dp"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:text="SUBJECT"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                />
+                            <TextView android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tv_subject"
+                                android:text="Subject"
+                                android:textSize="15sp"
+                                android:layout_marginLeft="20dp"
+                                android:textColor="@color/colorblack"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:text="CATEGORY"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/tv_category"
+                                android:text="Category"
+                                android:textSize="15sp"
+                                android:layout_marginLeft="20dp"
+                                android:textColor="@color/colorblack"
+                                />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:text="Complaint Against"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/tv_complaintAgainst"
+                                android:text="Complaint against"
+                                android:textSize="15sp"
+                                android:layout_marginLeft="20dp"
+                                android:textColor="@color/colorblack"
+                                />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/gray"
+                            android:padding="5dp"
+                            android:layout_marginTop="5dp"
+                            >
+                            <TextView
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:text="Description"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                android:textColor="@color/black"
+                                />
+                            <TextView
+                                android:id="@+id/tv_description"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="desc"
+                                android:textSize="15sp"
+                                android:layout_marginLeft="10dp"
+                                android:textColor="#000000"
+                                />
+
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="5dp"
+                            android:id="@+id/view_attachment"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="View Attachment"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/blue"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/icons8_blue_attachment_40"
+                                android:textColor="@color/black"
+                                android:layout_marginLeft="10dp"
+                                />
+
+
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="5dp"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Select grievance status"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <Spinner
+                                    android:id="@+id/spinner_forwardedVia"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:entries="@array/Grievance_Foreard"
+                                    android:background="@drawable/spinner_round"
+                                    />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/baseline_expand_more_black_18dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:paddingBottom="10dp"
+                                    android:layout_marginRight="10dp"
+                                    />
+
+
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+
+
+
+                        <LinearLayout
+                            android:id="@+id/ll_forwarded"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="15dp"
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                android:text="Forwarded"
+                                android:gravity="center_horizontal"
+                                />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Select Institute"
+                                />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <Spinner
+                                    android:id="@+id/spinner_selectIns"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/spinner_round"
+                                    />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/baseline_expand_more_black_18dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:paddingBottom="10dp"
+                                    android:layout_marginRight="10dp"
+                                    />
+
+                            </RelativeLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Forwarded to"
+                                />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <Spinner
+                                    android:id="@+id/spinner_ForwaredTo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/spinner_round"
+                                    />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/baseline_expand_more_black_18dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:paddingBottom="10dp"
+                                    android:layout_marginRight="10dp"
+                                    />
+
+                            </RelativeLayout>
+
+
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Select"
+                                android:layout_marginTop="10dp"
+                                />
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+
+                                <Spinner
+                                    android:id="@+id/spinner_ForwaredeName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/spinner_round"
+                                    />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/baseline_expand_more_black_18dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:paddingBottom="10dp"
+                                    android:layout_marginRight="10dp"
+                                    />
+
+                            </RelativeLayout>
+
+
+
+
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll_commentOwn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="5dp"
+                                android:orientation="vertical"
+
+                                >
+
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Comment :"
+                                    android:textSize="17sp"
+                                    android:textStyle="bold"
+
+                                    />
+
+
+                                <EditText
+                                    android:id="@+id/et_comment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/et_text_round"
+                                    android:layout_marginTop="5dp"
+                                    android:paddingLeft="10dp"
+                                    />
+
+
+
+
+                                <Button
+                                    android:id="@+id/btn_SubmitComment"
+                                    android:layout_width="150dp"
+                                    android:layout_height="35dp"
+                                    android:text="Submit"
+                                    android:layout_marginTop="10dp"
+                                    android:background="@drawable/griv_button_bg"
+                                    android:textColor="#000000"
+                                    />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+
+</LinearLayout>

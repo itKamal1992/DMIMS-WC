@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".activity.AcademicCalenderUploadA"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload Calender"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorWhite"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        >
+
+        <!-- Left icon !-->
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:orientation="vertical"
+                android:background="@drawable/white_right_corner_bg2"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    >
+
+                    <ImageView
+                        android:background="@drawable/ic_add_photo"
+                        android:scaleType="fitCenter"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:background="@drawable/white_right_corner_bg"
+            android:layout_height="50dp">
+
+
+            <Spinner
+                android:id="@+id/spinner_sessionAc"
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:textSize="20dp"
+                android:entries="@array/arr_session"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        >
+
+        <!--Note Date -->
+
+
+
+
+        <!-- Left icon !-->
+        <LinearLayout
+            android:layout_width="60dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout android:layout_width="60dp"
+                android:orientation="vertical"
+                android:background="@drawable/white_right_corner_bg2"
+                android:layout_height="wrap_content">
+
+                <LinearLayout android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <ImageView
+
+                        android:scaleType="fitCenter"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:background="@drawable/white_right_corner_bg"
+            android:layout_height="50dp">
+            <Button android:layout_width="match_parent"
+                android:id="@+id/btn_pdfChoose"
+                android:hint="Upload Pdf "
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:paddingLeft="20dp"
+                android:background="@drawable/white_right_corner_bg"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/background_dark"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        >
+
+        <!--Note Date -->
+
+
+
+
+        <!-- Left icon !-->
+        <LinearLayout
+            android:layout_width="60dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout android:layout_width="60dp"
+                android:orientation="vertical"
+                android:background="@drawable/white_right_corner_bg2"
+                android:layout_height="wrap_content">
+
+                <LinearLayout android:orientation="vertical"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:background="@drawable/white_right_corner_bg"
+            android:layout_height="50dp">
+            <TextView android:layout_width="match_parent"
+                android:id="@+id/et_pdfname"
+                android:hint="Pdf Name"
+                android:textSize="15sp"
+                android:paddingLeft="20dp"
+                android:background="@drawable/white_right_corner_bg"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:textColor="@android:color/background_dark"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pdf_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <Button
+        android:id="@+id/btn_uploadCalender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Publish Calender"
+        android:background="@drawable/btn_white_round"
+        android:layout_margin="20dp"
+        />
+
+</LinearLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/background"
+        android:layout_height="match_parent"
+        tools:context=".activity.SplashScreen">
+
+
+        <LinearLayout android:id="@+id/llSplashScreen"
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+            tools:ignore="UselessParent">
+            <ImageView
+                    android:id="@+id/ivSplashScreen"
+                    android:layout_width="@dimen/layout_width_200dp"
+                    android:layout_height="@dimen/layout_width_200dp"
+                    android:layout_marginTop="@dimen/layout_marginTop_125dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/logo"
+                tools:ignore="ContentDescription" />
+            <TextView
+                    android:id="@+id/tvMainHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_marginTop_s40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@string/ffSansSerifMedium"
+                    android:text="@string/splashScreenMainTitle"
+                    android:textColor="@color/colorYellowDark"
+                    android:textSize="@dimen/txt_size_20sp"
+            />
+            <TextView
+                    android:id="@+id/tvMainHeading2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_marginTop_s5dp"
+                    android:layout_below="@id/tvMainHeading"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@string/ffSansSerifMedium"
+                    android:text="@string/splashScreenMainTitle2"
+                    android:layout_marginBottom="@dimen/layout_marginBottom_2dp"
+                    android:textColor="@color/colorYellowDark"
+                    android:textSize="@dimen/txt_size_20sp"
+                tools:ignore="ObsoleteLayoutParam" />
+
+
+
+            <TextView
+                    android:id="@+id/tvSubHeading1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_marginTop_4dp"
+                    android:layout_below="@id/tvMainHeading2"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@string/ffSansSerifMedium"
+                    android:text="@string/splashScreenSubHead"
+                    android:layout_marginBottom="@dimen/layout_marginBottom_2dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/txt_size_19sp"
+                tools:ignore="ObsoleteLayoutParam" />
+            <TextView
+                    android:id="@+id/tvSubHeading2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_marginTop_2dp"
+                    android:layout_below="@id/tvMainHeading2"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@string/ffSansSerifMedium"
+                    android:text="@string/splashScreenSubHead2"
+                    android:layout_marginBottom="@dimen/layout_marginBottom_2dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/txt_size_23sp"
+                tools:ignore="ObsoleteLayoutParam" />
+            <TextView
+                    android:id="@+id/tvSubHeading3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_marginTop_2dp"
+                    android:layout_below="@id/tvMainHeading2"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@string/ffSansSerifMedium"
+                    android:text="@string/splashScreenPointScale"
+                    android:layout_marginBottom="@dimen/layout_marginBottom_6dp"
+                    android:textColor="@color/colorYellowDark"
+                    android:textSize="@dimen/txt_size_17sp"
+                tools:ignore="ObsoleteLayoutParam" />
+        </LinearLayout>
+</LinearLayout>

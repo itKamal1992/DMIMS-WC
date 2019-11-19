@@ -1,0 +1,145 @@
+<resources>
+
+    <!--Splash Screen-->
+    <string name="splashScreenMainTitle">DATTA MEGHE INSTITUTE</string>
+    <string name="splashScreenMainTitle2">OF MEDICAL SCIENCES</string>
+    <string name="splashScreenSubHead">DEEMED TO BE UNIVERSITY</string>
+    <string name="splashScreenSubHead2">NAAC Accredited Grade "'A+'"</string>
+    <string name="splashScreenPointScale">(Score 3.53 on 7 Point Scale)</string>
+    <string name="ffSansSerifMedium">sans-serif-medium</string>
+    <string name="failureSSApiVerErr">Please Try again, Failed to connect to the Server.</string>
+    <string name="failureServerApiVerErr">No API version details receive from Server.</string>
+    <string name="failureUpdateApiVerErr">Please Update. If you see [Update Button] then Update. Else uninstall previous
+        app and install again from play store.
+    </string>
+    <string name="failureNoInternetErr">No Internet Connection. Please connect to active internet connection.</string>
+    <string name="failureStorageErr">Please give storage permission. To Enjoy uninterrupted App Functionality.</string>
+    <string name="positive_popup_default">Success</string>
+
+    <string name="app_name">DMIMS DU</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="read_file">This app needs access to your file storage so that it can read photos.</string>
+    <string name="title_activity_emergency_contact">Emergency_contact</string>
+    <string name="title_activity_academic__calender">Academic_Calender</string>
+    <string name="title_activity_student_notice_board">StudentNoticeBoard</string>
+    <string name="inbox_tab">Inbox</string>
+    <string name="all_notice_tab">All Notices</string>
+    <string name="title_activity_uploadnoticetest">uploadnoticetest</string>
+    <string name="uploadImages">Set your image</string>
+    <string name="msg_loading">Loading...</string>
+    <string name="buffering_string">Buffering&#8230;</string>
+    <string name="toast_message">Playback completed.</string>
+    <string name="pick_file">Pick file</string>
+    <string name="upload_file">Upload file</string>
+    <string name="toast_pick_file_error">Unable to pick file. Check status of file manager.</string>
+    <string name="title_activity_image_upload">ImageUpload</string>
+    <string name="title_activity_stud_attendance">StudAttendance</string>
+    <string name="title_activity_notification__admin">Notification_Admin</string>
+    <string name="title_activity_time_table_institute">Activity_time_table_institute</string>
+
+
+    <string name="survey_q1">1. How much of the syllabus was covered in the class?</string>
+    <string name="survey_q2">2. How well did the teachers prepare for the classes?</string>
+    <string name="survey_q3">3. How well were the teachers able to communicate?</string>
+    <string name="survey_q4">4. The teacher’s approach to teaching can best be described as</string>
+    <string name="survey_q5">5. Fairness of the internal evaluation process by the teachers.</string>
+    <string name="survey_q6">6. Was your performance in assignments discussed with you?</string>
+    <string name="survey_q7">7. The institute takes active interest in promoting internship, student exchange, field
+        visit
+        opportunities for students.
+    </string>
+    <string name="survey_q8">8. The teaching and mentoring process in your institution facilitates you in cognitive,
+        social and
+        emotional growth.
+    </string>
+    <string name="survey_q9">9. The institution provides multiple opportunities to learn and grow.</string>
+    <string name="survey_q10">10. Teachers inform you about your expected competencies, course outcomes and programme
+        outcomes.
+    </string>
+    <string name="survey_q11">11. Your mentor does a necessary follow-up with an assigned task to you.</string>
+    <string name="survey_q12">12. The teachers illustrate the concepts through examples and applications.</string>
+    <string name="survey_q13">13. The teachers identify your strengths and encourage you with providing right level of
+        challenges.
+    </string>
+    <string name="survey_q14">14. Teachers are able to identify your weaknesses and help you to overcome them.</string>
+    <string name="survey_q15">15. The institution makes effort to engage students in the monitoring, review and
+        continuous
+        quality improvement of the teaching learning process.
+    </string>
+    <string name="survey_q16">16. The institute/ teachers use student centric methods, such as experiential learning,
+        participative
+        learning and problem solving methodologies for enhancing learning experiences.
+    </string>
+    <string name="survey_q17">17. Teachers encourage you to participate in extracurricular activities.</string>
+    <string name="survey_q18">18. Efforts are made by the institute/ teachers to inculcate soft skills, life skills and
+        employability
+        skills to make you ready for the world of work.
+    </string>
+    <string name="survey_q19">19. What percentage of teachers use ICT tools such as LCD projector, Multimedia, etc.
+        while
+        teaching.
+    </string>
+    <string name="survey_q20">20. The overall quality of teaching-learning process in your institute is very good.
+    </string>
+    <string name="survey_q21">21. Give three observation / suggestions to improve the overall teaching – learning
+        experience
+        in your institution.
+    </string>
+
+
+    <string name="feedbackon_acc_stud_atte_exam_cellq1">Standard operative Mechanisms are in place
+    </string>
+
+    <string name="feedbackon_acc_stud_atte_exam_cell2">Prompt learner Grievances Redressal Mechanisms
+    </string>
+    <string name="feedbackon_acc_stud_atte_exam_cellq3">Supportive and Co-Operative staff
+    </string>
+    <!--formative feedback question-->
+    <string name="formative_fb_Af_Ex_S1_Q1">1.Seating arrangement was adequate and comfortable ?</string>
+    <string name="formative_fb_Af_Ex_S1_Q2">2.The fans and lights were sufficient and working ?</string>
+    <string name="formative_fb_Af_Ex_S1_Q3">3.Drinking water was provided during examination ?</string>
+    <string name="formative_fb_Af_Ex_S1_Q4">4.The examination hall was calm and noise ?</string>
+    <string name="formative_fb_Af_Ex_S1_Q5">5.The behavior and conduct of invigilators and other staff at examination centre was cordial ?</string>
+
+    <string name="formative_fb_Af_Ex_S2_Q1">1.Appropriate instructions were given before and during examination ?</string>
+    <string name="formative_fb_Af_Ex_S2_Q2">2.Time schedule was properly followed ?</string>
+    <string name="formative_fb_Af_Ex_S2_Q3">3.Were there any mistakes in the question papers ?</string>
+    <string name="formative_fb_Af_Ex_S2_Q4">4.The mistakes in question were timely intimated to you and corrected ?</string>
+    <string name="formative_fb_Af_Ex_S2_Q5">5.Did you experience any difficulty in using answer sheet with designated space for ?</string>
+
+    <string name="formative_fb_Af_Ex_S2_Q5_q1">MCQ</string>
+    <string name="formative_fb_Af_Ex_S2_Q5_q2">BAQ</string>
+    <string name="formative_fb_Af_Ex_S2_Q5_q3">SAQ</string>
+    <string name="formative_fb_Af_Ex_S2_Q5_q4">LAQ</string>
+
+
+    //summative questions
+
+    <string name="Summative_PreexamQ1">1)Are you aware of the scheme of examination ?</string>
+    <string name="Summative_PreexamQ2">2)Are you aware about the pattern of question paper ?</string>
+    <string name="Summative_PreexamQ3">3)Was the time table displayed well in advanced ?</string>
+    <string name="Summative_PreexamQ4">4)Was the course content displayed well in advanced ?</string>
+
+    <string name="Summative_structuringpaperQ1">Were all types of question  (MCQ, BAQ,SAQ, LAQ)  in adequate number ?</string>
+    <string name="Summative_structuringpaperQ2">Was time allotted to each section is   adequate ?</string>
+    <string name="Summative_structuringpaperQ3">Was distribution of questions according to the weightage given in the syllabus</string>
+    <string name="Summative_structuringpaperQ4">Were the marks allotted to each type  of question appropriate ?</string>
+    <string name="Summative_structuringpaperQ5">Was  structuring of questions appropriate ?</string>
+
+    <string name="Summative_customizedasQ1">Customized answer sheet is a more organized way of attempting questions ?</string>
+    <string name="Summative_customizedasQ2">A Customized answer sheet allows to manage the time properly ?</string>
+    <string name="Summative_customizedasQ3">I feel that customized answer will improve my score ?</string>
+    <string name="Summative_customizedasQ4">A Customized answer sheet will reduce oversights in evaluation ?</string>
+
+    <string name="Summative_conductPractiexamQ1">Was infrastructure and arrangement for  conduct of practical examination adequate and proper</string>
+    <string name="Summative_conductPractiexamQ2">Was atmosphere conducive</string>
+    <string name="Summative_conductPractiexamQ3">Were instructions given well in advance</string>
+    <string name="Summative_conductPractiexamQ4">Was examination conducted as per the structured format</string>
+    <string name="Summative_conductPractiexamQ5">Was the time given adequate for each station</string>
+    <string name="Summative_conductPractiexamQ6">Was examination conducted in fair and impartial way</string>
+    <string name="Enrol_No">Enrol No : </string>
+    <string name="submitted_grievance">Submitted Grievance</string>
+
+</resources>
+

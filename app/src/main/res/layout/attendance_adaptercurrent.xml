@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+	<android.support.v7.widget.CardView
+			xmlns:card_view="http://schemas.android.com/apk/res-auto"
+			android:layout_width="match_parent"
+	                                    android:background="#000"
+	                                    app:cardCornerRadius="10dp"
+	                                    app:cardElevation="12dp"
+	                                    android:innerRadius="6dp"
+	                                    android:shape="ring"
+	                                    app:cardBackgroundColor="@android:color/transparent"
+	                                    android:layout_height="match_parent">
+<android.support.v7.widget.CardView
+				
+				android:id="@+id/card_view_innder"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="20dp"
+				android:layout_marginRight="20dp"
+				android:layout_marginTop="20dp"
+				app:cardBackgroundColor="#fff"
+				card_view:cardCornerRadius="10dp"
+				card_view:cardElevation="0dp" >
+		
+		
+		
+		<LinearLayout android:orientation="horizontal"
+		              android:layout_width="match_parent"
+		              android:layout_height="wrap_content"
+		              android:layout_marginTop="10dp"
+		              android:layout_marginBottom="10dp"
+		              android:layout_marginLeft="10dp"
+		              android:layout_marginRight="10dp">
+			<!-- Left icon !-->
+			<LinearLayout android:layout_width="60dp"
+			              android:orientation="vertical"
+			              android:layout_marginLeft="-8dp"
+			              android:layout_marginRight="13dp"
+			              android:layout_height="wrap_content">
+				
+				<LinearLayout android:layout_width="match_parent"
+				              android:orientation="vertical"
+				              android:layout_marginLeft="-19dp"
+				              android:layout_marginRight="-5dp"
+				              android:layout_height="match_parent">
+					
+					<LinearLayout android:orientation="vertical"
+					              android:gravity="center_vertical|center_horizontal"
+					              android:layout_width="match_parent"
+					              android:layout_marginLeft="11dp"
+					              android:layout_marginRight="-19dp"
+					              android:layout_height="80dp">
+						
+						<ImageView
+								android:id="@+id/camera_image"
+								android:scaleType="fitCenter"
+								android:layout_width="44dp"
+								android:layout_height="44dp"/>
+					
+					</LinearLayout>
+				</LinearLayout>
+			</LinearLayout>
+			<LinearLayout android:layout_width="match_parent"
+			              android:orientation="vertical"
+			              android:background="@drawable/white_right_corner_bg"
+			              android:layout_height="wrap_content">
+				
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtDEPT_NAME"
+				          android:textStyle="bold"
+				          android:textColor="#EB333D"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:text="DEPT_NAME"
+				          android:layout_height="wrap_content"/>
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtDEPT_ID"
+				          android:text="DEPT_ID"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:layout_height="match_parent"/>
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtTHEORY"
+				          android:text="THEORY"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:layout_height="match_parent"/>
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtPRACTICAL"
+				          android:text="PRACTICAL"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:layout_height="match_parent"/>
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtCLINICAL"
+				          android:text="CLINICAL"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:layout_height="match_parent"/>
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtTHEORY_ABSENT"
+				          android:text="THEORY_ABSENT"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:layout_height="match_parent"/>
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtPRACTICAL_ABSENT"
+				          android:text="PRACTICAL_ABSENT"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:layout_height="match_parent"/>
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtCLINICAL_ABSENT"
+				          android:text="CLINICAL_ABSENT"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:layout_height="match_parent"/>
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtNO_LECTURER"
+				          android:text="NO_LECTURER"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:layout_height="match_parent"/>
+				
+				<TextView android:layout_width="match_parent"
+				          android:id="@+id/txtPERCENTAGE"
+				          android:textStyle="bold"
+				          android:textColor="#EB333D"
+				          android:text="PERCENTAGE"
+				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				          android:layout_height="match_parent"/>
+			</LinearLayout>
+		</LinearLayout>
+		
+		
+		<!--<LinearLayout android:layout_width="match_parent"-->
+		              <!--android:orientation="vertical"-->
+		              <!--android:padding="10dp"-->
+		              <!--android:layout_height="wrap_content">-->
+			<!---->
+			<!--<ImageView-->
+					<!--android:id="@+id/item_image_view"-->
+					<!--android:layout_width="43dp"-->
+					<!--android:layout_height="57dp"-->
+					<!--android:contentDescription="@string/app_name"-->
+					<!--android:scaleType="centerInside"-->
+					<!--android:padding="10dp"/>-->
+			<!---->
+			<!---->
+		<!---->
+	<!---->
+		<!--</LinearLayout>-->
+	</android.support.v7.widget.CardView>
+	</android.support.v7.widget.CardView>
+</LinearLayout>

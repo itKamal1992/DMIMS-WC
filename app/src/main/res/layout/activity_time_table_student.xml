@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		tools:context=".activity.Activity_time_table_institute">
+
+	<ScrollView android:id="@+id/login_form"
+				android:background="@drawable/background"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+		<LinearLayout android:id="@+id/llSplashScreen"
+					  android:layout_width="match_parent"
+					  android:layout_height="wrap_content"
+					  android:orientation="vertical">
+
+		<TextView
+				android:id="@+id/tvSubHeading1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="22dp"
+				android:layout_below="@id/tvMainHeading2"
+				android:layout_gravity="center_horizontal"
+				android:fontFamily="sans-serif-medium"
+				android:text="Time Table"
+				android:layout_marginBottom="22dp"
+				android:textColor="#fff"
+				android:textSize="22sp"
+		/>
+	<!--<android.support.design.widget.AppBarLayout-->
+			<!--android:id="@+id/appbar_stud"-->
+			<!--android:layout_height="wrap_content"-->
+			<!--android:layout_width="match_parent"-->
+			<!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+		<!--<android.support.v7.widget.Toolbar-->
+				<!--android:id="@+id/toolbar"-->
+				<!--android:layout_width="match_parent"-->
+				<!--android:layout_height="?attr/actionBarSize"-->
+				<!--android:background="?attr/colorPrimary"-->
+				<!--app:popupTheme="@style/AppTheme.PopupOverlay"/>-->
+
+	<!--</android.support.design.widget.AppBarLayout>-->
+
+	<LinearLayout android:orientation="horizontal"
+				  android:layout_width="match_parent"
+				  android:layout_height="wrap_content"
+				  android:layout_marginLeft="20dp"
+				  android:id="@+id/lis2"
+				  android:layout_marginTop="10dp"
+				  android:layout_marginBottom="20dp"
+				  android:layout_marginRight="20dp">
+
+		<!--Note Date -->
+
+
+
+
+		<!-- Left icon !-->
+		<LinearLayout android:layout_width="60dp"
+					  android:orientation="vertical"
+					  android:layout_height="wrap_content">
+
+			<LinearLayout android:layout_width="60dp"
+						  android:orientation="vertical"
+						  android:background="@drawable/white_right_corner_bg2"
+						  android:layout_height="wrap_content">
+
+				<LinearLayout android:orientation="vertical"
+							  android:gravity="center_vertical|center_horizontal"
+							  android:layout_width="match_parent"
+							  android:layout_height="50dp">
+
+					<ImageView android:background="@drawable/ic_notice_title"
+							   android:scaleType="fitCenter"
+							   android:layout_width="30dp"
+							   android:layout_height="30dp"/>
+
+				</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+		<LinearLayout android:layout_width="match_parent"
+					  android:orientation="horizontal"
+					  android:background="@drawable/white_right_corner_bg"
+					  android:layout_height="50dp">
+			<!--<Button android:layout_width="wrap_content"-->
+			<!--android:text="Pick Date"-->
+			<!--android:id="@+id/date_dialog"-->
+			<!--android:layout_height="wrap_content"/>-->
+			<!---->
+			<!--<LinearLayout android:layout_width="wrap_content"-->
+			<!--android:orientation="horizontal"-->
+			<!---->
+			<!--android:background="@drawable/white_right_corner_bg"-->
+			<!--android:layout_height="50dp">-->
+			<!--<EditText android:layout_width="match_parent"-->
+			<!--android:id="@+id/viewtxt_info"-->
+			<!--android:hint="Information(*)"-->
+			<!--android:textSize="16sp"-->
+			<!--android:inputType="text"-->
+			<!--android:background="@drawable/white_right_corner_bg"-->
+			<!--android:layout_marginLeft="10dp"-->
+			<!--android:layout_marginRight="10dp"-->
+			<!--android:layout_height="match_parent"-->
+			<!--android:textColor="@android:color/background_dark"/>-->
+			<Spinner
+					android:id="@+id/spinner_timetabletype"
+					android:layout_width="match_parent"
+					android:layout_alignParentTop="true"
+					android:layout_margin="10dp"
+					android:textSize="20dp"
+					android:textStyle="bold"
+					android:layout_height="wrap_content"/>
+
+			<!--</LinearLayout>-->
+		</LinearLayout>
+
+
+
+
+	</LinearLayout>
+			<ProgressBar
+					android:id="@+id/progressBar1"
+					android:layout_width="35dp"
+					android:layout_gravity="center_horizontal"
+					android:indeterminateTint="@color/cardview_light_background"
+					android:layout_height="33dp"/>
+			<LinearLayout android:orientation="horizontal"
+						  android:layout_width="match_parent"
+						  android:layout_height="wrap_content"
+						  android:layout_marginLeft="20dp"
+						  android:id="@+id/lis4"
+						  android:layout_marginTop="10dp"
+						  android:layout_marginBottom="20dp"
+						  android:layout_marginRight="20dp">
+
+				<!--Note Date -->
+
+
+
+
+				<!-- Left icon !-->
+				<LinearLayout android:layout_width="60dp"
+							  android:orientation="vertical"
+							  android:layout_height="wrap_content">
+
+					<LinearLayout android:layout_width="60dp"
+								  android:orientation="vertical"
+								  android:background="@drawable/white_right_corner_bg2"
+								  android:layout_height="wrap_content">
+
+						<LinearLayout android:orientation="vertical"
+									  android:gravity="center_vertical|center_horizontal"
+									  android:layout_width="match_parent"
+									  android:layout_height="50dp">
+
+							<ImageView android:background="@drawable/ic_notice_title"
+									   android:scaleType="fitCenter"
+									   android:layout_width="30dp"
+									   android:layout_height="30dp"/>
+
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+				<LinearLayout android:layout_width="match_parent"
+							  android:orientation="horizontal"
+							  android:background="@drawable/white_right_corner_bg"
+							  android:layout_height="50dp">
+					<!--<Button android:layout_width="wrap_content"-->
+					<!--android:text="Pick Date"-->
+					<!--android:id="@+id/date_dialog"-->
+					<!--android:layout_height="wrap_content"/>-->
+					<!---->
+					<!--<LinearLayout android:layout_width="wrap_content"-->
+					<!--android:orientation="horizontal"-->
+					<!---->
+					<!--android:background="@drawable/white_right_corner_bg"-->
+					<!--android:layout_height="50dp">-->
+					<!--<EditText android:layout_width="match_parent"-->
+					<!--android:id="@+id/viewtxt_info"-->
+					<!--android:hint="Information(*)"-->
+					<!--android:textSize="16sp"-->
+					<!--android:inputType="text"-->
+					<!--android:background="@drawable/white_right_corner_bg"-->
+					<!--android:layout_marginLeft="10dp"-->
+					<!--android:layout_marginRight="10dp"-->
+					<!--android:layout_height="match_parent"-->
+					<!--android:textColor="@android:color/background_dark"/>-->
+					<Spinner
+							android:id="@+id/spinner_timetableyear"
+							android:layout_width="match_parent"
+							android:layout_alignParentTop="true"
+							android:layout_margin="10dp"
+							android:textSize="20dp"
+							android:textStyle="bold"
+							android:layout_height="wrap_content"/>
+
+					<!--</LinearLayout>-->
+				</LinearLayout>
+
+
+
+
+			</LinearLayout>
+			<ProgressBar
+					android:id="@+id/progressBar2"
+					android:layout_width="35dp"
+					android:layout_gravity="center_horizontal"
+					android:indeterminateTint="@color/cardview_light_background"
+					android:layout_height="33dp"/>
+			<LinearLayout android:orientation="horizontal"
+						  android:layout_width="match_parent"
+						  android:layout_height="wrap_content"
+						  android:layout_marginLeft="20dp"
+						  android:id="@+id/lis3"
+						  android:layout_marginTop="10dp"
+						  android:layout_marginBottom="20dp"
+						  android:layout_marginRight="20dp">
+
+				<!--Note Date -->
+
+
+
+
+				<!-- Left icon !-->
+				<LinearLayout android:layout_width="60dp"
+							  android:orientation="vertical"
+							  android:layout_height="wrap_content">
+
+					<LinearLayout android:layout_width="60dp"
+								  android:orientation="vertical"
+								  android:background="@drawable/white_right_corner_bg2"
+								  android:layout_height="wrap_content">
+
+						<LinearLayout android:orientation="vertical"
+									  android:gravity="center_vertical|center_horizontal"
+									  android:layout_width="match_parent"
+									  android:layout_height="50dp">
+
+							<ImageView android:background="@drawable/ic_notice_title"
+									   android:scaleType="fitCenter"
+									   android:layout_width="30dp"
+									   android:layout_height="30dp"/>
+
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+				<LinearLayout android:layout_width="match_parent"
+							  android:orientation="horizontal"
+							  android:background="@drawable/white_right_corner_bg"
+							  android:layout_height="50dp">
+					<!--<Button android:layout_width="wrap_content"-->
+					<!--android:text="Pick Date"-->
+					<!--android:id="@+id/date_dialog"-->
+					<!--android:layout_height="wrap_content"/>-->
+					<!---->
+					<!--<LinearLayout android:layout_width="wrap_content"-->
+					<!--android:orientation="horizontal"-->
+					<!---->
+					<!--android:background="@drawable/white_right_corner_bg"-->
+					<!--android:layout_height="50dp">-->
+					<!--<EditText android:layout_width="match_parent"-->
+					<!--android:id="@+id/viewtxt_info"-->
+					<!--android:hint="Information(*)"-->
+					<!--android:textSize="16sp"-->
+					<!--android:inputType="text"-->
+					<!--android:background="@drawable/white_right_corner_bg"-->
+					<!--android:layout_marginLeft="10dp"-->
+					<!--android:layout_marginRight="10dp"-->
+					<!--android:layout_height="match_parent"-->
+					<!--android:textColor="@android:color/background_dark"/>-->
+					<Spinner
+							android:id="@+id/spinner_semestertype"
+							android:layout_width="match_parent"
+							android:layout_alignParentTop="true"
+							android:layout_margin="10dp"
+							android:textSize="20dp"
+							android:textStyle="bold"
+							android:layout_height="wrap_content"/>
+
+					<!--</LinearLayout>-->
+				</LinearLayout>
+
+
+
+
+			</LinearLayout>
+
+
+
+			<Button android:layout_width="match_parent"
+					android:id="@+id/btn_download"
+					style="?android:textAppearanceSmall"
+					android:text="DOWNLOAD PDF"
+					android:fontFamily="sans-serif-condensed-medium"
+					android:layout_marginLeft="20dp"
+					android:layout_marginRight="20dp"
+					android:background="@drawable/blue_button_bg"
+					android:layout_marginTop="16dp"
+					android:layout_height="50dp"
+					android:textColor="@android:color/background_dark"
+					android:textSize="15sp"/>
+		</LinearLayout>
+	</ScrollView>
+
+</LinearLayout>

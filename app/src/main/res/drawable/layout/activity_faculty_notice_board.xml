@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:tools="http://schemas.android.com/tools"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			tools:context=".activity.AdminNoticeBoard">
+		
+		
+		<ScrollView android:id="@+id/login_form"
+		            android:background="@drawable/background"
+		            android:layout_width="match_parent"
+		            android:layout_height="match_parent">
+			
+			<LinearLayout android:id="@+id/llSplashScreen"
+			              android:layout_width="match_parent"
+			              android:layout_height="wrap_content"
+			              android:orientation="vertical">
+				
+				<TextView
+						android:id="@+id/tvSubHeading1"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="22dp"
+						android:layout_below="@id/tvMainHeading2"
+						android:layout_gravity="center_horizontal"
+						android:fontFamily="sans-serif-medium"
+						android:text="Faculty Panel - Post Notice"
+						android:layout_marginBottom="22dp"
+						android:textColor="#fff"
+						android:textSize="22sp"
+				/>
+				<!--Notice Date-->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					
+					<!--Note Date -->
+					
+					
+					
+					
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_title"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="match_parent"
+					              android:orientation="horizontal"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<!--<Button android:layout_width="wrap_content"-->
+						<!--android:text="Pick Date"-->
+						<!--android:id="@+id/date_dialog"-->
+						<!--android:layout_height="wrap_content"/>-->
+						<!---->
+						<!--<LinearLayout android:layout_width="wrap_content"-->
+						<!--android:orientation="horizontal"-->
+						<!---->
+						<!--android:background="@drawable/white_right_corner_bg"-->
+						<!--android:layout_height="50dp">-->
+						<TextView android:layout_width="134dp"
+						          android:hint="Please select date"
+						          android:id="@+id/select_date"
+						          android:layout_gravity="left"
+						          android:paddingTop="16dp"
+						          android:paddingStart="11dp"
+						          android:gravity="left"
+						          android:onClick="noticedateclick"
+						          android:layout_height="match_parent" android:paddingLeft="11dp"/>
+						<!--</LinearLayout>-->
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				
+				<!--Notice Title-->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					
+					<!--Note Date -->
+					
+					
+					
+					
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_title"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/edit_notice_title"
+						          android:hint="Notice Title"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="match_parent"
+						          android:textColor="@android:color/background_dark"/>
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<!-- Notice desc-->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="150dp"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="150dp"
+					>
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="150dp">
+								
+								<ImageView android:background="@drawable/ic_description"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="match_parent">
+						<EditText android:layout_width="match_parent"
+						          android:id="@+id/notice_descr"
+						          android:hint="Notice Description"
+						          android:textSize="16sp"
+						          android:inputType="text"
+						          android:background="@drawable/white_right_corner_bg"
+						          android:layout_marginLeft="10dp"
+						          android:layout_marginRight="10dp"
+						          android:layout_height="150dp"
+						          android:textColor="@android:color/background_dark"/>
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<!-- Notice uplod -->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_add_photo"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<Button android:layout_width="200dp"
+						        android:id="@+id/admin_notice_upload"
+						        android:hint="Click to upload pdf/jpg"
+						        android:textSize="16sp"
+						        android:layout_gravity="left"
+						        android:textAlignment="textStart"
+						        android:background="@drawable/white_right_corner_bg"
+						        android:layout_marginLeft="10dp"
+						        android:layout_marginRight="10dp"
+						        android:layout_height="match_parent"
+						        android:textColor="@android:color/background_dark" tools:ignore="RtlCompat"/>
+						
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				
+				<!-- Notice type -->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_type"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<Spinner
+								android:id="@+id/spinner_noticetype"
+								android:layout_width="match_parent"
+								android:layout_alignParentTop="true"
+								android:layout_margin="10dp"
+								android:textSize="20dp"
+								android:textStyle="bold"
+								android:layout_height="wrap_content"/>
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<!-- Faculty/Student List -->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_type"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<Spinner
+								android:id="@+id/spinner_facultystud"
+								android:layout_width="match_parent"
+								android:layout_alignParentTop="true"
+								android:layout_margin="10dp"
+								android:textSize="20dp"
+								android:textStyle="bold"
+								android:layout_height="wrap_content"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				 Institute List
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_type"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<Spinner
+								android:id="@+id/spinner_institue"
+								android:layout_width="match_parent"
+								android:layout_alignParentTop="true"
+								android:layout_margin="10dp"
+								android:textSize="20dp"
+								android:textStyle="bold"
+								android:layout_height="wrap_content"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<!-- Course List -->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_type"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<Spinner
+								android:id="@+id/spinner_courselist"
+								android:layout_width="match_parent"
+								android:layout_alignParentTop="true"
+								android:layout_margin="10dp"
+								android:textSize="20dp"
+								android:textStyle="bold"
+								android:layout_height="wrap_content"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				<!-- Department List -->
+				<LinearLayout android:orientation="horizontal"
+				              android:layout_width="match_parent"
+				              android:layout_height="wrap_content"
+				              android:layout_marginLeft="20dp"
+				              android:layout_marginBottom="20dp"
+				              android:layout_marginRight="20dp">
+					<!-- Left icon !-->
+					<LinearLayout android:layout_width="60dp"
+					              android:orientation="vertical"
+					              android:layout_height="wrap_content">
+						
+						<LinearLayout android:layout_width="60dp"
+						              android:orientation="vertical"
+						              android:background="@drawable/white_right_corner_bg2"
+						              android:layout_height="wrap_content">
+							
+							<LinearLayout android:orientation="vertical"
+							              android:gravity="center_vertical|center_horizontal"
+							              android:layout_width="match_parent"
+							              android:layout_height="50dp">
+								
+								<ImageView android:background="@drawable/ic_notice_type"
+								           android:scaleType="fitCenter"
+								           android:layout_width="30dp"
+								           android:layout_height="30dp"/>
+							
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout android:layout_width="fill_parent"
+					              android:orientation="vertical"
+					              android:background="@drawable/white_right_corner_bg"
+					              android:layout_height="50dp">
+						<Spinner
+								android:id="@+id/spinner_deptlist"
+								android:layout_width="match_parent"
+								android:layout_alignParentTop="true"
+								android:layout_margin="10dp"
+								android:textSize="20dp"
+								android:textStyle="bold"
+								android:layout_height="wrap_content"/>
+					
+					</LinearLayout>
+				
+				
+				</LinearLayout>
+				
+				
+				
+				<Button android:layout_width="match_parent"
+				        android:id="@+id/btn_publish_notice2"
+				        style="?android:textAppearanceSmall"
+				        android:text="Publish Notice"
+				        android:fontFamily="sans-serif-condensed-medium"
+				        android:layout_marginLeft="20dp"
+				        android:layout_marginRight="20dp"
+				        android:background="@drawable/blue_button_bg"
+				        android:layout_marginTop="16dp"
+				        android:layout_height="50dp"
+				        android:textColor="@android:color/background_dark"
+				        android:textSize="15sp"/>
+				
+				
+				<LinearLayout android:id="@+id/register_form"
+				              android:layout_marginTop="40dp"
+				              android:orientation="horizontal"
+				              android:layout_gravity="center"
+				              android:layout_width="wrap_content"
+				              android:layout_height="wrap_content"/>
+			
+			</LinearLayout>
+		</ScrollView>
+	</LinearLayout>

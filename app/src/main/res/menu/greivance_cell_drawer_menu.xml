@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+	<item
+			android:id="@+id/action_r_grev"
+			android:title="Registered Greivance"
+			android:icon="@drawable/ic_attendence_drawer"
+	/>
+	<item
+			android:id="@+id/action_notification"
+			android:title="Notification"
+			android:icon="@drawable/ic_notice_drawer"
+	/>
+
+	<item
+			android:id="@+id/action_help"
+			android:title="Help"
+			android:icon="@drawable/ic_help_drawer"
+	/>
+	<item
+			android:id="@+id/action_logout"
+			android:title="Logout"
+			android:icon="@drawable/ic_help_drawer"
+	/>
+	
+</menu>
+		

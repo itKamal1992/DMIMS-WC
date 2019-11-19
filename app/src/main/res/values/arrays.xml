@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <string-array name="uploadImages">
+            <item>Pick from gallery</item>
+            <item>Click from camera</item>
+            <item>Remove image</item>
+        </string-array>
+
+        <string-array name="itemIds">
+            <item>gallery_image</item>
+            <item>camera_image</item>
+            <item>remove_image</item>
+        </string-array>
+
+        <string-array name="ans_surveyq1">
+            <item>Select Your Choice</item>
+            <item>4 – 85 to 100%</item>
+            <item>3 – 70 to 84%</item>
+            <item>2 – 55 to 69%</item>
+            <item>1– 30 to 54%</item>
+            <item>0 –Below 30%</item>
+        </string-array>
+
+        <string-array name="ans_surveyq2">
+            <item>Select Your Choice</item>
+            <item>4 –Thoroughly</item>
+            <item>3 – Satisfactorily</item>
+            <item>2 – Poorly</item>
+            <item>1 – Indifferently</item>
+            <item>0 – Won’t teach at all</item>
+        </string-array>
+        <string-array name="ans_surveyq3">
+            <item>Select Your Choice</item>
+            <item>4 – Always effective</item>
+            <item>3 – Sometimes effective</item>
+            <item>2 – Just satisfactorily</item>
+            <item>1– Generally ineffective</item>
+            <item>0– Very poor communication</item>
+        </string-array>
+        <string-array name="ans_surveyq4">
+            <item>Select Your Choice</item>
+            <item>4– Excellent</item>
+            <item>3– Very good</item>
+            <item>2 – Good</item>
+            <item>1 – Fair</item>
+            <item>0– Poor</item>
+        </string-array>
+        <string-array name="ans_surveyq5">
+            <item>Select Your Choice</item>
+            <item>4 – Always fair</item>
+            <item>3 – Usually fair</item>
+            <item>2 – Sometimes unfair</item>
+            <item>1 – Usually unfair</item>
+            <item>0– Unfair</item>
+        </string-array>
+        <string-array name="ans_surveyqcommon6_10_12_14">
+            <item>Select Your Choice</item>
+            <item>4 – Every time</item>
+            <item>3 – Usually</item>
+            <item>2 – Occasionally/Sometimes</item>
+            <item>1 – Rarely</item>
+            <item>0– Never</item>
+        </string-array>
+        <string-array name="ans_surveyq7">
+            <item>Select Your Choice</item>
+            <item>4 – Regularly</item>
+            <item>3 – Often</item>
+            <item>2 – Sometimes</item>
+            <item>1 – Rarely</item>
+            <item>0– Never</item>
+        </string-array>
+
+        <string-array name="ans_surveyq8">
+            <item>Select Your Choice</item>
+            <item>4 – Significantly</item>
+            <item>3 – Very well</item>
+            <item>2 – Moderately</item>
+            <item>1 – Marginally</item>
+            <item>0– Not at all</item>
+        </string-array>
+
+        <string-array name="ans_surveyqcommon9_15_17_20">
+            <item>Select Your Choice</item>
+            <item>4 – Strongly agree</item>
+            <item>3 – Agree</item>
+            <item>2 – Neutral</item>
+            <item>1 – Disagree</item>
+            <item>0– Strongly disagree</item>
+        </string-array>
+
+        <string-array name="ans_surveyq11">
+            <item>Select Your Choice</item>
+            <item>4 – Every time</item>
+            <item>3 – Usually</item>
+            <item>2 – Occasionally/Sometimes</item>
+            <item>1 – Rarely</item>
+            <item>0 – I don’t have a mentor</item>
+        </string-array>
+
+
+        <string-array name="ans_surveyq13">
+            <item>Select Your Choice</item>
+            <item>4 – Fully</item>
+            <item>3 – Reasonably</item>
+            <item>2 – Partially</item>
+            <item>1 – Slightly</item>
+            <item>0– Unable to</item>
+        </string-array>
+
+        <string-array name="ans_surveyqcommon16_18">
+            <item>Select Your Choice</item>
+            <item>4 – To a great extent</item>
+            <item>3 – Moderate</item>
+            <item>2 – Some what</item>
+            <item>1 – Very little</item>
+            <item>0 – Not at all</item>
+        </string-array>
+
+        <string-array name="ans_surveyq19">
+            <item>Select Your Choice</item>
+            <item>4 – Above 90%</item>
+            <item>3 – 70 – 89%</item>
+            <item>2 – 50 – 69%</item>
+            <item>1 – 30 – 49%</item>
+            <item>0 – Below 29%</item>
+        </string-array>
+
+        <string-array name="ansfeedbackon_acc_stud_atte_exam_cellq">
+            <item>Select Your Choice</item>
+            <item>Uncertain</item>
+            <item>Yes</item>
+            <item>No</item>
+        </string-array>
+    <string-array name="FeedbackType">
+        <item>Select Your Choice</item>
+        <item>Formative Examination</item>
+        <item>Summative Examination</item>
+    </string-array>
+    <string-array name="FeedbackFaculty">
+        <item>Select Your Faculty</item>
+        <item>Medical</item>
+        <item>Dental</item>
+        <item>MGAC</item>
+        <item>SRMMCON</item>
+        <item>RNPC</item>
+    </string-array>
+
+
+    //sumative array data
+
+    <string-array name="name_of_facultysummativeexam">
+        <item>Select Faculty</item>
+        <item>Medicine</item>
+        <item>Dental</item>
+        <item>Ayurveda</item>
+        <item>Nursing</item>
+        <item>Inter Disciplinary</item>
+    </string-array>
+
+    <string-array name="name_of_exam">
+        <item>Select Examination</item>
+        <item>Summer</item>
+        <item>Winter</item>
+
+    </string-array>
+
+    <string-array name="name_of_year">
+        <item>Select Year</item>
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Final</item>
+
+    </string-array>
+
+    <string-array name="arr_Year">
+        <item>Select Year</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+
+    </string-array>
+
+
+    <string-array name="arr_griev_category">
+        <item>--Select Grievance Category--</item>
+        <item>Attendance</item>
+        <item>Exam</item>
+        <item>Salary Isssue of staff</item>
+        <item>Working culture</item>
+        <item>Welfare Measure</item>
+        <item>Feedback in both academic and non academic</item>
+        <item>Safety Measure</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="arr_collegeName">
+        <item>--Select College--</item>s
+        <item>JNMC</item>
+        <item>MGAC</item>
+        <item>RNPC</item>
+        <item>SPDC</item>
+        <item>SRMMCON</item>
+    </string-array>
+
+    <string-array name="arr_complaintTo">
+        <item>--Select Complaint To--</item>
+        <item>Principal/Dean</item>
+        <item>HOD</item>
+        <item>Convener</item>
+    </string-array>
+
+    <string-array name="arr_session">
+        <item>--Select Session--</item>
+<item>2019-20</item>       <item>2020-21</item>
+        <item>2021-22</item>
+        <item>2022-23</item>
+    </string-array>
+
+    <string-array name="StudYear">
+        <item>Select Year</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+
+    </string-array>
+    <string-array name="Grievance_Foreard">
+        <item>Select</item>
+        <item>Attend</item>
+        <item>Forward</item>
+
+
+    </string-array>
+</resources>

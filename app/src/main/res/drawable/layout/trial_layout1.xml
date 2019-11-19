@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dmims.dmims.activity.Activity_student_notice">
+
+
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background">
+
+        <LinearLayout
+            android:id="@+id/llSplashScreen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tvSubHeading1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvMainHeading2"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="22dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="Exam Admin Notice Inbox"
+                android:textColor="#fff"
+                android:textSize="22sp" />
+
+            <!--Notice Date-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <!--Note Date -->
+
+
+                <!-- Left icon !-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.5"
+
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/white_right_corner_bg2"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/ic_calendar"
+                                android:scaleType="fitCenter" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/date_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1.5"
+                    android:background="@drawable/white_right_corner_bg"
+                    android:orientation="horizontal"
+                    android:weightSum="10"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3.5">
+
+
+                        <TextView
+                            android:id="@+id/select_to_date"
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="left"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:onClick="clickToDataPicker" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3.5">
+
+
+                        <TextView
+                            android:id="@+id/select_from_date"
+                            android:layout_width="110dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="left"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:onClick="clickFromDataPicker"
+                            android:paddingStart="5dp"
+                            android:paddingLeft="7dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="3">
+
+
+                        <Button
+                            android:id="@+id/search_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/cardview_light_background"
+                            android:drawableLeft="@android:drawable/ic_menu_search"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:padding="5dp"
+                            android:paddingStart="5dp"
+                            android:paddingLeft="7dp"
+                            android:textColor="#fff"
+                             />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_currentattend"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/blue_button_bg"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:text="THIS MONTH NOTICE"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="15sp" />
+
+                <!--<Button android:layout_width="140dp"-->
+                <!--android:id="@+id/btn_progressive"-->
+                <!--style="?android:textAppearanceSmall"-->
+                <!--android:text="progressive"-->
+                <!--android:fontFamily="sans-serif-condensed-medium"-->
+                <!--android:background="@drawable/blue_button_bg"-->
+                <!--android:layout_marginTop="2dp"-->
+                <!--android:layout_marginLeft="38dp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:textColor="@android:color/background_dark"-->
+                <!--android:textSize="15sp"/>-->
+            </LinearLayout>
+            <!--<TextView android:layout_width="wrap_content"-->
+            <!--android:text="Total Days:"-->
+            <!--android:id="@+id/totalday_txt"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/colorWhite"-->
+            <!--android:layout_height="wrap_content"/>-->
+            <!--<TextView android:layout_width="wrap_content"-->
+            <!--android:text="Present Days:"-->
+            <!--android:id="@+id/presenday_txt"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/colorWhite"-->
+            <!--android:layout_height="wrap_content"/>-->
+            <!--<TextView android:layout_width="wrap_content"-->
+            <!--android:text="Absent Days:"-->
+            <!--android:id="@+id/absentday_txt"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/colorWhite"-->
+            <!--android:layout_height="wrap_content"/>-->
+            <!--<TextView android:layout_width="wrap_content"-->
+            <!--android:text="Percentage:"-->
+            <!--android:id="@+id/Percent_txt"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/colorWhite"-->
+            <!--android:layout_height="wrap_content"/>-->
+
+            <ProgressBar
+
+                android:id="@+id/progressBar9"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="35dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/cardview_light_background"
+                android:indeterminateTintMode="src_atop"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="6dp"
+                tools:layout_editor_absoluteY="7dp" />
+
+            <LinearLayout
+                android:id="@+id/date_layout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/attendance_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:background="@drawable/background" />
+
+
+            </LinearLayout>
+            <!--Notice Title-->
+            <!--<LinearLayout android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:layout_marginRight="20dp">-->
+            <!---->
+            <!--&lt;!&ndash;Note Date &ndash;&gt;-->
+            <!---->
+            <!---->
+            <!--&lt;!&ndash; Left icon !&ndash;&gt;-->
+            <!--<LinearLayout android:layout_width="60dp"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_height="wrap_content">-->
+            <!---->
+            <!--<LinearLayout android:layout_width="60dp"-->
+            <!--android:orientation="vertical"-->
+            <!--android:background="@drawable/white_right_corner_bg2"-->
+            <!--android:layout_height="wrap_content">-->
+            <!---->
+            <!--<LinearLayout android:orientation="vertical"-->
+            <!--android:gravity="center_vertical|center_horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp">-->
+            <!---->
+            <!--<ImageView android:background="@drawable/ic_notice_title"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"/>-->
+            <!---->
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout android:layout_width="fill_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:background="@drawable/white_right_corner_bg"-->
+            <!--android:layout_height="50dp">-->
+            <!--<EditText android:layout_width="match_parent"-->
+            <!--android:id="@+id/edit_notice_title"-->
+            <!--android:hint="Notice Title"-->
+            <!--android:textSize="16sp"-->
+            <!--android:inputType="text"-->
+            <!--android:background="@drawable/white_right_corner_bg"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:textColor="@android:color/background_dark"/>-->
+            <!--</LinearLayout>-->
+            <!---->
+            <!---->
+            <!--</LinearLayout>-->
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+<ImageView android:layout_width="50dp"
+           android:id="@+id/iv_icon"
+           android:layout_centerHorizontal="true"
+           android:src="@drawable/ic_hostel"
+           android:layout_marginTop="20dp"
+           android:layout_marginBottom="10dp"
+           android:layout_height="50dp"/>
+	
+	<TextView android:layout_width="match_parent"
+	          android:id="@+id/txt_labl2"
+	          android:layout_below="@+id/iv_icon"
+	          android:layout_marginTop="10dp"
+	          android:layout_marginRight="40dp"
+	          android:layout_marginLeft="40dp"
+	          android:layout_centerInParent="true"
+	          android:layout_centerHorizontal="true"
+	          android:textAlignment="center"
+	          android:text="Comming Soon!!!"
+	          android:layout_height="wrap_content"/>
+	
+	<!--<TextView android:layout_width="wrap_content"-->
+	          <!--android:layout_below="@+id/txt_labl"-->
+	          <!--android:layout_marginTop="10dp"-->
+	          <!--android:id="@+id/txtcontact"-->
+	          <!--android:layout_marginRight="2dp"-->
+	          <!--android:layout_marginLeft="2dp"-->
+	          <!--android:layout_centerInParent="true"-->
+	          <!--android:text="Mr. Kamal Hajari: +91 9860928368"-->
+	          <!--android:textStyle="bold"-->
+	          <!--android:textColor="#000"-->
+	          <!--android:layout_height="wrap_content"/>-->
+</RelativeLayout>

@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.NewRegistration">
+    <ScrollView android:id="@+id/login_form"
+            android:background="@drawable/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout android:id="@+id/llSplashScreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <!-- Logo View !-->
+            <!--<View android:id="@+id/logo_here"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--/>-->
+            <ImageView
+                    android:id="@+id/ivSplashScreen"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_below="@id/edit_mob"
+                    android:src="@drawable/logo"/>
+            <TextView
+                    android:id="@+id/tvMainHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="DATTA MEGHE INSTITUTE"
+                    android:textColor="#fff"
+                    android:textSize="24sp"
+                    />
+            <TextView
+                    android:id="@+id/tvMainHeading2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-4dp"
+                    android:layout_below="@id/tvMainHeading"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="OF MEDICAL SCIENCES"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#fff"
+                    android:textSize="24sp"
+                    />
+            <TextView
+                    android:id="@+id/tvSubHeading1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@id/tvMainHeading2"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="DEEMED TO BE UNIVERSITY"
+                    android:layout_marginBottom="22dp"
+                    android:textColor="#fff"
+                    android:textSize="12sp"
+                    />
+
+            <TextView
+                    android:id="@+id/tvSubHeading2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@id/tvMainHeading2"
+                    android:gravity="center_horizontal"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="PROVIDE BELOW DETAILS TO PROCEED FUTHER"
+                    android:layout_marginBottom="22dp"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    />
+            <!--Login Form !-->
+            <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp">
+                <!-- Left icon !-->
+                <LinearLayout android:layout_width="60dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="60dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/white_right_corner_bg2"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout android:orientation="vertical"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp">
+
+                            <ImageView android:background="@drawable/userid"
+                                    android:scaleType="fitCenter"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="50dp">
+                    <EditText android:layout_width="match_parent"
+                            android:id="@+id/edit_Name"
+                            android:hint="Name"
+                            android:textSize="16sp"
+                            android:maxLength="50"
+                            android:background="@drawable/white_right_corner_bg"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp">
+                <!-- Left icon !-->
+                <LinearLayout android:layout_width="60dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="60dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/white_right_corner_bg2"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout android:orientation="vertical"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp">
+
+                            <ImageView android:background="@drawable/userid"
+                                    android:scaleType="fitCenter"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="50dp">
+                    <EditText android:layout_width="match_parent"
+                            android:id="@+id/edit_Email"
+                            android:hint="E-mail"
+                            android:textSize="16sp"
+                            android:maxLength="50"
+                            android:background="@drawable/white_right_corner_bg"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp">
+                <!-- Left icon !-->
+                <LinearLayout android:layout_width="60dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="60dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/white_right_corner_bg2"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout android:orientation="vertical"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp">
+
+                            <ImageView android:background="@drawable/userid"
+                                    android:scaleType="fitCenter"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="50dp">
+                    <EditText android:layout_width="match_parent"
+                            android:id="@+id/edit_Mob"
+                            android:hint="Mobile"
+                            android:textSize="16sp"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:background="@drawable/white_right_corner_bg"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp">
+                <!-- Left icon !-->
+                <LinearLayout android:layout_width="60dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="60dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/white_right_corner_bg2"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout android:orientation="vertical"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp">
+
+                            <ImageView android:background="@drawable/userid"
+                                    android:scaleType="fitCenter"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="50dp">
+                    <EditText android:layout_width="match_parent"
+                            android:id="@+id/edit_Pass"
+                            android:hint="Password"
+                            android:textSize="16sp"
+                            android:inputType="textPassword"
+                            android:maxLength="10"
+                            android:background="@drawable/white_right_corner_bg"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp">
+                <!-- Left icon !-->
+                <LinearLayout android:layout_width="60dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="60dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/white_right_corner_bg2"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout android:orientation="vertical"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp">
+
+                            <ImageView android:background="@drawable/userid"
+                                    android:scaleType="fitCenter"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="50dp">
+                    <EditText android:layout_width="match_parent"
+                            android:id="@+id/edit_RollNo"
+                            android:hint="2017-222"
+                            android:textSize="16sp"
+                            android:maxLength="50"
+
+                            android:background="@drawable/white_right_corner_bg"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp">
+                <!-- Left icon !-->
+                <LinearLayout android:layout_width="60dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="60dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/white_right_corner_bg2"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout android:orientation="vertical"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp">
+
+                            <ImageView android:background="@drawable/userid"
+                                    android:scaleType="fitCenter"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="50dp">
+                    <EditText android:layout_width="match_parent"
+                            android:id="@+id/edit_EnrolNo"
+                            android:hint="Enrollment No "
+                            android:textSize="16sp"
+                            android:maxLength="50"
+                            android:background="@drawable/white_right_corner_bg"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp">
+                <!-- Left icon !-->
+                <LinearLayout android:layout_width="60dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="60dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/white_right_corner_bg2"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout android:orientation="vertical"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp">
+
+                            <ImageView android:background="@drawable/ic_notice_type"
+                                    android:scaleType="fitCenter"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="50dp">
+                    <Spinner
+                            android:id="@+id/spinner_institue"
+                            android:layout_width="match_parent"
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="10dp"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!-- Course List -->
+            <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp">
+                <!-- Left icon !-->
+                <LinearLayout android:layout_width="60dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="60dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/white_right_corner_bg2"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout android:orientation="vertical"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp">
+
+                            <ImageView android:background="@drawable/ic_notice_type"
+                                    android:scaleType="fitCenter"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="50dp">
+                    <Spinner
+                            android:id="@+id/spinner_courselist"
+                            android:layout_width="match_parent"
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="10dp"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp">
+                <!-- Left icon !-->
+                <LinearLayout android:layout_width="60dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="60dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/white_right_corner_bg2"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout android:orientation="vertical"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp">
+
+                            <ImageView android:background="@drawable/ic_notice_type"
+                                    android:scaleType="fitCenter"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:layout_width="fill_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/white_right_corner_bg"
+                        android:layout_height="50dp">
+                    <Spinner
+                            android:id="@+id/spinner_Sem"
+                            android:layout_width="match_parent"
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="10dp"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+            <Button android:layout_width="match_parent"
+                    android:id="@+id/btn_Update"
+                    style="?android:textAppearanceSmall"
+                    android:text="Submit"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/blue_button_bg"
+                    android:layout_marginTop="16dp"
+                    android:layout_height="50dp"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="15sp"/>
+
+            <ProgressBar
+                    android:id="@+id/progressbarlogin"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:indeterminate="true"
+                    android:visibility="invisible"
+                    android:layout_gravity="center"
+                    android:indeterminateTintMode="src_atop"
+                    android:indeterminateTint="@color/cardview_light_background"
+                    android:layout_height="wrap_content"/>
+
+
+            <LinearLayout android:id="@+id/register_form"
+                    android:layout_marginTop="40dp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:app="http://schemas.android.com/apk/res-auto"
+			  android:orientation="vertical"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content">
+
+	<android.support.v7.widget.CardView
+		xmlns:card_view="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:background="#000"
+		app:cardCornerRadius="10dp"
+		app:cardElevation="12dp"
+		android:innerRadius="6dp"
+		android:shape="ring"
+		app:cardBackgroundColor="@android:color/transparent"
+		android:layout_height="match_parent">
+		<android.support.v7.widget.CardView
+
+			android:id="@+id/card_view_innder"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:layout_marginTop="20dp"
+			app:cardBackgroundColor="#fff"
+			card_view:cardCornerRadius="10dp"
+			card_view:cardElevation="0dp" >
+
+
+
+			<LinearLayout android:orientation="horizontal"
+						  android:layout_width="match_parent"
+						  android:layout_height="wrap_content"
+						  android:layout_marginTop="10dp"
+						  android:layout_marginBottom="10dp"
+						  android:layout_marginLeft="10dp"
+						  android:layout_marginRight="10dp"
+				android:background="@drawable/gradient_bg"
+				android:padding="5dp">
+				<!-- Left icon !-->
+				<LinearLayout android:layout_width="60dp"
+							  android:orientation="vertical"
+							  android:layout_marginLeft="-8dp"
+							  android:layout_marginRight="13dp"
+							  android:layout_height="wrap_content">
+
+					<LinearLayout android:layout_width="match_parent"
+								  android:orientation="vertical"
+								  android:layout_marginLeft="-19dp"
+								  android:layout_marginRight="-5dp"
+								  android:layout_height="match_parent">
+
+						<LinearLayout android:orientation="vertical"
+									  android:gravity="center_vertical|center_horizontal"
+									  android:layout_width="match_parent"
+									  android:layout_marginLeft="11dp"
+									  android:layout_marginRight="-19dp"
+									  android:layout_height="80dp">
+
+							<ImageView
+								android:id="@+id/camera_image"
+								android:scaleType="fitCenter"
+								android:layout_width="44dp"
+								android:layout_height="44dp"/>
+
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+				<LinearLayout android:layout_width="match_parent"
+							  android:orientation="vertical"
+
+							  android:layout_height="wrap_content"
+					>
+
+<!--<LinearLayout android:layout_width="match_parent"-->
+<!--	android:layout_height="2dp"-->
+<!--	android:background="@color/colorblack"-->
+<!--	android:layout_marginRight="2dp"-->
+<!--	android:layout_marginLeft="2dp"/>-->
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtNOTICE_TITLE"
+							  android:textStyle="bold"
+							  android:textColor="@color/colorWhite"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:text="Exam Key"
+							  android:layout_height="wrap_content"/>
+					<LinearLayout android:layout_width="match_parent"
+						android:layout_height="2dp"
+						android:background="@color/colorblack"
+						android:layout_marginRight="2dp"
+						android:layout_marginLeft="2dp"/>
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtUploader_Name"
+							  android:textColor="@color/colorWhite"
+							  android:text="Submitted by: Kumar swami"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:layout_height="match_parent"/>
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtUploaded_Date"
+							  android:text="Uploaded on: 12-09-2019"
+						android:textColor="@color/colorWhite"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:layout_height="match_parent"/>
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtInstitute"
+							  android:text="Institute : JNMC"
+						android:textColor="@color/colorWhite"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:layout_height="match_parent"/>
+
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtCourse"
+							  android:text="Course : MBBS"
+						android:textColor="@color/colorWhite"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:layout_height="match_parent"/>
+
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtDepartment"
+							  android:text="Department : Anatomy"
+						android:textColor="@color/colorWhite"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:layout_height="match_parent"/>
+
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtYear"
+							  android:text="Std in Year : 2"
+						android:textColor="@color/colorWhite"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:layout_height="match_parent"/>
+
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtStartDate"
+							  android:text="StartDate : 24-09-2019"
+						android:textColor="@color/colorWhite"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:layout_height="match_parent"/>
+
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtEndDate"
+							  android:text="EndDate : 29-09-2019"
+						android:textColor="@color/colorWhite"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:layout_height="match_parent"/>
+
+					<TextView android:layout_width="match_parent"
+							  android:id="@+id/txtFileName"
+							  android:text="FileName : JNMC_MBBS_Anatomy_2_Check"
+						android:textColor="@color/colorWhite"
+							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
+							  android:layout_height="match_parent"/>
+
+<!--					<LinearLayout android:layout_width="match_parent"-->
+<!--						android:layout_height="2dp"-->
+<!--						android:background="@color/colorblack"-->
+<!--						android:layout_marginRight="2dp"-->
+<!--						android:layout_marginLeft="2dp"/>-->
+					<!--<TextView android:layout_width="match_parent"-->
+					<!--android:id="@+id/txtRESOU_FLAG"-->
+					<!--android:text="RESOU_FLAG"-->
+					<!--android:textAppearance="@style/TextAppearance.AppCompat.Small"-->
+					<!--android:layout_height="match_parent"/>-->
+					<!--<TextView android:layout_width="match_parent"-->
+					<!--android:id="@+id/txtFILENAME"-->
+					<!--android:text="FILENAME"-->
+					<!--android:textAppearance="@style/TextAppearance.AppCompat.Small"-->
+					<!--android:layout_height="match_parent"/>-->
+				</LinearLayout>
+			</LinearLayout>
+
+
+			<!--<LinearLayout android:layout_width="match_parent"-->
+			<!--android:orientation="vertical"-->
+			<!--android:padding="10dp"-->
+			<!--android:layout_height="wrap_content">-->
+			<!---->
+			<!--<ImageView-->
+			<!--android:id="@+id/item_image_view"-->
+			<!--android:layout_width="43dp"-->
+			<!--android:layout_height="57dp"-->
+			<!--android:contentDescription="@string/app_name"-->
+			<!--android:scaleType="centerInside"-->
+			<!--android:padding="10dp"/>-->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!--</LinearLayout>-->
+		</android.support.v7.widget.CardView>
+	</android.support.v7.widget.CardView>
+</LinearLayout>
