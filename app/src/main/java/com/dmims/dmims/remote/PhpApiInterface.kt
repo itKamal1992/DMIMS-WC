@@ -242,7 +242,6 @@ interface PhpApiInterface  {
         @Part("file") name: RequestBody
     ): Call<ServerResponse>
 
-
     @Multipart
     @POST("pdfupload/notice_common_upload.php")
     abstract fun noticeCommonUpload(

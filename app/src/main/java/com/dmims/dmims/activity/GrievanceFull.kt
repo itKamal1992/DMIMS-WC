@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.common.Common
 import com.dmims.dmims.dataclass.StudentGrievanceGet
@@ -212,7 +213,7 @@ class GrievanceFull : AppCompatActivity() {
                         selected_Department = "Grievance Cell Admin"
                     } else if (user_institute == "Select Institute") {
                         Toast.makeText(
-                            applicationContext,
+                            this@GrievanceFull,
                             "please select Institute ",
                             Toast.LENGTH_LONG
                         ).show()
@@ -233,6 +234,7 @@ class GrievanceFull : AppCompatActivity() {
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         G_ID = intent.getStringExtra("id")
         mServices = Common.getAPI()
+        if (InternetConnection.checkConnection(this)) {
         try {
             mServices.GetStudGrievanceSubmited()
                 .enqueue(object : Callback<APIResponse> {
@@ -340,7 +342,13 @@ class GrievanceFull : AppCompatActivity() {
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
         }
-
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
 
 
 
@@ -436,7 +444,7 @@ class GrievanceFull : AppCompatActivity() {
             println("clicked llattach")
 
             if (G_Attachment.equals("F")) {
-                GenericUserFunction.DisplayToast(applicationContext, "No attachment available")
+                GenericUserFunction.DisplayToast(this@GrievanceFull, "No attachment available")
             } else if ((str_Attachment.contains(
                     ".jpg",
                     ignoreCase = true
@@ -470,6 +478,7 @@ class GrievanceFull : AppCompatActivity() {
         assignToID: Int,
         remainder: String
     ) {
+        if (InternetConnection.checkConnection(this)) {
         val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
         try {
             dialog.setMessage("Please Wait!!! \nwhile we are updating your Grievance details")
@@ -540,6 +549,13 @@ class GrievanceFull : AppCompatActivity() {
             )
         }
     }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
+    }
 
 
     private fun callForAttend(
@@ -550,7 +566,7 @@ class GrievanceFull : AppCompatActivity() {
         strForwardedViaStatus: String,
         assignToID: Int,
         remainder: String
-    ) {
+    ) {if (InternetConnection.checkConnection(this)) {
         val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
         try {
             dialog.setMessage("Please Wait!!! \nwhile we are updating your Grievance details")
@@ -627,8 +643,16 @@ class GrievanceFull : AppCompatActivity() {
             )
         }
     }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
+    }
 
     private fun GetDepartmentRole(string: String) {
+        if (InternetConnection.checkConnection(this)) {
         var stringData = ""
 //        if (string.equals("Principal")) {
 //            stringData = "Dean"
@@ -760,6 +784,13 @@ class GrievanceFull : AppCompatActivity() {
                 this,
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
+        }
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
         }
     }
 

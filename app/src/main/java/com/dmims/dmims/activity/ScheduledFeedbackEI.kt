@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.EmergencyContactAdapter
 import com.dmims.dmims.adapter.ScheduledFeedbackAdapter
@@ -47,7 +49,7 @@ class ScheduledFeedbackEI : AppCompatActivity()
         val myFormat = "yyyy-MM-dd" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         current_date = sdf.format(cal.time)
-
+        if (InternetConnection.checkConnection(this)) {
         var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
         var submitdate: Call<FeedBackSchedule> = phpApiInterface.CurrentDateSubmit(current_date)
         submitdate.enqueue(object :Callback<FeedBackSchedule>{
@@ -85,6 +87,13 @@ class ScheduledFeedbackEI : AppCompatActivity()
                 }
             }
         })
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
+        }
 
     }
 }

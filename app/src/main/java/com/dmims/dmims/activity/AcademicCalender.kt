@@ -138,6 +138,7 @@ class AcademicCalender : AppCompatActivity()
 
     private fun GetTimetable()
     {
+        if (InternetConnection.checkConnection(this)) {
         dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
         dialogCommon!!.setCancelable(false)
         dialogCommon!!.show()
@@ -186,6 +187,13 @@ class AcademicCalender : AppCompatActivity()
                 )
             }
         })
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
     }
 
 }

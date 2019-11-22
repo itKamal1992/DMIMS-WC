@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.common.Common
 import com.dmims.dmims.dataclass.TimeTableDataC
@@ -229,14 +230,15 @@ class Activity_time_table_student : AppCompatActivity() {
         }
         spinner_timetableyear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selectedyear = p0!!.getItemAtPosition(p2) as String
-                    if (selectedtypeoftimetbl == "Theory") {
-                        selectedtypeoftimetbl = "TH"
-                    }
-                    if (selectedtypeoftimetbl == "Clinical") {
-                        selectedtypeoftimetbl = "CL"
-                    }
+                if (InternetConnection.checkConnection(this@Activity_time_table_student)) {
+                    try {
+                        selectedyear = p0!!.getItemAtPosition(p2) as String
+                        if (selectedtypeoftimetbl == "Theory") {
+                            selectedtypeoftimetbl = "TH"
+                        }
+                        if (selectedtypeoftimetbl == "Clinical") {
+                            selectedtypeoftimetbl = "CL"
+                        }
 //                    if (selectedtypeoftimetbl == "Select Type") {
 //                        Toast.makeText(
 //                            this@Activity_time_table_student,
@@ -246,51 +248,52 @@ class Activity_time_table_student : AppCompatActivity() {
 //                            .show()
 //                        return
 //                    }
-                    progressBar2.visibility = View.VISIBLE //visible
-                    progressBar1.visibility = View.INVISIBLE //visible
-                    semlist.clear()
-                    var phpApiInterface: PhpApiInterface =
-                        ApiClientPhp.getClient().create(PhpApiInterface::class.java)
-                    var call: Call<TimeTableData> =
-                        phpApiInterface.timetable_details(institute_name, selectedtypeoftimetbl)
+                        progressBar2.visibility = View.VISIBLE //visible
+                        progressBar1.visibility = View.INVISIBLE //visible
+                        semlist.clear()
+                        var phpApiInterface: PhpApiInterface =
+                            ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+                        var call: Call<TimeTableData> =
+                            phpApiInterface.timetable_details(institute_name, selectedtypeoftimetbl)
 
 
-                    call.enqueue(object : Callback<TimeTableData> {
+                        call.enqueue(object : Callback<TimeTableData> {
 
-                        override fun onFailure(call: Call<TimeTableData>, t: Throwable) {
-                            Toast.makeText(
-                                this@Activity_time_table_student,
-                                t.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                            override fun onFailure(call: Call<TimeTableData>, t: Throwable) {
+                                Toast.makeText(
+                                    this@Activity_time_table_student,
+                                    t.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-                        override fun onResponse(
-                            call: Call<TimeTableData>,
-                            response: Response<TimeTableData>
-                        ) {
-                            progressBar2.visibility = View.INVISIBLE //visible
-                            progressBar1.visibility = View.INVISIBLE //visible
-                            var users = ArrayList<TimeTableDataC>()
-                            if (response.isSuccessful) {
-                                users.clear()
-                                trsnsdlist = response.body()!!.Data
-                                if (trsnsdlist!![0].ID == "error") {
-                                    Toast.makeText(
-                                        this@Activity_time_table_student,
-                                        "No Data in Time Table Master.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
+                            override fun onResponse(
+                                call: Call<TimeTableData>,
+                                response: Response<TimeTableData>
+                            ) {
+                                progressBar2.visibility = View.INVISIBLE //visible
+                                progressBar1.visibility = View.INVISIBLE //visible
+                                var users = ArrayList<TimeTableDataC>()
+                                if (response.isSuccessful) {
                                     users.clear()
-                                    var listSize = trsnsdlist!!.size
-                                    for (i in 0..listSize - 1) {
-                                        if (trsnsdlist!![i].INSTITUTE == institute_name) {
-                                            if (trsnsdlist!![i].TYPE == selectedtypeoftimetbl) {
-                                                if (trsnsdlist!![i].YEAR == selectedyear) {
-                                                    if (semlist.contains(trsnsdlist!![i].SEMESTER)) {
-                                                    } else {
-                                                        semlist.add(trsnsdlist!![i].SEMESTER)
+                                    trsnsdlist = response.body()!!.Data
+                                    if (trsnsdlist!![0].ID == "error") {
+                                        Toast.makeText(
+                                            this@Activity_time_table_student,
+                                            "No Data in Time Table Master.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        users.clear()
+                                        var listSize = trsnsdlist!!.size
+                                        for (i in 0..listSize - 1) {
+                                            if (trsnsdlist!![i].INSTITUTE == institute_name) {
+                                                if (trsnsdlist!![i].TYPE == selectedtypeoftimetbl) {
+                                                    if (trsnsdlist!![i].YEAR == selectedyear) {
+                                                        if (semlist.contains(trsnsdlist!![i].SEMESTER)) {
+                                                        } else {
+                                                            semlist.add(trsnsdlist!![i].SEMESTER)
+                                                        }
                                                     }
                                                 }
                                             }
@@ -298,22 +301,28 @@ class Activity_time_table_student : AppCompatActivity() {
                                     }
                                 }
                             }
-                        }
-                    })
-                    semlist.add("Select Semester")
-                    var usersemlistadp: ArrayAdapter<String> = ArrayAdapter<String>(
-                        this@Activity_time_table_student,
-                        R.layout.support_simple_spinner_dropdown_item,
-                        semlist
-                    )
-                    spinner_semestertype.adapter = usersemlistadp
-                } catch (ex: Exception) {
+                        })
+                        semlist.add("Select Semester")
+                        var usersemlistadp: ArrayAdapter<String> = ArrayAdapter<String>(
+                            this@Activity_time_table_student,
+                            R.layout.support_simple_spinner_dropdown_item,
+                            semlist
+                        )
+                        spinner_semestertype.adapter = usersemlistadp
+                    } catch (ex: Exception) {
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@Activity_time_table_student,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                }
+                else
+                {
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@Activity_time_table_student,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-                    )
+                        getString(R.string.failureNoInternetErr))
                 }
 
             }
@@ -335,6 +344,7 @@ class Activity_time_table_student : AppCompatActivity() {
         }
 
         btn_download.setOnClickListener {
+
             if(selectedtypeoftimetbl==null || selectedtypeoftimetbl=="Select Type"){
                 GenericUserFunction.DisplayToast(this,"Please select Time Table Type")
                 return@setOnClickListener
@@ -348,6 +358,7 @@ class Activity_time_table_student : AppCompatActivity() {
                 GenericUserFunction.DisplayToast(this,"Please select Semester Type")
                 return@setOnClickListener
             }
+            if (InternetConnection.checkConnection(this)) {
             try {
                 var phpApiInterface: PhpApiInterface =
                     ApiClientPhp.getClient().create(PhpApiInterface::class.java)
@@ -414,6 +425,13 @@ class Activity_time_table_student : AppCompatActivity() {
                     "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                 )
             }
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
+        }
         }
 
     }

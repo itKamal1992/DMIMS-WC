@@ -730,6 +730,7 @@ class GreivanceStudFile : AppCompatActivity() {
     }
 
     private fun GetDepartmentRole() {
+        if (InternetConnection.checkConnection(this)) {
         mServices.GetGreivanceData(instituteName, str_ComplaintToGriev)
             .enqueue(object : Callback<APIResponse> {
                 override fun onFailure(call: Call<APIResponse>, t: Throwable) {
@@ -841,9 +842,13 @@ class GreivanceStudFile : AppCompatActivity() {
                 }
 
             })
-
-
-//spinner_Name!!.adapter = DepartmentAdap2
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
 
 
     }
@@ -920,6 +925,7 @@ class GreivanceStudFile : AppCompatActivity() {
     }
 
     private fun uploadFile() {
+        if (InternetConnection.checkConnection(this)) {
         dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
         dialogCommon!!.setCancelable(false)
         dialogCommon!!.show()
@@ -1034,8 +1040,16 @@ class GreivanceStudFile : AppCompatActivity() {
             }
         })
     }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
+    }
 
     private fun uploadFileImg() {
+        if (InternetConnection.checkConnection(this)) {
         dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
         dialogCommon!!.setCancelable(false)
         dialogCommon!!.show()
@@ -1177,6 +1191,13 @@ class GreivanceStudFile : AppCompatActivity() {
                 )
             }
         })
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
     }
 
     fun callSelf (ctx:Context){

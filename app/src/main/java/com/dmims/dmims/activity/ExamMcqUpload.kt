@@ -24,6 +24,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable.Companion.mServices
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.model.APIResponse
 import com.dmims.dmims.model.MyResponse
@@ -339,7 +340,7 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
 ////            PdfUploadFunction()
 //        }
 
-
+        if (InternetConnection.checkConnection(this)) {
         try {
             mServices.GetInstituteData()
                 .enqueue(object : Callback<APIResponse> {
@@ -366,6 +367,13 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
                 this,
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
+        }}
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
         }
 
         var institueAdap: ArrayAdapter<String> =
@@ -376,45 +384,65 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
         spinner_institue!!.adapter = institueAdap
         spinner_institue!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selectedInstituteName = p0!!.getItemAtPosition(p2) as String
-                    courselist.clear()
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(this@ExamMcqUpload, t.message, Toast.LENGTH_SHORT).show()
-                            }
+                if (InternetConnection.checkConnection(this@ExamMcqUpload)) {
+                    try {
+                        selectedInstituteName = p0!!.getItemAtPosition(p2) as String
+                        courselist.clear()
+                        mServices.GetInstituteData()
+                            .enqueue(object : Callback<APIResponse> {
+                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                                    Toast.makeText(
+                                        this@ExamMcqUpload,
+                                        t.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
 
-                            override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
-                                    Toast.makeText(this@ExamMcqUpload, result.Status, Toast.LENGTH_SHORT).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                courselist.add(result.Data6!![i].Courses!![j].COURSE_NAME)
+                                override fun onResponse(
+                                    call: Call<APIResponse>,
+                                    response: Response<APIResponse>
+                                ) {
+                                    val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 204) {
+                                        Toast.makeText(
+                                            this@ExamMcqUpload,
+                                            result.Status,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val listsinstz: Int = result.Data6!!.size
+                                        for (i in 0..listsinstz - 1) {
+                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                val listscoursez: Int =
+                                                    result.Data6!![i].Courses!!.size
+                                                for (j in 0..listscoursez - 1) {
+                                                    courselist.add(result.Data6!![i].Courses!![j].COURSE_NAME)
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                        })
-                    courselist.add("All")
-                    var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
-                        this@ExamMcqUpload,
-                        R.layout.support_simple_spinner_dropdown_item,
-                        courselist
-                    )
-                    spinner_courselist.adapter = usercourselistadp
-                } catch (ex: Exception) {
+                            })
+                        courselist.add("All")
+                        var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
+                            this@ExamMcqUpload,
+                            R.layout.support_simple_spinner_dropdown_item,
+                            courselist
+                        )
+                        spinner_courselist.adapter = usercourselistadp
+                    } catch (ex: Exception) {
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@ExamMcqUpload,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                }else
+                {
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@ExamMcqUpload,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
             }
@@ -425,55 +453,75 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
 
         spinner_courselist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selectedcourselist = p0!!.getItemAtPosition(p2) as String
-                    deptlist.clear()
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(this@ExamMcqUpload, t.message, Toast.LENGTH_SHORT).show()
-                            }
+                if (InternetConnection.checkConnection(this@ExamMcqUpload)) {
+                    try {
+                        selectedcourselist = p0!!.getItemAtPosition(p2) as String
+                        deptlist.clear()
+                        mServices.GetInstituteData()
+                            .enqueue(object : Callback<APIResponse> {
+                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                                    Toast.makeText(
+                                        this@ExamMcqUpload,
+                                        t.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
 
-                            override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
-                                    Toast.makeText(this@ExamMcqUpload, result.Status, Toast.LENGTH_SHORT).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-                                                    course_id =
-                                                        result.Data6!![i].Courses!![j].COURSE_ID
-                                                    val listsdeptz: Int =
-                                                        result.Data6!![i].Courses!![j].Departments!!.size
-                                                    for (k in 0 until listsdeptz) {
-                                                        deptlist.add(result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME)
+                                override fun onResponse(
+                                    call: Call<APIResponse>,
+                                    response: Response<APIResponse>
+                                ) {
+                                    val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 204) {
+                                        Toast.makeText(
+                                            this@ExamMcqUpload,
+                                            result.Status,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val listsinstz: Int = result.Data6!!.size
+                                        for (i in 0..listsinstz - 1) {
+                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                val listscoursez: Int =
+                                                    result.Data6!![i].Courses!!.size
+                                                for (j in 0..listscoursez - 1) {
+                                                    if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                        course_id =
+                                                            result.Data6!![i].Courses!![j].COURSE_ID
+                                                        val listsdeptz: Int =
+                                                            result.Data6!![i].Courses!![j].Departments!!.size
+                                                        for (k in 0 until listsdeptz) {
+                                                            deptlist.add(result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME)
+                                                        }
                                                     }
-                                                }
 
+                                                }
                                             }
                                         }
+
                                     }
-
                                 }
-                            }
-                        })
-                    deptlist.add("All")
-                    var userdeptlistadp: ArrayAdapter<String> =
-                        ArrayAdapter<String>(
-                            this@ExamMcqUpload,
-                            R.layout.support_simple_spinner_dropdown_item, deptlist
-                        )
-                    spinner_deptlist.adapter = userdeptlistadp
-                } catch (ex: Exception) {
+                            })
+                        deptlist.add("All")
+                        var userdeptlistadp: ArrayAdapter<String> =
+                            ArrayAdapter<String>(
+                                this@ExamMcqUpload,
+                                R.layout.support_simple_spinner_dropdown_item, deptlist
+                            )
+                        spinner_deptlist.adapter = userdeptlistadp
+                    } catch (ex: Exception) {
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@ExamMcqUpload,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                }else
+                {
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@ExamMcqUpload,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
             }
@@ -623,7 +671,9 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
     }
 
     fun UpdateNotice(): Boolean {
+
         var success: Boolean = false
+        if (InternetConnection.checkConnection(this)) {
         var filename = "-"
         //Dialog Start
 //        val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
@@ -678,6 +728,14 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
             )
             success = false
         }
+    }
+    else {
+        dialogCommon!!.dismiss()
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr)
+        )
+    }
         return success
     }
 
@@ -797,7 +855,9 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
 
 
     private fun uploadFile() {
-        dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
+        if (InternetConnection.checkConnection(this)) {
+
+            dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
         dialogCommon!!.setCancelable(false)
         dialogCommon!!.show()
 
@@ -886,6 +946,13 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
                 )
             }
         })
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
+        }
     }
 
 

@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiver
 import com.dmims.dmims.model.APIResponse
@@ -222,7 +223,7 @@ class AcademicCalenderUploadA : AppCompatActivity(), SingleUploadBroadcastReceiv
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun CheckValidation() {
         if (spinnerSession.selectedItem.toString().equals("--Select Session--")) {
-            Toast.makeText(applicationContext, "Please Select Session", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Please Select Session", Toast.LENGTH_LONG).show()
         } else if (mediaPath == null) {
             println("no uri")
         } else {
@@ -284,6 +285,7 @@ class AcademicCalenderUploadA : AppCompatActivity(), SingleUploadBroadcastReceiv
     }
 
     private fun uploadFile() {
+        if (InternetConnection.checkConnection(this)) {
         dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Time Table.")
         dialogCommon!!.setCancelable(false)
         dialogCommon!!.show()
@@ -332,6 +334,13 @@ class AcademicCalenderUploadA : AppCompatActivity(), SingleUploadBroadcastReceiv
 
             }
         })
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
+        }
     }
 
     companion object {

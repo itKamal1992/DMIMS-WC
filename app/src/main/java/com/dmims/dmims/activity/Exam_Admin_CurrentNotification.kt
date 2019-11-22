@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.NoticeAdapterCurrent
 import com.dmims.dmims.adapter.NoticeDeleteAdapterCurrent
@@ -60,7 +61,8 @@ class Exam_Admin_CurrentNotification : AppCompatActivity() {
         var end = sdf.format(cal.time).toString()
 
 //        Toast.makeText(this@Institute_Admin_CurrentNotification, begining.toString() + "  and   " + end.toString(), Toast.LENGTH_SHORT).show()
-        progressBar.visibility = View.VISIBLE
+        if (InternetConnection.checkConnection(this)) {
+            progressBar.visibility = View.VISIBLE
         try {
             mServices.GetNotice( begining.toString(), end.toString())
                 .enqueue(object : Callback<APIResponse> {
@@ -105,6 +107,7 @@ class Exam_Admin_CurrentNotification : AppCompatActivity() {
                                                     result.Data14!![i].ID,// in this we have pass ROW ID instead of DEPT_ID() to delete perticular notice
                                                     result.Data14!![i].RESOU_FLAG,
                                                     result.Data14!![i].FILENAME,
+                                                    result.Data14!![i].YEAR,
                                                     k
                                                 )
                                             )
@@ -170,6 +173,12 @@ class Exam_Admin_CurrentNotification : AppCompatActivity() {
             ex.printStackTrace()
             GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
         }
+    }else {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr)
+        )
+    }
 
     }
 

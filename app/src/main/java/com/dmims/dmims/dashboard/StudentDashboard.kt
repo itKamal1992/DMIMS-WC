@@ -21,6 +21,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.R.string
 import com.dmims.dmims.activity.*
@@ -74,6 +75,10 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
         val editor = mypref12.edit()
         editor.putString("dashboard", "Student Dashboard")
         editor.apply()
+
+        var pinfo=packageManager.getPackageInfo(packageName, 0)
+        var versionName = pinfo.versionName
+        txt_versionName.text="App Version : $versionName"
 
         val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
         COURSE_ID = mypref.getString("course_id", null)
@@ -230,7 +235,7 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
             dots!![i] = ImageView(this)
             dots!![i]?.setImageDrawable(
                 ContextCompat.getDrawable(
-                    applicationContext,
+                    this,
                     R.drawable.nonactive_dots
                 )
             )
@@ -246,7 +251,7 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
 
         dots!![0]?.setImageDrawable(
             ContextCompat.getDrawable(
-                applicationContext,
+                this,
                 R.drawable.active_dots
             )
         )
@@ -263,7 +268,7 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
                 for (i in 0 until dotsCount) {
                     dots!![i]?.setImageDrawable(
                         ContextCompat.getDrawable(
-                            applicationContext,
+                            this@StudentDashboard,
                             R.drawable.nonactive_dots
                         )
                     )
@@ -271,7 +276,7 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
 
                 dots!![position]?.setImageDrawable(
                     ContextCompat.getDrawable(
-                        applicationContext,
+                        this@StudentDashboard,
                         R.drawable.active_dots
                     )
                 )
@@ -298,6 +303,7 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
     }
 
     fun getInsDetails() {
+        if (InternetConnection.checkConnection(this)) {
         var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
             PhpApiInterface::class.java
         )
@@ -333,10 +339,18 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
         })
         progressDiag.dismiss()
     }
+    else
+    {
+        progressDiag.dismiss()
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
+    }
 
     // Extension function to show toast message easily
     private fun Context.toast(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@StudentDashboard, message, Toast.LENGTH_SHORT).show()
     }
 
     //ViewPager - Page Slider

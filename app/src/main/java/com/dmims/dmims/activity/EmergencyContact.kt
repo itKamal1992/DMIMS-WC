@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.EmergencyContactAdapter
 import com.dmims.dmims.common.Common
@@ -32,6 +33,7 @@ class EmergencyContact : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.contact_list)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         progressBar.visibility = View.VISIBLE
+        if (InternetConnection.checkConnection(this)) {
         try {
             mServices.GetEmergencyServices()
                 .enqueue(object : Callback<APIResponse> {
@@ -74,6 +76,14 @@ class EmergencyContact : AppCompatActivity() {
             ex.printStackTrace()
             GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
         }
+        }
+        else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
+        }
+
     }
 
 }

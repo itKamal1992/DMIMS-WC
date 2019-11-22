@@ -13,6 +13,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.activity.AdminNoticeBoard
 import com.dmims.dmims.common.Common
 import com.dmims.dmims.dataclass.NoticeStudCurrent
@@ -73,7 +75,7 @@ class ImageUpload : AppCompatActivity(), View.OnClickListener {
     fun uploadImage() {
         var Image: String = imageToString()
         var Title: String = img_title.text.toString()
-        var sendIntent = Intent(applicationContext, AdminNoticeBoard::class.java)
+        var sendIntent = Intent(this, AdminNoticeBoard::class.java)
         sendIntent.putExtra("notice_content", Title)
         sendIntent.putExtra("notice_image", Image)
         setResult(Activity.RESULT_OK, sendIntent)
@@ -127,6 +129,7 @@ class ImageUpload : AppCompatActivity(), View.OnClickListener {
     }
 
     fun noticeTitle(): Unit {
+        if (InternetConnection.checkConnection(this)) {
         try {
             mServices.GetNotice("01-08-2019",current_date)
                 .enqueue(object : Callback<APIResponse> {
@@ -153,6 +156,16 @@ class ImageUpload : AppCompatActivity(), View.OnClickListener {
 
         } catch (ex: Exception) {
             ex.printStackTrace()
+            GenericUserFunction.showApiError(
+                this,
+                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+            )
         }
+    }else {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr)
+        )
+    }
     }
 }

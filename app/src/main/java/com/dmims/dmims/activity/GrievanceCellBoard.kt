@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
+import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.common.Common
 import com.dmims.dmims.model.APIResponse
@@ -116,6 +118,7 @@ class GrievanceCellBoard : AppCompatActivity() {
     }
 
     private fun sendGreviance() {
+        if (InternetConnection.checkConnection(this)) {
 
         if (edit_viewtxt_name.text.toString().isEmpty()) {
             edit_viewtxt_name.error = "Please provide name of Grievant"
@@ -210,6 +213,13 @@ class GrievanceCellBoard : AppCompatActivity() {
             })
         } catch (ex: Exception) {
             ex.printStackTrace()
+        }}
+
+        else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
         }
     }
 

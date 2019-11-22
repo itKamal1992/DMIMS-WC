@@ -40,6 +40,7 @@ import com.google.gson.GsonBuilder
 import com.nbsp.materialfilepicker.MaterialFilePicker
 import com.nbsp.materialfilepicker.ui.FilePickerActivity
 import dmax.dialog.SpotsDialog
+import kotlinx.android.synthetic.main.activity_admin_notice_board.*
 import net.gotev.uploadservice.MultipartUploadRequest
 import net.gotev.uploadservice.UploadNotificationConfig
 import okhttp3.MediaType
@@ -73,6 +74,7 @@ class AdminNoticeBoard : AppCompatActivity() {
     private var TAG = AdminNoticeBoard::class.java.simpleName
     var noticetype = arrayOf("Administrative", "General")
     var facultystud = arrayOf("All", "Faculty", "Student")
+    var studYearArray = arrayOf("Select Year","1st", "2nd","3rd","4th","5th")
     private lateinit var btnPickImage: Button
     private lateinit var btnPubNotice: Button
     private lateinit var spinner_noticetype: Spinner
@@ -89,6 +91,7 @@ class AdminNoticeBoard : AppCompatActivity() {
     var filename: String = "-"
     var course_id: String = "All"
     var dept_id: String = "All"
+
     private lateinit var student_flag: String
     private lateinit var faculty_flag: String
     private lateinit var admin_flag: String
@@ -116,6 +119,8 @@ class AdminNoticeBoard : AppCompatActivity() {
     var PdfPathHolder: String? = null
     private var PdfID: String? = null
     private var random: Int? = null
+
+    var stud_selectedYear: String = ""
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,6 +152,28 @@ class AdminNoticeBoard : AppCompatActivity() {
         val myFormat = "dd-MM-yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         editNoticeDate.text = sdf.format(cal.time).toString()
+
+
+        //Student Year Spinner
+        var StudYearAdap: ArrayAdapter<String> =
+            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, studYearArray)
+        spinner_studYearlist.adapter = StudYearAdap
+        spinner_studYearlist.onItemSelectedListener=object :AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                stud_selectedYear= parent!!.getItemAtPosition(position) as String
+                //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        }
 
         //Spinner_1
         var noticetypeAdap: ArrayAdapter<String> =
@@ -191,6 +218,7 @@ class AdminNoticeBoard : AppCompatActivity() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
+        if (InternetConnection.checkConnection(this)) {
         try {
             mServices.GetInstituteData()
                 .enqueue(object : Callback<APIResponse> {
@@ -221,6 +249,13 @@ class AdminNoticeBoard : AppCompatActivity() {
                 this,
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
+        }}
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
         }
 
         var institueAdap: ArrayAdapter<String> =
@@ -231,6 +266,7 @@ class AdminNoticeBoard : AppCompatActivity() {
         spinner_institue.adapter = institueAdap
         spinner_institue.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@AdminNoticeBoard)) {
                 try {
                     selectedInstituteName = p0!!.getItemAtPosition(p2) as String
                     courselist.clear()
@@ -272,12 +308,21 @@ class AdminNoticeBoard : AppCompatActivity() {
                         courselist
                     )
                     spinner_courselist.adapter = usercourselistadp
-                } catch (ex: Exception) {
+                }
+                catch (ex: Exception) {
 
                     ex.printStackTrace()
                     GenericUserFunction.showApiError(
                         this@AdminNoticeBoard,
                         "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                    )
+                }
+                }
+                else
+                {
+                    GenericUserFunction.showInternetNegativePopUp(
+                        this@AdminNoticeBoard,
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
             }
@@ -288,6 +333,7 @@ class AdminNoticeBoard : AppCompatActivity() {
 
         spinner_courselist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@AdminNoticeBoard)) {
                 try {
                     selectedcourselist = p0!!.getItemAtPosition(p2) as String
                     deptlist.clear()
@@ -346,6 +392,12 @@ class AdminNoticeBoard : AppCompatActivity() {
                         this@AdminNoticeBoard,
                         "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                     )
+                }}
+                else{
+                    GenericUserFunction.showInternetNegativePopUp(
+                        this@AdminNoticeBoard,
+                        getString(R.string.failureNoInternetErr)
+                    )
                 }
             }
 
@@ -355,58 +407,71 @@ class AdminNoticeBoard : AppCompatActivity() {
 
         spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selecteddeptlist = p0!!.getItemAtPosition(p2) as String
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(this@AdminNoticeBoard, t.message, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-
-                            override fun onResponse(
-                                call: Call<APIResponse>,
-                                response: Response<APIResponse>
-                            ) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
+                if (InternetConnection.checkConnection(this@AdminNoticeBoard)) {
+                    try {
+                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+                        mServices.GetInstituteData()
+                            .enqueue(object : Callback<APIResponse> {
+                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                     Toast.makeText(
                                         this@AdminNoticeBoard,
-                                        result.Status,
+                                        t.message,
                                         Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-                                                    val listsdeptz: Int =
-                                                        result.Data6!![i].Courses!![j].Departments!!.size
-                                                    for (k in 0 until listsdeptz) {
-                                                        if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
-                                                            dept_id =
-                                                                result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
-                                                        }
+                                    )
+                                        .show()
+                                }
 
+                                override fun onResponse(
+                                    call: Call<APIResponse>,
+                                    response: Response<APIResponse>
+                                ) {
+                                    val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 204) {
+                                        Toast.makeText(
+                                            this@AdminNoticeBoard,
+                                            result.Status,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val listsinstz: Int = result.Data6!!.size
+                                        for (i in 0..listsinstz - 1) {
+                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                val listscoursez: Int =
+                                                    result.Data6!![i].Courses!!.size
+                                                for (j in 0..listscoursez - 1) {
+                                                    if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                        val listsdeptz: Int =
+                                                            result.Data6!![i].Courses!![j].Departments!!.size
+                                                        for (k in 0 until listsdeptz) {
+                                                            if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
+                                                                dept_id =
+                                                                    result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+                                                            }
+
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+
                                     }
-
                                 }
-                            }
-                        })
-                } catch (ex: Exception) {
+                            })
+                    } catch (ex: Exception) {
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@AdminNoticeBoard,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                }else{
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@AdminNoticeBoard,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
+
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -551,115 +616,138 @@ class AdminNoticeBoard : AppCompatActivity() {
         }
         if (confirmStatus == "T") {
 
+            if (InternetConnection.checkConnection(this)) {
+                try {
+                    //Dialog Start
+                    val dialog: android.app.AlertDialog =
+                        SpotsDialog.Builder().setContext(this).build()
+                    dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
+                    dialog.setCancelable(false)
+                    dialog.show()
+                    //Dialog End
 
-            try {
-                //Dialog Start
-                val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
-                dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
-                dialog.setCancelable(false)
-                dialog.show()
-                //Dialog End
 
+                    var fileUri = selectedImage!!
+                    val file = File(getRealPathFromURI(fileUri))
+                    //creating request body for file
+                    val requestFile =
+                        RequestBody.create(
+                            MediaType.parse(getContentResolver().getType(fileUri)),
+                            file
+                        )
+                    val descBody = RequestBody.create(MediaType.parse("text/plain"), "Notice")
+                    //The gson builder
+                    val gson = GsonBuilder()
+                        .setLenient()
+                        .create()
+                    //creating retrofit object
+                    val retrofit = Retrofit.Builder()
+                        .baseUrl(Api.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build()
+                    //creating our api
 
-                var fileUri = selectedImage!!
-                val file = File(getRealPathFromURI(fileUri))
-                //creating request body for file
-                val requestFile =
-                    RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file)
-                val descBody = RequestBody.create(MediaType.parse("text/plain"), "Notice")
-                //The gson builder
-                val gson = GsonBuilder()
-                    .setLenient()
-                    .create()
-                //creating retrofit object
-                val retrofit = Retrofit.Builder()
-                    .baseUrl(Api.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build()
-                //creating our api
-                val api = retrofit.create(Api::class.java)
-                //creating a call and calling the upload image method
-                val call = api.uploadImage2(requestFile, descBody)
-                //finally performing the call
-                call.enqueue(object : Callback<MyResponse> {
-                    override fun onFailure(call: Call<MyResponse>, t: Throwable) {
+                    val api = retrofit.create(Api::class.java)
+                    //creating a call and calling the upload image method
+                    val call = api.uploadImage2(requestFile, descBody)
+                    //finally performing the call
+                    call.enqueue(object : Callback<MyResponse> {
+                        override fun onFailure(call: Call<MyResponse>, t: Throwable) {
 
-                            Toast.makeText(this@AdminNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
-
-                    }
-
-                    override fun onResponse(
-                        call: Call<MyResponse>,
-                        response: Response<MyResponse>
-                    ) {
-                        if (!response.body()!!.error) {
-                            filename = response.body()!!.message.toString()
-
-                            try {
-                                mServices.UploadNotice(
-                                    notice_date,
-                                    notice_title,
-                                    notice_desc,
-                                    selectedInstituteName,
-                                    selectedcourselist,
-                                    selecteddeptlist,
-                                    selectedNoticeType,
-                                    selectedFacultyStud,
-                                    confirmStatus,
-                                    roleadmin,
-                                    id_admin,
-                                    filename,
-                                    course_id,
-                                    dept_id,
-                                    student_flag,
-                                    faculty_flag,
-                                    admin_flag
-                                ).enqueue(object : Callback<APIResponse> {
-                                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                        Toast.makeText(
-                                            this@AdminNoticeBoard,
-                                            t.message,
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-
-                                    override fun onResponse(
-                                        call: Call<APIResponse>,
-                                        response: Response<APIResponse>
-                                    ) {
-                                        dialog.dismiss()
-                                        val result: APIResponse? = response.body()
-//                                        Toast.makeText(this@AdminNoticeBoard, result!!.Status, Toast.LENGTH_SHORT)
-//                                            .show()
-                                        GenericUserFunction.showPositivePopUp(
-                                            this@AdminNoticeBoard,
-                                            "Notice Send Successfully"
-                                        )
-                                    }
-                                })
-                            } catch (ex: Exception) {
-                                dialog.dismiss()
-
-                                ex.printStackTrace()
-                                GenericUserFunction.showApiError(
-                                    applicationContext,
-                                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-                                )
-                            }
+                            Toast.makeText(this@AdminNoticeBoard, t.message, Toast.LENGTH_SHORT)
+                                .show()
 
                         }
 
+                        override fun onResponse(
+                            call: Call<MyResponse>,
+                            response: Response<MyResponse>
+                        ) {
+                            if (!response.body()!!.error) {
+                                filename = response.body()!!.message.toString()
+                                if (InternetConnection.checkConnection(this@AdminNoticeBoard)) {
+                                try {
+                                    mServices.UploadNotice(
+                                        notice_date,
+                                        notice_title,
+                                        notice_desc,
+                                        selectedInstituteName,
+                                        selectedcourselist,
+                                        selecteddeptlist,
+                                        selectedNoticeType,
+                                        selectedFacultyStud,
+                                        confirmStatus,
+                                        roleadmin,
+                                        id_admin,
+                                        filename,
+                                        course_id,
+                                        dept_id,
+                                        student_flag,
+                                        faculty_flag,
+                                        admin_flag,
+                                        stud_selectedYear
+                                    ).enqueue(object : Callback<APIResponse> {
+                                        override fun onFailure(
+                                            call: Call<APIResponse>,
+                                            t: Throwable
+                                        ) {
+                                            Toast.makeText(
+                                                this@AdminNoticeBoard,
+                                                t.message,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
 
-                    }
+                                        override fun onResponse(
+                                            call: Call<APIResponse>,
+                                            response: Response<APIResponse>
+                                        ) {
+                                            dialog.dismiss()
+                                            val result: APIResponse? = response.body()
+//                                        Toast.makeText(this@AdminNoticeBoard, result!!.Status, Toast.LENGTH_SHORT)
+//                                            .show()
+                                            GenericUserFunction.showPositivePopUp(
+                                                this@AdminNoticeBoard,
+                                                "Notice Send Successfully"
+                                            )
+                                        }
+                                    })
+                                } catch (ex: Exception) {
+                                    dialog.dismiss()
 
-                })
+                                    ex.printStackTrace()
+                                    GenericUserFunction.showApiError(
+                                        applicationContext,
+                                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                                    )
+                                }
+                            }
+                            else {
+                                GenericUserFunction.showInternetNegativePopUp(
+                                    applicationContext,
+                                    getString(R.string.failureNoInternetErr)
+                                )
+                            }
 
-            } catch (ex: Exception) {
+                            }
 
-                ex.printStackTrace()
-                GenericUserFunction.showApiError(
+
+                        }
+
+                    })
+
+                } catch (ex: Exception) {
+
+                    ex.printStackTrace()
+                    GenericUserFunction.showApiError(
+                        this,
+                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                    )
+                }
+            } else {
+                GenericUserFunction.showInternetNegativePopUp(
                     this,
-                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                    getString(R.string.failureNoInternetErr)
                 )
             }
 
@@ -673,6 +761,7 @@ class AdminNoticeBoard : AppCompatActivity() {
                 dialog.show()
                 //Dialog End
                 filename = "-"
+                if (InternetConnection.checkConnection(this)) {
                 try {
                     mServices.UploadNotice(
                         notice_date,
@@ -691,7 +780,8 @@ class AdminNoticeBoard : AppCompatActivity() {
                         dept_id,
                         student_flag,
                         faculty_flag,
-                        admin_flag
+                        admin_flag,
+                        stud_selectedYear
                     ).enqueue(object : Callback<APIResponse> {
                         override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                             Toast.makeText(this@AdminNoticeBoard, t.message, Toast.LENGTH_SHORT)
@@ -721,6 +811,13 @@ class AdminNoticeBoard : AppCompatActivity() {
                         "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                     )
                 }
+            }
+            else {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this,
+                    getString(R.string.failureNoInternetErr)
+                )
+            }
 
             } catch (ex: Exception) {
 
@@ -803,8 +900,7 @@ class AdminNoticeBoard : AppCompatActivity() {
                 CustDialog2.show()
 
             }
-        }
-        else if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
+        } else if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
             var bitmap: Bitmap = data.getExtras()!!.get("data") as Bitmap
             type = "image"
 //        // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
@@ -839,7 +935,8 @@ class AdminNoticeBoard : AppCompatActivity() {
 //                    finish()
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
-                    val cursor = contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
+                    val cursor =
+                        contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
                     cursor.moveToFirst()
 
                     val columnIndex = cursor.getColumnIndex(filePathColumn[0])
@@ -862,8 +959,7 @@ class AdminNoticeBoard : AppCompatActivity() {
                 CustDialog.show()
 //
             }
-        }
-        else if (requestCode == 300 && resultCode == Activity.RESULT_OK && null != data) {
+        } else if (requestCode == 300 && resultCode == Activity.RESULT_OK && null != data) {
             val selectedImage = data.data
             type = "pdf"
 
@@ -886,10 +982,10 @@ class AdminNoticeBoard : AppCompatActivity() {
             //imgView.setImageBitmap(BitmapFactory.decodeFile(mediaPath))
             cursor.close()
 
-        }
-        else if (requestCode == 400 && resultCode == Activity.RESULT_OK && null != data) {
+        } else if (requestCode == 400 && resultCode == Activity.RESULT_OK && null != data) {
             val selectedImage = data.data
-            var bitmaps :Bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+            var bitmaps: Bitmap =
+                MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
             if (selectedImage != null) {
                 println("Selected Image >>> " + selectedImage)
                 var CustDialog = Dialog(this)
@@ -919,7 +1015,8 @@ class AdminNoticeBoard : AppCompatActivity() {
                     }
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
-                    val cursor = contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
+                    val cursor =
+                        contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
                     cursor.moveToFirst()
 
                     val columnIndex = cursor.getColumnIndex(filePathColumn[0])
@@ -942,7 +1039,6 @@ class AdminNoticeBoard : AppCompatActivity() {
                 CustDialog.show()
 //
             }
-
 
 
         }
@@ -975,7 +1071,7 @@ class AdminNoticeBoard : AppCompatActivity() {
 //                            serverResponse.message,
 //                            Toast.LENGTH_SHORT
 //                        ).show()
-
+                        if (InternetConnection.checkConnection(this@AdminNoticeBoard)) {
                         try {
                             mServices.UploadNotice(
                                 notice_date,
@@ -994,7 +1090,8 @@ class AdminNoticeBoard : AppCompatActivity() {
                                 dept_id,
                                 student_flag,
                                 faculty_flag,
-                                admin_flag
+                                admin_flag,
+                                stud_selectedYear
                             ).enqueue(object : Callback<APIResponse> {
                                 override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                     dialogCommon!!.dismiss()
@@ -1027,6 +1124,13 @@ class AdminNoticeBoard : AppCompatActivity() {
                                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                             )
                         }
+                    }
+                    else {
+                        GenericUserFunction.showInternetNegativePopUp(
+                            this@AdminNoticeBoard,
+                            getString(R.string.failureNoInternetErr)
+                        )
+                    }
                     } else {
                         Toast.makeText(
                             applicationContext,
@@ -1108,35 +1212,44 @@ class AdminNoticeBoard : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun sendNoticeNew() {
-        if (editNoticeDate.text.toString().isEmpty()) {
+        if (editNoticeDate.text.toString().length<1) {
             editNoticeDate.error = "Please select notice date"
+            GenericUserFunction.DisplayToast(this,"Please select notice date")
             return
         } else {
             notice_date = editNoticeDate.text.toString()
         }
         if (edit_notice_title.text.toString().isEmpty()) {
             edit_notice_title.error = "Please input notice board title"
+            GenericUserFunction.DisplayToast(this,"Please input notice board title")
             return
         } else {
             notice_title = edit_notice_title.text.toString()
         }
         if (edit_notice_desc.text.toString().isEmpty()) {
             edit_notice_desc.error = "Please input notice board description"
+            GenericUserFunction.DisplayToast(this,"Please input notice board description")
             return
         } else {
             notice_desc = edit_notice_desc.text.toString()
         }
         if (id_admin.isEmpty()) {
             edit_notice_desc.error = "Please relogin again"
+            GenericUserFunction.DisplayToast(this,"Please relogin again")
             return
         } else {
             id_admin = id_admin
         }
         if (selectedInstituteName.equals("Select institute")) {
             Toast.makeText(this, "Please select valid institute name", Toast.LENGTH_SHORT).show()
+
             return
         }
-        if (confirmStatus == "T" && type == "pdf" && mediaPath!=null) {
+        if (stud_selectedYear.equals("Select Year")){
+            Toast.makeText(this, "Please select year", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (confirmStatus == "T" && type == "pdf" && mediaPath != null) {
             try {
 //                uploadFile()
 
@@ -1150,11 +1263,10 @@ class AdminNoticeBoard : AppCompatActivity() {
                 )
             }
         }
-        if (confirmStatus == "T" && type == "image" && mediaPath!=null) {
+        if (confirmStatus == "T" && type == "image" && mediaPath != null) {
             try {
                 uploadFileImg()
-            }
-            catch (ex: Exception) {
+            } catch (ex: Exception) {
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(
                     this,
@@ -1165,9 +1277,11 @@ class AdminNoticeBoard : AppCompatActivity() {
         if (confirmStatus == "F") {
             var CustDialog = Dialog(this)
             CustDialog.setContentView(R.layout.dialog_question_yes_no_custom_popup)
-            var ivNegClose1: ImageView = CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
+            var ivNegClose1: ImageView =
+                CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
             var btnOk: Button = CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
-            var btnCustomDialogCancel: Button = CustDialog.findViewById(R.id.btnCustomDialogCancel) as Button
+            var btnCustomDialogCancel: Button =
+                CustDialog.findViewById(R.id.btnCustomDialogCancel) as Button
             var tvMsg: TextView = CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
 
 
@@ -1191,9 +1305,10 @@ class AdminNoticeBoard : AppCompatActivity() {
         }
 
 
+    }
 
-}
     private fun SubmitNoticeWithoutFile() {
+        if (InternetConnection.checkConnection(this)) {
         try {
             //Dialog Start
             val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
@@ -1220,7 +1335,8 @@ class AdminNoticeBoard : AppCompatActivity() {
                     dept_id,
                     student_flag,
                     faculty_flag,
-                    admin_flag
+                    admin_flag,
+                    stud_selectedYear
                 ).enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                         Toast.makeText(this@AdminNoticeBoard, t.message, Toast.LENGTH_SHORT)
@@ -1251,6 +1367,7 @@ class AdminNoticeBoard : AppCompatActivity() {
                 )
             }
 
+
         } catch (ex: Exception) {
 
             ex.printStackTrace()
@@ -1259,6 +1376,12 @@ class AdminNoticeBoard : AppCompatActivity() {
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
         }
+    } else {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr)
+        )
+    }
     }
 
     private fun getRealPathFromURI(contentUri: Uri): String {
@@ -1278,6 +1401,7 @@ class AdminNoticeBoard : AppCompatActivity() {
     }
 
     private fun uploadFileImg() {
+        if (InternetConnection.checkConnection(this)) {
         dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
         dialogCommon!!.setCancelable(false)
         dialogCommon!!.show()
@@ -1286,7 +1410,7 @@ class AdminNoticeBoard : AppCompatActivity() {
         // Map is used to multipart the file using okhttp3.RequestBody
         val file = File(mediaPath)
 
-        var longString=file.name+"@cut"+roleadmin.trim() //roleadmin
+        var longString = file.name + "@cut" + roleadmin.trim() //roleadmin
         // Parsing any Media type file
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
         val fileToUpload = MultipartBody.Part.createFormData("file", longString, requestBody)
@@ -1296,15 +1420,16 @@ class AdminNoticeBoard : AppCompatActivity() {
         var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
             PhpApiInterface::class.java
         )
-        var call3: Call<ServerResponse> =phpApiInterface.noticeCommonUpload(fileToUpload, filename)
+        var call3: Call<ServerResponse> = phpApiInterface.noticeCommonUpload(fileToUpload, filename)
         call3.enqueue(object : Callback<ServerResponse> {
-            override fun onResponse(call: Call<ServerResponse>,responsee: Response<ServerResponse>)
-            {
+            override fun onResponse(
+                call: Call<ServerResponse>,
+                responsee: Response<ServerResponse>
+            ) {
                 val serverResponse3 = responsee.body()
                 if (serverResponse3 != null) {
-                    if (serverResponse3!!.success)
-                    {
-                        var fileurl:String=serverResponse3.message.toString()
+                    if (serverResponse3!!.success) {
+                        var fileurl: String = serverResponse3.message.toString()
 //                        var filename:String=serverResponse3.filename.toString()
                         try {
                             if (InternetConnection.checkConnection(this@AdminNoticeBoard)) {
@@ -1322,16 +1447,21 @@ class AdminNoticeBoard : AppCompatActivity() {
                                     confirmStatus,
                                     roleadmin,
                                     id_admin,
-                                    ""+fileurl,
+                                    "" + fileurl,
                                     course_id,
                                     dept_id,
                                     student_flag,
                                     faculty_flag,
-                                    admin_flag
+                                    admin_flag,
+                                    stud_selectedYear
                                 ).enqueue(object : Callback<APIResponse> {
                                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                         dialogCommon!!.dismiss()
-                                        Toast.makeText(this@AdminNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            this@AdminNoticeBoard,
+                                            t.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
 
                                     override fun onResponse(
@@ -1342,40 +1472,38 @@ class AdminNoticeBoard : AppCompatActivity() {
                                         dialogCommon!!.dismiss()
 //                                        Toast.makeText(this@GreivanceStudFile, result!!.Status, Toast.LENGTH_SHORT)
 //                                            .show()Responsecode
-                                        if (result!!.Responsecode==200){
+                                        if (result!!.Responsecode == 200) {
 
                                             GenericUserFunction.showPositivePopUp(
                                                 this@AdminNoticeBoard,
                                                 "Notice Send Successfully"
                                             )
-                                        }else{
+                                        } else {
                                             GenericUserFunction.showApiError(
                                                 this@AdminNoticeBoard,
                                                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                                             )
                                         }
-                                        mediaPath=null
-                                        confirmStatus="F"
+                                        mediaPath = null
+                                        confirmStatus = "F"
                                     }
                                 })
-                            }else
-                            {
+                            }
+                            else {
+                                dialogCommon!!.dismiss()
                                 GenericUserFunction.showInternetNegativePopUp(
                                     this@AdminNoticeBoard,
                                     getString(R.string.failureNoInternetErr)
                                 )
                             }
-                        }
-                        catch (ex:java.lang.Exception){
+                        } catch (ex: java.lang.Exception) {
                             dialogCommon!!.dismiss()
                             GenericUserFunction.showApiError(
                                 this@AdminNoticeBoard,
                                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                             )
                         }
-                    }
-                    else
-                    {
+                    } else {
                         dialogCommon!!.dismiss()
                         GenericUserFunction.showApiError(
                             this@AdminNoticeBoard,
@@ -1390,8 +1518,7 @@ class AdminNoticeBoard : AppCompatActivity() {
 
             }
 
-            override fun onFailure(call: Call<ServerResponse>, t: Throwable)
-            {
+            override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
                 dialogCommon!!.dismiss()
                 GenericUserFunction.showApiError(
                     this@AdminNoticeBoard,
@@ -1399,6 +1526,13 @@ class AdminNoticeBoard : AppCompatActivity() {
                 )
             }
         })
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
+        }
     }
 }
 

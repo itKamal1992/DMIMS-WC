@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.NoticeDeleteAdapterCurrent
 import com.dmims.dmims.common.Common
@@ -69,7 +70,8 @@ class Activity_Notification_SelfInstitute_Admin : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.attendance_list)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        try {
+        if (InternetConnection.checkConnection(this)) {
+            try {
             mServices.GetNotice( to_date_sel,from_date_sel)
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
@@ -113,6 +115,7 @@ class Activity_Notification_SelfInstitute_Admin : AppCompatActivity() {
                                             result.Data14!![i].ID,// in this we have pass ROW ID instead of DEPT_ID() to delete perticular notice
                                             result.Data14!![i].RESOU_FLAG,
                                             result.Data14!![i].FILENAME,
+                                            result.Data14!![i].YEAR,
                                             k
                                         )
                                     )
@@ -161,7 +164,12 @@ class Activity_Notification_SelfInstitute_Admin : AppCompatActivity() {
 
             ex.printStackTrace()
             GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
-        }
+        } }else {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr)
+        )
+    }
 
         btn_current_id!!.setOnClickListener {
             val intent = Intent(this@Activity_Notification_SelfInstitute_Admin,Institute_Admin_Self_CurrentNotification::class.java)
@@ -171,7 +179,7 @@ class Activity_Notification_SelfInstitute_Admin : AppCompatActivity() {
         search_id!!.setOnClickListener {
 
             validateDate()
-
+            if (InternetConnection.checkConnection(this)) {
             progressBar!!.visibility = View.VISIBLE
             try {
                 mServices.GetNotice( to_date_sel,from_date_sel)
@@ -219,6 +227,7 @@ class Activity_Notification_SelfInstitute_Admin : AppCompatActivity() {
                                                     result.Data14!![i].ID,// in this we have pass ROW ID instead of DEPT_ID() to delete perticular notice
                                                     result.Data14!![i].RESOU_FLAG,
                                                     result.Data14!![i].FILENAME,
+                                                    result.Data14!![i].YEAR,
                                                     k
                                                 )
                                             )
@@ -267,6 +276,12 @@ class Activity_Notification_SelfInstitute_Admin : AppCompatActivity() {
 
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
+            }
+            }else {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this,
+                    getString(R.string.failureNoInternetErr)
+                )
             }
 
         }

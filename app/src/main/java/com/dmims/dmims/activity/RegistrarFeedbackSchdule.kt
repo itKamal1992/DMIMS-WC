@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable.Companion.mServices
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.Generic.showToast
 import com.dmims.dmims.R
 import com.dmims.dmims.common.Common
@@ -129,7 +130,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
         )
 
         spinner_FeedbackType.adapter = userfeedBackTypeadp
-
+        if (InternetConnection.checkConnection(this)) {
         try {
             mServices.GetInstituteData()
                 .enqueue(object : Callback<APIResponse> {
@@ -161,13 +162,20 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
             GenericUserFunction.showApiError(
                 this,
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+            )}
+        }
+        else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
             )
         }
+
         var institueAdap: ArrayAdapter<String> = ArrayAdapter<String>(
             this@RegistrarFeedbackSchdule,
             R.layout.support_simple_spinner_dropdown_item, instituteName1
         )
-
+        if (InternetConnection.checkConnection(this)) {
         try{
             var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
 
@@ -209,9 +217,17 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
         }
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
         spinner_institue.adapter = institueAdap
         spinner_institue.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@RegistrarFeedbackSchdule)) {
                 try{
                     selectedInstituteName = p0!!.getItemAtPosition(p2) as String
                     courselist.clear()
@@ -253,6 +269,13 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                     )
                 }
             }
+            else {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this@RegistrarFeedbackSchdule,
+                    getString(R.string.failureNoInternetErr)
+                )
+            }
+            }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
@@ -260,6 +283,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
 
         spinner_courselist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@RegistrarFeedbackSchdule)) {
                 try{
                     selectedcourselist = p0!!.getItemAtPosition(p2) as String
                     deptlist.clear()
@@ -311,6 +335,13 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                     )
                 }
             }
+            else {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this@RegistrarFeedbackSchdule,
+                    getString(R.string.failureNoInternetErr)
+                )
+            }
+            }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
@@ -319,48 +350,68 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
 
         spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try{
-                    selecteddeptlist = p0!!.getItemAtPosition(p2) as String
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(this@RegistrarFeedbackSchdule, t.message, Toast.LENGTH_SHORT).show()
-                            }
+                if (InternetConnection.checkConnection(this@RegistrarFeedbackSchdule)) {
+                    try {
+                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+                        mServices.GetInstituteData()
+                            .enqueue(object : Callback<APIResponse> {
+                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                                    Toast.makeText(
+                                        this@RegistrarFeedbackSchdule,
+                                        t.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
 
-                            override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
-                                    Toast.makeText(this@RegistrarFeedbackSchdule, result.Status, Toast.LENGTH_SHORT).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-                                                    val listsdeptz: Int =
-                                                        result.Data6!![i].Courses!![j].Departments!!.size
-                                                    for (k in 0 until listsdeptz) {
-                                                        if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
-                                                            dept_id =
-                                                                result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+                                override fun onResponse(
+                                    call: Call<APIResponse>,
+                                    response: Response<APIResponse>
+                                ) {
+                                    val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 204) {
+                                        Toast.makeText(
+                                            this@RegistrarFeedbackSchdule,
+                                            result.Status,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val listsinstz: Int = result.Data6!!.size
+                                        for (i in 0..listsinstz - 1) {
+                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                val listscoursez: Int =
+                                                    result.Data6!![i].Courses!!.size
+                                                for (j in 0..listscoursez - 1) {
+                                                    if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                        val listsdeptz: Int =
+                                                            result.Data6!![i].Courses!![j].Departments!!.size
+                                                        for (k in 0 until listsdeptz) {
+                                                            if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
+                                                                dept_id =
+                                                                    result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+                                                            }
+
                                                         }
-
                                                     }
                                                 }
                                             }
                                         }
+
                                     }
-
                                 }
-                            }
-                        })
+                            })
 
-                }catch (ex: Exception) {
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                    } catch (ex: Exception) {
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@RegistrarFeedbackSchdule,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                }
+                else {
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@RegistrarFeedbackSchdule,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
             }
@@ -412,6 +463,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                 showToast("Please select Year")
                 return@setOnClickListener
             }
+            if (InternetConnection.checkConnection(this)) {
             try{
                 var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
                 var call: Call<FeedBackInsert> = phpApiInterface.InsertFeedBackScheduler(selectedInstituteName,selectedcourselist!!,selecteddeptlist,selectedFeedbackName,select_date!!.text.toString(),from_date_conv.toString(),to_date_conv.toString(),selecteddeptYear)
@@ -435,6 +487,13 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                 )
             }
             sendNotice()
+            }
+            else
+            {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this,
+                    getString(R.string.failureNoInternetErr))
+            }
         }
 
         spinner_FeedbackType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -555,21 +614,17 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
 //
 //    }
 
-    private fun sendNotice()
-    {
-        var feedbackSche1=" Dear Student,Exam Feedback Scheduled From "
-        var feedbackSche2="Please Submit Your feedback before deadline"
-        println("from_date ===="+from_date_d)
+    private fun sendNotice() {
+        if (InternetConnection.checkConnection(this)) {
+        var feedbackSche1 = " Dear Student,Exam Feedback Scheduled From "
+        var feedbackSche2 = "Please Submit Your feedback before deadline"
+        println("from_date ====" + from_date_d)
 
         try {
-
-
-
-
             mServices.UploadNotice(
                 from_date_d.toString(),
                 "Feedback Scheduled",
-                feedbackSche1+from_date_d +" to "+to_date_d,
+                feedbackSche1 + from_date_d + " to " + to_date_d,
                 selectedInstituteName,
                 "All",
                 "All",
@@ -586,25 +641,34 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                 "T"
             ).enqueue(object : Callback<APIResponse> {
                 override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                    Toast.makeText(this@RegistrarFeedbackSchdule, t.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RegistrarFeedbackSchdule, t.message, Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
 
                     // val result: APIResponse? = response.body()
 
-                    Toast.makeText(this@RegistrarFeedbackSchdule, "Notice Send Successfully", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        this@RegistrarFeedbackSchdule,
+                        "Notice Send Successfully",
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             })
-        } catch (ex: Exception)
-        {
-
-
+        } catch (ex: Exception) {
             ex.printStackTrace()
             GenericUserFunction.showApiError(
                 applicationContext,
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+            )
+        }
+    }
+        else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
             )
         }
 

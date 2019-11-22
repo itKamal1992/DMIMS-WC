@@ -18,7 +18,11 @@ import android.widget.Toast
 import com.dmims.dmims.R
 import com.dmims.dmims.activity.*
 import com.dmims.dmims.adapter.ViewPagerAdapter
+import kotlinx.android.synthetic.main.examcell_dashboard.*
 import kotlinx.android.synthetic.main.faculty_dashboard.*
+import kotlinx.android.synthetic.main.faculty_dashboard.drawer_layout
+import kotlinx.android.synthetic.main.faculty_dashboard.navigation_view
+import kotlinx.android.synthetic.main.faculty_dashboard.toolbar
 import java.util.*
 
 class ExamCellDashboard : AppCompatActivity() {
@@ -66,8 +70,9 @@ class ExamCellDashboard : AppCompatActivity() {
         txt_designation= findViewById(R.id.txt_designation)
         enrollNo = findViewById(R.id.enroll_no)
 
-
-
+        var pinfo=packageManager.getPackageInfo(packageName, 0)
+        var versionName = pinfo.versionName
+        txt_versionName.text="App Version : $versionName"
 
         var mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
         var drawer_titler = mypref.getString("key_drawer_title", null)

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable.Companion.mServices
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.Generic.showToast
 import com.dmims.dmims.R
 import com.dmims.dmims.dataclass.FeedBackDataC
@@ -18,6 +19,7 @@ import com.dmims.dmims.remote.PhpApiInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -83,25 +85,34 @@ class NewUnaRegistration : AppCompatActivity() {
         semlist.add("07")
         semlist.add("08")
         semlist.add("09")
+        if (InternetConnection.checkConnection(this)) {
+            mServices.GetInstituteData()
+                .enqueue(object : Callback<APIResponse> {
+                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                        GenericUserFunction.DisplayToast(this@NewUnaRegistration, t.message!!)
+                    }
 
-        mServices.GetInstituteData()
-            .enqueue(object : Callback<APIResponse> {
-                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                    GenericUserFunction.DisplayToast(this@NewUnaRegistration, t.message!!)
-                }
-
-                override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
-                    val result: APIResponse? = response.body()
-                    if (result!!.Responsecode == 204) {
-                        GenericUserFunction.DisplayToast(this@NewUnaRegistration, result.Status)
-                    } else {
-                        listsinstz = result.Data6!!.size
-                        for (i in 0..listsinstz - 1) {
-                            instituteName1.add(result.Data6!![i].Course_Institute)
+                    override fun onResponse(
+                        call: Call<APIResponse>,
+                        response: Response<APIResponse>
+                    ) {
+                        val result: APIResponse? = response.body()
+                        if (result!!.Responsecode == 204) {
+                            GenericUserFunction.DisplayToast(this@NewUnaRegistration, result.Status)
+                        } else {
+                            listsinstz = result.Data6!!.size
+                            for (i in 0..listsinstz - 1) {
+                                instituteName1.add(result.Data6!![i].Course_Institute)
+                            }
                         }
                     }
-                }
-            })
+                })
+        } else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
+        }
 
         var institueAdap: ArrayAdapter<String> =
             ArrayAdapter<String>(
@@ -113,32 +124,52 @@ class NewUnaRegistration : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedInstituteName = p0!!.getItemAtPosition(p2) as String
                 courselist.clear()
-                mServices.GetInstituteData()
-                    .enqueue(object : Callback<APIResponse> {
-                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                            GenericUserFunction.DisplayToast(this@NewUnaRegistration, t.message!!)
-                        }
+                if (InternetConnection.checkConnection(this@NewUnaRegistration)) {
+                try {
 
-                        override fun onResponse(
-                            call: Call<APIResponse>,
-                            response: Response<APIResponse>
-                        ) {
-                            val result: APIResponse? = response.body()
-                            if (result!!.Responsecode == 204) {
-                                showToast(result.Status)
-                            } else {
-                                val listsinstz: Int = result.Data6!!.size
-                                for (i in 0..listsinstz - 1) {
-                                    if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                        val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                        for (j in 0..listscoursez - 1) {
-                                            courselist.add(result.Data6!![i].Courses!![j].COURSE_NAME)
+
+                    mServices.GetInstituteData()
+                        .enqueue(object : Callback<APIResponse> {
+                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                                GenericUserFunction.DisplayToast(
+                                    this@NewUnaRegistration,
+                                    t.message!!
+                                )
+                            }
+
+                            override fun onResponse(
+                                call: Call<APIResponse>,
+                                response: Response<APIResponse>
+                            ) {
+                                val result: APIResponse? = response.body()
+                                if (result!!.Responsecode == 204) {
+                                    showToast(result.Status)
+                                } else {
+                                    val listsinstz: Int = result.Data6!!.size
+                                    for (i in 0..listsinstz - 1) {
+                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
+                                            for (j in 0..listscoursez - 1) {
+                                                courselist.add(result.Data6!![i].Courses!![j].COURSE_NAME)
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    })
+                        })
+                }catch (ex:Exception){
+                    ex.printStackTrace()
+                    GenericUserFunction.showApiError(
+                        this@NewUnaRegistration,
+                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                    )
+                }
+            }else{
+                    GenericUserFunction.showInternetNegativePopUp(
+                        this@NewUnaRegistration,
+                        getString(R.string.failureNoInternetErr)
+                    )
+            }
                 courselist.add("Select Course")
                 var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
                     this@NewUnaRegistration,
@@ -159,6 +190,7 @@ class NewUnaRegistration : AppCompatActivity() {
                 if (selectedcourselist.equals("Select Course")) {
 
                 } else {
+                    if (InternetConnection.checkConnection(this@NewUnaRegistration)) {
 
                     var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
                         PhpApiInterface::class.java
@@ -199,6 +231,13 @@ class NewUnaRegistration : AppCompatActivity() {
                             }
                         }
                     })
+                    }
+                    else
+                    {
+                        GenericUserFunction.showInternetNegativePopUp(
+                            this@NewUnaRegistration,
+                            getString(R.string.failureNoInternetErr))
+                    }
 
                 }
 
@@ -271,87 +310,107 @@ class NewUnaRegistration : AppCompatActivity() {
                                         )
                                         return@setOnClickListener
                                     } else {
-
-                                        mServices.StudentSearchByRollNo(
-                                            edit_RollNo.text.toString().trim(),
-                                            CourseID
-                                        )
-                                            .enqueue(object : Callback<APIResponse> {
-                                                override fun onFailure(
-                                                    call: Call<APIResponse>,
-                                                    t: Throwable
-                                                ) {
-                                                    Toast.makeText(
-                                                        this@NewUnaRegistration,
-                                                        t.message,
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-
-                                                }
-
-                                                override fun onResponse(
-                                                    call: Call<APIResponse>,
-                                                    response: Response<APIResponse>
-                                                ) {
-                                                    val result: APIResponse? = response.body()
-                                                    if (result!!.Status == "ok") {
-                                                        result.Data16!!.course_id
-                                                        ////Add this field to api call edit_Pass
-
-                                                        var phpApiInterface: PhpApiInterface =
-                                                            ApiClientPhp.getClient()
-                                                                .create(PhpApiInterface::class.java)
-                                                        var call3: Call<NewUserInsert> =
-                                                            phpApiInterface.NewRegisterationC(
-                                                                result.Data16!!.student_name,
-                                                                edit_Email.text.toString().trim(),
-                                                                edit_Mob.text.toString().trim(),
-                                                                edit_RollNo.text.toString().trim(),
-                                                                result.Data16!!.EnrolNo,
-                                                                result.Data16!!.course_institute,
-                                                                selectedcourselist,
-                                                                result.Data16!!.student_id,
-                                                                result.Data16!!.course_id,
-                                                                result.Data16!!.sem_id,
-                                                                FEEDBACK_DATE
-                                                            )
+                                        if (InternetConnection.checkConnection(this)) {
+                                        try {
 
 
-
-
-                                                        call3.enqueue(object :
-                                                            Callback<NewUserInsert> {
-                                                            override fun onFailure(
-                                                                call: Call<NewUserInsert>,
-                                                                t: Throwable
-                                                            ) {
-                                                                Toast.makeText(
-                                                                    this@NewUnaRegistration,
-                                                                    t.message,
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                            }
-
-                                                            override fun onResponse(
-                                                                call: Call<NewUserInsert>,
-                                                                response: Response<NewUserInsert>
-                                                            ) {
-                                                                val result3: NewUserInsert? =
-                                                                    response.body()
-                                                                Toast.makeText(this@NewUnaRegistration, result3!!.response, Toast.LENGTH_SHORT).show()
-                                                                GenericUserFunction.showPositivePopUp(
-                                                                    this@NewUnaRegistration,
-                                                                    "Thank you for submitting your details. We will contact you soon."
-                                                                )
-                                                            }
-
-                                                        })
-
+                                            mServices.StudentSearchByRollNo(
+                                                edit_RollNo.text.toString().trim(),
+                                                CourseID
+                                            )
+                                                .enqueue(object : Callback<APIResponse> {
+                                                    override fun onFailure(
+                                                        call: Call<APIResponse>,
+                                                        t: Throwable
+                                                    ) {
+                                                        Toast.makeText(
+                                                            this@NewUnaRegistration,
+                                                            t.message,
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
 
                                                     }
-                                                }
-                                            })
 
+                                                    override fun onResponse(
+                                                        call: Call<APIResponse>,
+                                                        response: Response<APIResponse>
+                                                    ) {
+                                                        val result: APIResponse? = response.body()
+                                                        if (result!!.Status == "ok") {
+                                                            result.Data16!!.course_id
+                                                            ////Add this field to api call edit_Pass
+
+                                                            var phpApiInterface: PhpApiInterface =
+                                                                ApiClientPhp.getClient()
+                                                                    .create(PhpApiInterface::class.java)
+                                                            var call3: Call<NewUserInsert> =
+                                                                phpApiInterface.NewRegisterationC(
+                                                                    result.Data16!!.student_name,
+                                                                    edit_Email.text.toString().trim(),
+                                                                    edit_Mob.text.toString().trim(),
+                                                                    edit_RollNo.text.toString().trim(),
+                                                                    result.Data16!!.EnrolNo,
+                                                                    result.Data16!!.course_institute,
+                                                                    selectedcourselist,
+                                                                    result.Data16!!.student_id,
+                                                                    result.Data16!!.course_id,
+                                                                    result.Data16!!.sem_id,
+                                                                    FEEDBACK_DATE
+                                                                )
+
+
+
+
+                                                            call3.enqueue(object :
+                                                                Callback<NewUserInsert> {
+                                                                override fun onFailure(
+                                                                    call: Call<NewUserInsert>,
+                                                                    t: Throwable
+                                                                ) {
+                                                                    Toast.makeText(
+                                                                        this@NewUnaRegistration,
+                                                                        t.message,
+                                                                        Toast.LENGTH_SHORT
+                                                                    ).show()
+                                                                }
+
+                                                                override fun onResponse(
+                                                                    call: Call<NewUserInsert>,
+                                                                    response: Response<NewUserInsert>
+                                                                ) {
+                                                                    val result3: NewUserInsert? =
+                                                                        response.body()
+                                                                    Toast.makeText(
+                                                                        this@NewUnaRegistration,
+                                                                        result3!!.response,
+                                                                        Toast.LENGTH_SHORT
+                                                                    ).show()
+                                                                    GenericUserFunction.showPositivePopUp(
+                                                                        this@NewUnaRegistration,
+                                                                        "Thank you for submitting your details. We will contact you soon."
+                                                                    )
+                                                                }
+
+                                                            })
+
+
+                                                        }
+                                                    }
+                                                })
+                                        }catch (ex:Exception)
+                                        {
+                                            ex.printStackTrace()
+                                            GenericUserFunction.showApiError(
+                                                this@NewUnaRegistration,
+                                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                                            )
+                                        }}
+                                        else
+                                        {
+                                            GenericUserFunction.showInternetNegativePopUp(
+                                                this,
+                                                getString(R.string.failureNoInternetErr))
+                                        }
 
                                     }
 

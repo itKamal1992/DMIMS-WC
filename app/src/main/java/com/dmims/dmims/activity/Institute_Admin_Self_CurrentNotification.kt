@@ -103,6 +103,7 @@ class Institute_Admin_Self_CurrentNotification : AppCompatActivity() {
                                                     result.Data14!![i].ID,// in this we have pass ROW ID instead of DEPT_ID() to delete perticular notice
                                                     result.Data14!![i].RESOU_FLAG,
                                                     result.Data14!![i].FILENAME,
+                                                    result.Data14!![i].YEAR,
                                                     k
                                                 )
                                             )

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.ImageClass
 import com.dmims.dmims.ImageUpload
 import com.dmims.dmims.R
@@ -135,41 +136,60 @@ class FacultyNoticeBoard : AppCompatActivity() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
-try{
-        mServices.GetInstituteData()
-            .enqueue(object : Callback<APIResponse> {
-                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                    Toast.makeText(this@FacultyNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
-                    val result: APIResponse? = response.body()
-                    if (result!!.Responsecode == 204) {
-                        Toast.makeText(this@FacultyNoticeBoard, result.Status, Toast.LENGTH_SHORT).show()
-                    } else {
-                        listsinstz = result.Data6!!.size
-                        for (i in 0..listsinstz - 1) {
-                            instituteName1.add(result.Data6!![i].Course_Institute)
+        if (InternetConnection.checkConnection(this)) {
+            try {
+                mServices.GetInstituteData()
+                    .enqueue(object : Callback<APIResponse> {
+                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                            Toast.makeText(this@FacultyNoticeBoard, t.message, Toast.LENGTH_SHORT)
+                                .show()
                         }
-                    }
-                }
-            })
+
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
+                            val result: APIResponse? = response.body()
+                            if (result!!.Responsecode == 204) {
+                                Toast.makeText(
+                                    this@FacultyNoticeBoard,
+                                    result.Status,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                listsinstz = result.Data6!!.size
+                                for (i in 0..listsinstz - 1) {
+                                    instituteName1.add(result.Data6!![i].Course_Institute)
+                                }
+                            }
+                        }
+                    })
 
 
+                var institueAdap: ArrayAdapter<String> =
+                    ArrayAdapter<String>(
+                        this@FacultyNoticeBoard,
+                        R.layout.support_simple_spinner_dropdown_item, instituteName1
+                    )
+                spinner_institue.adapter = institueAdap
+            } catch (ex: Exception) {
 
-        var institueAdap: ArrayAdapter<String> =
-            ArrayAdapter<String>(
-                this@FacultyNoticeBoard,
-                R.layout.support_simple_spinner_dropdown_item, instituteName1
+                ex.printStackTrace()
+                GenericUserFunction.showApiError(
+                    this,
+                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                )
+            }
+        }else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
             )
-        spinner_institue.adapter = institueAdap
-}catch (ex: Exception) {
-
-    ex.printStackTrace()
-    GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
-}
+        }
         spinner_institue.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@FacultyNoticeBoard)) {
                 try{
                 selectedInstituteName = p0!!.getItemAtPosition(p2) as String
                 courselist.clear()
@@ -207,7 +227,14 @@ try{
 
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(this@FacultyNoticeBoard,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
-            }
+            }}
+                else
+                {
+                    GenericUserFunction.showInternetNegativePopUp(
+                        this@FacultyNoticeBoard,
+                        getString(R.string.failureNoInternetErr)
+                    )
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -216,6 +243,7 @@ try{
 
         spinner_courselist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@FacultyNoticeBoard)) {
                 try{
                 selectedcourselist = p0!!.getItemAtPosition(p2) as String
                 deptlist.clear()
@@ -264,6 +292,14 @@ try{
                 GenericUserFunction.showApiError(this@FacultyNoticeBoard,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
             }
             }
+            else
+            {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this@FacultyNoticeBoard,
+                    getString(R.string.failureNoInternetErr)
+                )
+            }
+            }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
@@ -271,6 +307,7 @@ try{
 
         spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@FacultyNoticeBoard)) {
                 try{
                 selecteddeptlist = p0!!.getItemAtPosition(p2) as String
                 mServices.GetInstituteData()
@@ -311,6 +348,14 @@ try{
 
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(this@FacultyNoticeBoard,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
+            }
+            }
+            else
+            {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this@FacultyNoticeBoard,
+                    getString(R.string.failureNoInternetErr)
+                )
             }
             }
 
@@ -375,6 +420,7 @@ try{
             id_admin = id_admin
         }
         if (RESOU_FLAG == "T") {
+            if (InternetConnection.checkConnection(this)) {
             try{
             var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
             var call: Call<ImageClass> = phpApiInterface.uploadImage(rTitle, rImage)
@@ -396,6 +442,15 @@ try{
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
             }
+            }
+            else
+            {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this,
+                    getString(R.string.failureNoInternetErr))
+            }
+
+
         }
 
         try {

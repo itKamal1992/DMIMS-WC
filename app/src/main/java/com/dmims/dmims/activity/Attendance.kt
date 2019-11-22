@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.AttendanceAdapterCurrent
 import com.dmims.dmims.common.Common
@@ -62,84 +63,20 @@ class Attendance : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.attendance_list)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         progressBar.visibility = View.VISIBLE
-        try {
-            mServices.GetProgressiveAttend(stud_k, to_date_sel, from_date_sel, COURSE_ID!!)
-                .enqueue(object : Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                        Toast.makeText(this@Attendance, t.message, Toast.LENGTH_SHORT).show()
-                        progressBar.visibility = View.INVISIBLE
-                        progressBar.visibility = View.GONE
-                    }
-
-                    override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
-                        val result: APIResponse? = response.body()
-                        if (result!!.Status == "ok") {
-                            var listSize = result.Data13!!.size
-                            val users = ArrayList<AttendanceStudCurrent>()
-                            for (i in 0..listSize - 1) {
-                                val per_daycount: Double =
-                                    ((result.Data13!![i].THEORY.toDouble() + result.Data13!![i].PRACTICAL.toDouble() + result.Data13!![i].CLINICAL.toDouble()) / (result.Data13!![i].NO_LECTURER.toDouble())) * 100.toFloat()
-                                var fperatte: Double = String.format("%.2f", per_daycount).toDouble()
-                                if (fperatte.isNaN()) {
-                                    fperatte = 0.0
-                                }
-                                if(fperatte != 0.0) {
-                                    users.add(
-                                        AttendanceStudCurrent(
-                                            "DEPT NAME: " + result.Data13!![i].DEPT_NAME,
-                                            "DEPT ID: " + result.Data13!![i].DEPT_ID,
-                                            "THEORY: " + result.Data13!![i].THEORY,
-                                            "PRACTICAL: " + result.Data13!![i].PRACTICAL,
-                                            "CLINICAL: " + result.Data13!![i].CLINICAL,
-                                            "THEORY ABSENT: " + result.Data13!![i].THEORY_ABSENT,
-                                            "PRACTICAL ABSENT: " + result.Data13!![i].PRACTICAL_ABSENT,
-                                            "CLINICAL ABSENT: " + result.Data13!![i].CLINICAL_ABSENT,
-                                            "NO LECTURE: " + result.Data13!![i].NO_LECTURER,
-                                            "PERCENTAGE: " + fperatte.toString(),
-                                            R.drawable.ic_attendence
-                                        )
-                                    )
-                                }
-                            }
-                            progressBar.visibility = View.INVISIBLE
-                            progressBar.visibility = View.GONE
-                            if(users.isEmpty()){
-                                    GenericUserFunction.showApiError(this@Attendance,"No Attendance found for the current request.")
-                            }else {
-                                val adapter = AttendanceAdapterCurrent(users)
-                                recyclerView.adapter = adapter
-                            }
-                        } else {
-                            progressBar.visibility = View.INVISIBLE
-                            progressBar.visibility = View.GONE
-                            Toast.makeText(this@Attendance, result.Status, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                })
-
-        } catch (ex: Exception) {
-
-            ex.printStackTrace()
-            GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
-        }
-        btn_current_id!!.setOnClickListener {
-            val intent = Intent(this@Attendance, CurrentAttendance::class.java)
-            intent.putExtra("stud_k2", stud_k.toString())
-            startActivity(intent)
-        }
-        search_id!!.setOnClickListener {
-            validateDate()
-            progressBar.visibility = View.VISIBLE
+        if (InternetConnection.checkConnection(this)) {
             try {
                 mServices.GetProgressiveAttend(stud_k, to_date_sel, from_date_sel, COURSE_ID!!)
                     .enqueue(object : Callback<APIResponse> {
                         override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                            Toast.makeText(this@Attendance, t.message, Toast.LENGTH_SHORT).show()
                             progressBar.visibility = View.INVISIBLE
                             progressBar.visibility = View.GONE
-                            Toast.makeText(this@Attendance, t.message, Toast.LENGTH_SHORT).show()
                         }
 
-                        override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
                             val result: APIResponse? = response.body()
                             if (result!!.Status == "ok") {
                                 var listSize = result.Data13!!.size
@@ -147,11 +84,12 @@ class Attendance : AppCompatActivity() {
                                 for (i in 0..listSize - 1) {
                                     val per_daycount: Double =
                                         ((result.Data13!![i].THEORY.toDouble() + result.Data13!![i].PRACTICAL.toDouble() + result.Data13!![i].CLINICAL.toDouble()) / (result.Data13!![i].NO_LECTURER.toDouble())) * 100.toFloat()
-                                    var fperatte: Double = String.format("%.2f", per_daycount).toDouble()
+                                    var fperatte: Double =
+                                        String.format("%.2f", per_daycount).toDouble()
                                     if (fperatte.isNaN()) {
                                         fperatte = 0.0
                                     }
-                                    if(fperatte != 0.0) {
+                                    if (fperatte != 0.0) {
                                         users.add(
                                             AttendanceStudCurrent(
                                                 "DEPT NAME: " + result.Data13!![i].DEPT_NAME,
@@ -169,19 +107,22 @@ class Attendance : AppCompatActivity() {
                                         )
                                     }
                                 }
-
                                 progressBar.visibility = View.INVISIBLE
                                 progressBar.visibility = View.GONE
-                                if(users.isEmpty()){
-                                    GenericUserFunction.showApiError(this@Attendance,"No Attendance found for the current request.")
-                                }else {
+                                if (users.isEmpty()) {
+                                    GenericUserFunction.showApiError(
+                                        this@Attendance,
+                                        "No Attendance found for the current request."
+                                    )
+                                } else {
                                     val adapter = AttendanceAdapterCurrent(users)
                                     recyclerView.adapter = adapter
                                 }
                             } else {
                                 progressBar.visibility = View.INVISIBLE
                                 progressBar.visibility = View.GONE
-                                Toast.makeText(this@Attendance, result.Status, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@Attendance, result.Status, Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                     })
@@ -189,7 +130,108 @@ class Attendance : AppCompatActivity() {
             } catch (ex: Exception) {
 
                 ex.printStackTrace()
-                GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
+                GenericUserFunction.showApiError(
+                    this,
+                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                )
+            }
+        }else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
+        }
+        btn_current_id!!.setOnClickListener {
+            val intent = Intent(this@Attendance, CurrentAttendance::class.java)
+            intent.putExtra("stud_k2", stud_k.toString())
+            startActivity(intent)
+        }
+        search_id!!.setOnClickListener {
+            validateDate()
+            progressBar.visibility = View.VISIBLE
+            if (InternetConnection.checkConnection(this)) {
+                try {
+                    mServices.GetProgressiveAttend(stud_k, to_date_sel, from_date_sel, COURSE_ID!!)
+                        .enqueue(object : Callback<APIResponse> {
+                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                                progressBar.visibility = View.INVISIBLE
+                                progressBar.visibility = View.GONE
+                                Toast.makeText(this@Attendance, t.message, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+
+                            override fun onResponse(
+                                call: Call<APIResponse>,
+                                response: Response<APIResponse>
+                            ) {
+                                val result: APIResponse? = response.body()
+                                if (result!!.Status == "ok") {
+                                    var listSize = result.Data13!!.size
+                                    val users = ArrayList<AttendanceStudCurrent>()
+                                    for (i in 0..listSize - 1) {
+                                        val per_daycount: Double =
+                                            ((result.Data13!![i].THEORY.toDouble() + result.Data13!![i].PRACTICAL.toDouble() + result.Data13!![i].CLINICAL.toDouble()) / (result.Data13!![i].NO_LECTURER.toDouble())) * 100.toFloat()
+                                        var fperatte: Double =
+                                            String.format("%.2f", per_daycount).toDouble()
+                                        if (fperatte.isNaN()) {
+                                            fperatte = 0.0
+                                        }
+                                        if (fperatte != 0.0) {
+                                            users.add(
+                                                AttendanceStudCurrent(
+                                                    "DEPT NAME: " + result.Data13!![i].DEPT_NAME,
+                                                    "DEPT ID: " + result.Data13!![i].DEPT_ID,
+                                                    "THEORY: " + result.Data13!![i].THEORY,
+                                                    "PRACTICAL: " + result.Data13!![i].PRACTICAL,
+                                                    "CLINICAL: " + result.Data13!![i].CLINICAL,
+                                                    "THEORY ABSENT: " + result.Data13!![i].THEORY_ABSENT,
+                                                    "PRACTICAL ABSENT: " + result.Data13!![i].PRACTICAL_ABSENT,
+                                                    "CLINICAL ABSENT: " + result.Data13!![i].CLINICAL_ABSENT,
+                                                    "NO LECTURE: " + result.Data13!![i].NO_LECTURER,
+                                                    "PERCENTAGE: " + fperatte.toString(),
+                                                    R.drawable.ic_attendence
+                                                )
+                                            )
+                                        }
+                                    }
+
+                                    progressBar.visibility = View.INVISIBLE
+                                    progressBar.visibility = View.GONE
+                                    if (users.isEmpty()) {
+                                        GenericUserFunction.showApiError(
+                                            this@Attendance,
+                                            "No Attendance found for the current request."
+                                        )
+                                    } else {
+                                        val adapter = AttendanceAdapterCurrent(users)
+                                        recyclerView.adapter = adapter
+                                    }
+                                } else {
+                                    progressBar.visibility = View.INVISIBLE
+                                    progressBar.visibility = View.GONE
+                                    Toast.makeText(
+                                        this@Attendance,
+                                        result.Status,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        })
+
+                } catch (ex: Exception) {
+
+                    ex.printStackTrace()
+                    GenericUserFunction.showApiError(
+                        this,
+                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                    )
+                }
+            }
+            else {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this,
+                    getString(R.string.failureNoInternetErr)
+                )
             }
 
         }

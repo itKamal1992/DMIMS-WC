@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiver
 import com.dmims.dmims.dataclass.TimeTableDataC
@@ -165,41 +166,52 @@ class AcademicCalUploadInsti : AppCompatActivity(), SingleUploadBroadcastReceive
         typeoftimetbl.add("Select type")
         typeoftimetbl.add("Clinical")
         typeoftimetbl.add("Theory")
+        if (InternetConnection.checkConnection(this)) {
 
-
-        try {
-            GenericPublicVariable.mServices.GetInstituteData()
-                .enqueue(object : Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                        Toast.makeText(this@AcademicCalUploadInsti, t.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    override fun onResponse(
-                        call: Call<APIResponse>,
-                        response: Response<APIResponse>
-                    ) {
-                        val result: APIResponse? = response.body()
-                        if (result!!.Responsecode == 204) {
+            try {
+                GenericPublicVariable.mServices.GetInstituteData()
+                    .enqueue(object : Callback<APIResponse> {
+                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                             Toast.makeText(
                                 this@AcademicCalUploadInsti,
-                                result.Status,
+                                t.message,
                                 Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            listsinstz = result.Data6!!.size
-                            for (i in 0..listsinstz - 1) {
-                                instituteName1.add(result.Data6!![i].Course_Institute)
+                            )
+                                .show()
+                        }
+
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
+                            val result: APIResponse? = response.body()
+                            if (result!!.Responsecode == 204) {
+                                Toast.makeText(
+                                    this@AcademicCalUploadInsti,
+                                    result.Status,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                listsinstz = result.Data6!!.size
+                                for (i in 0..listsinstz - 1) {
+                                    instituteName1.add(result.Data6!![i].Course_Institute)
+                                }
                             }
                         }
-                    }
-                })
-        } catch (ex: Exception) {
+                    })
+            } catch (ex: Exception) {
 
-            ex.printStackTrace()
-            GenericUserFunction.showApiError(
+                ex.printStackTrace()
+                GenericUserFunction.showApiError(
+                    this,
+                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                )
+            }
+        }else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
                 this,
-                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                getString(R.string.failureNoInternetErr)
             )
         }
         var institueAdap: ArrayAdapter<String> = ArrayAdapter<String>(
@@ -229,6 +241,7 @@ class AcademicCalUploadInsti : AppCompatActivity(), SingleUploadBroadcastReceive
 
         spinner_timetabletype.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@AcademicCalUploadInsti)) {
                 try {
 
                     selectedtypeoftimetbl = p0!!.getItemAtPosition(p2) as String
@@ -336,6 +349,13 @@ class AcademicCalUploadInsti : AppCompatActivity(), SingleUploadBroadcastReceive
                     )
                 }
             }
+            else
+            {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this@AcademicCalUploadInsti,
+                    getString(R.string.failureNoInternetErr))
+            }
+            }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
@@ -385,22 +405,22 @@ class AcademicCalUploadInsti : AppCompatActivity(), SingleUploadBroadcastReceive
     private fun CheckValidation() {
         when {
             spinner_institue.selectedItem.toString().equals("Select Institute") -> Toast.makeText(
-                applicationContext,
+                this,
                 "Please Select Institute",
                 Toast.LENGTH_LONG
             ).show()
             spinner_timetabletype.selectedItem.toString().equals("Select type") -> Toast.makeText(
-                applicationContext,
+                this,
                 "Please Select Type",
                 Toast.LENGTH_LONG
             ).show()
             spinner_yearlist.selectedItem.toString().equals("Select Year") -> Toast.makeText(
-                applicationContext,
+                this,
                 "Please Select Year",
                 Toast.LENGTH_LONG
             ).show()
             spinner_semester.selectedItem.toString().equals("Select Semister") -> Toast.makeText(
-                applicationContext,
+                this,
                 "Please Select Semister",
                 Toast.LENGTH_LONG
             ).show()
@@ -482,6 +502,7 @@ class AcademicCalUploadInsti : AppCompatActivity(), SingleUploadBroadcastReceive
     }
 
     private fun uploadFile() {
+        if (InternetConnection.checkConnection(this)) {
         dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Time Table.")
         dialogCommon!!.setCancelable(false)
         dialogCommon!!.show()
@@ -530,6 +551,13 @@ class AcademicCalUploadInsti : AppCompatActivity(), SingleUploadBroadcastReceive
 
             }
         })
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
+        }
     }
 
 

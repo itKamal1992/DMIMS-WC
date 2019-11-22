@@ -79,6 +79,10 @@ class AdminDashboard : AppCompatActivity(), View.OnClickListener {
         txt_Mobile.text= "MB No : "+mypref.getString("key_editmob", null)
         enroll_no.text= "ID : "+mypref.getString("Stud_id_key", null)
 
+        var pinfo=packageManager.getPackageInfo(packageName, 0)
+        var versionName = pinfo.versionName
+        txt_versionName.text="App Version : $versionName"
+
         val mypref12 = getSharedPreferences("mypref", Context.MODE_PRIVATE)
         val editor = mypref12.edit()
         editor.putString("dashboard", "Admin Dashboard")
@@ -172,7 +176,7 @@ class AdminDashboard : AppCompatActivity(), View.OnClickListener {
             dots!![i] = ImageView(this)
             dots!![i]?.setImageDrawable(
                 ContextCompat.getDrawable(
-                    applicationContext,
+                    this@AdminDashboard,
                     R.drawable.nonactive_dots
                 )
             )
@@ -187,7 +191,7 @@ class AdminDashboard : AppCompatActivity(), View.OnClickListener {
 
         dots!![0]?.setImageDrawable(
             ContextCompat.getDrawable(
-                applicationContext,
+                this@AdminDashboard,
                 R.drawable.active_dots
             )
         )
@@ -203,14 +207,14 @@ class AdminDashboard : AppCompatActivity(), View.OnClickListener {
                 for (i in 0 until dotscount) {
                     dots!![i]?.setImageDrawable(
                         ContextCompat.getDrawable(
-                            applicationContext,
+                            this@AdminDashboard,
                             R.drawable.nonactive_dots
                         )
                     )
                 }
                 dots!![position]?.setImageDrawable(
                     ContextCompat.getDrawable(
-                        applicationContext,
+                        this@AdminDashboard,
                         R.drawable.active_dots
                     )
                 )
@@ -226,7 +230,7 @@ class AdminDashboard : AppCompatActivity(), View.OnClickListener {
 
     // Extension function to show toast message easily
     private fun Context.toast(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@AdminDashboard, message, Toast.LENGTH_SHORT).show()
     }
 
     //ViewPager - Page Slider

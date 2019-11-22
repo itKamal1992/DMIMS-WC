@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.GrievanceAdapterNewStud
 import com.dmims.dmims.adapter.GrievanceAdapterStudShow
@@ -77,6 +78,7 @@ class CurrentGrievance : AppCompatActivity()
         var end = sdf.format(cal.time).toString()
 
 //        Toast.makeText(this@CurrentNotice, begining.toString() + "  and   " + end.toString(), Toast.LENGTH_SHORT).show()
+        if (InternetConnection.checkConnection(this)) {
         progressBar.visibility = View.VISIBLE
         try {
             mServices.GetDatewiseOnlineGrievanceReport(begining.toString(), end.toString())
@@ -192,6 +194,14 @@ class CurrentGrievance : AppCompatActivity()
                     "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                 )
             }
+
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
 
     }
 

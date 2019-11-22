@@ -53,9 +53,9 @@ import com.dmims.dmims.model.ServerResponse
 import okhttp3.MultipartBody
 
 
-class InstituteNoticeBoard() : AppCompatActivity(){
+class InstituteNoticeBoard() : AppCompatActivity() {
     private var mediaPath: String? = null
-    var dialogCommon: android.app.AlertDialog ?= null
+    var dialogCommon: android.app.AlertDialog? = null
 
 
     private var selectedImage: Uri? = null
@@ -124,7 +124,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_institute_notice_board)
-        dialogCommon= SpotsDialog.Builder().setContext(this).build()
+        dialogCommon = SpotsDialog.Builder().setContext(this).build()
 
         btnPickImage = findViewById<Button>(R.id.admin_notice_upload)
         btnPubNotice = findViewById<Button>(R.id.btn_publish_notice2)
@@ -144,7 +144,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
         Institute_Name = mypref.getString("key_institute", null)
 
         pb_notice_institute = findViewById<ProgressBar>(R.id.pb_notice_institute)
-        pb_notice_institute.visibility=View.INVISIBLE
+        pb_notice_institute.visibility = View.INVISIBLE
         mServices = Common.getAPI()
 
         val myFormat = "dd-MM-yyyy" // mention the format you need
@@ -202,30 +202,31 @@ class InstituteNoticeBoard() : AppCompatActivity(){
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
-        try {
+        if (InternetConnection.checkConnection(this)) {
+            try {
 
-            mServices.GetInstituteData()
-                .enqueue(object : Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                        Toast.makeText(this@InstituteNoticeBoard, t.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                mServices.GetInstituteData()
+                    .enqueue(object : Callback<APIResponse> {
+                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                            Toast.makeText(this@InstituteNoticeBoard, t.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
 
-                    override fun onResponse(
-                        call: Call<APIResponse>,
-                        response: Response<APIResponse>
-                    ) {
-                        val result: APIResponse? = response.body()
-                        if (result!!.Responsecode == 204) {
-                            Toast.makeText(
-                                this@InstituteNoticeBoard,
-                                result.Status,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            listsinstz = result.Data6!!.size
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
+                            val result: APIResponse? = response.body()
+                            if (result!!.Responsecode == 204) {
+                                Toast.makeText(
+                                    this@InstituteNoticeBoard,
+                                    result.Status,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                listsinstz = result.Data6!!.size
 //                        instituteName1.remove("All")
-                            instituteName1.add(Institute_Name!!)
+                                instituteName1.add(Institute_Name!!)
 //                            for (i in 0..listsinstz - 1) {
 //
 //                                if (result.Data6!![i].Course_Institute.equals(
@@ -237,77 +238,92 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 //                                    instituteName1.add(result.Data6!![i].Course_Institute)
 //                                }
 //                            }
+                            }
                         }
-                    }
 
-                })
+                    })
 
 
-            var institueAdap: ArrayAdapter<String> = ArrayAdapter<String>(
-                this@InstituteNoticeBoard,
-                R.layout.support_simple_spinner_dropdown_item, instituteName1
-            )
-            spinner_institue.adapter = institueAdap
-        } catch (ex: Exception) {
+                var institueAdap: ArrayAdapter<String> = ArrayAdapter<String>(
+                    this@InstituteNoticeBoard,
+                    R.layout.support_simple_spinner_dropdown_item, instituteName1
+                )
+                spinner_institue.adapter = institueAdap
+            } catch (ex: Exception) {
 
-            ex.printStackTrace()
-            GenericUserFunction.showApiError(
+                ex.printStackTrace()
+                GenericUserFunction.showApiError(
+                    this,
+                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                )
+            }
+
+        } else {
+            GenericUserFunction.showInternetNegativePopUp(
                 this,
-                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                getString(R.string.failureNoInternetErr)
             )
         }
         spinner_institue.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selectedInstituteName = p0!!.getItemAtPosition(p2) as String
-                    courselist.clear()
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(
-                                    this@InstituteNoticeBoard,
-                                    t.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            override fun onResponse(
-                                call: Call<APIResponse>,
-                                response: Response<APIResponse>
-                            ) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
+                if (InternetConnection.checkConnection(this@InstituteNoticeBoard)) {
+                    try {
+                        selectedInstituteName = p0!!.getItemAtPosition(p2) as String
+                        courselist.clear()
+                        mServices.GetInstituteData()
+                            .enqueue(object : Callback<APIResponse> {
+                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                     Toast.makeText(
                                         this@InstituteNoticeBoard,
-                                        result.Status,
+                                        t.message,
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                courselist.add(result.Data6!![i].Courses!![j].COURSE_NAME)
+                                }
+
+                                override fun onResponse(
+                                    call: Call<APIResponse>,
+                                    response: Response<APIResponse>
+                                ) {
+                                    val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 204) {
+                                        Toast.makeText(
+                                            this@InstituteNoticeBoard,
+                                            result.Status,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val listsinstz: Int = result.Data6!!.size
+                                        for (i in 0..listsinstz - 1) {
+                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                val listscoursez: Int =
+                                                    result.Data6!![i].Courses!!.size
+                                                for (j in 0..listscoursez - 1) {
+                                                    courselist.add(result.Data6!![i].Courses!![j].COURSE_NAME)
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                        })
-                    courselist.add("All")
-                    var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
-                        this@InstituteNoticeBoard,
-                        R.layout.support_simple_spinner_dropdown_item,
-                        courselist
-                    )
-                    spinner_courselist.adapter = usercourselistadp
-                } catch (ex: Exception) {
+                            })
+                        courselist.add("All")
+                        var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
+                            this@InstituteNoticeBoard,
+                            R.layout.support_simple_spinner_dropdown_item,
+                            courselist
+                        )
+                        spinner_courselist.adapter = usercourselistadp
+                    } catch (ex: Exception) {
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@InstituteNoticeBoard,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                } else {
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@InstituteNoticeBoard,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
             }
@@ -318,69 +334,79 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 
         spinner_courselist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
+                if (InternetConnection.checkConnection(this@InstituteNoticeBoard)) {
+                    try {
 
-                    selectedcourselist = p0!!.getItemAtPosition(p2) as String
-                    deptlist.clear()
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(
-                                    this@InstituteNoticeBoard,
-                                    t.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            override fun onResponse(
-                                call: Call<APIResponse>,
-                                response: Response<APIResponse>
-                            ) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
+                        selectedcourselist = p0!!.getItemAtPosition(p2) as String
+                        deptlist.clear()
+                        mServices.GetInstituteData()
+                            .enqueue(object : Callback<APIResponse> {
+                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                     Toast.makeText(
                                         this@InstituteNoticeBoard,
-                                        result.Status,
+                                        t.message,
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-                                                    course_id =
-                                                        result.Data6!![i].Courses!![j].COURSE_ID
-                                                    val listsdeptz: Int =
-                                                        result.Data6!![i].Courses!![j].Departments!!.size
-                                                    for (k in 0 until listsdeptz) {
-                                                        deptlist.add(result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME)
-                                                    }
-                                                }
+                                }
 
+                                override fun onResponse(
+                                    call: Call<APIResponse>,
+                                    response: Response<APIResponse>
+                                ) {
+                                    val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 204) {
+                                        Toast.makeText(
+                                            this@InstituteNoticeBoard,
+                                            result.Status,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val listsinstz: Int = result.Data6!!.size
+                                        for (i in 0..listsinstz - 1) {
+                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                val listscoursez: Int =
+                                                    result.Data6!![i].Courses!!.size
+                                                for (j in 0..listscoursez - 1) {
+                                                    if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                        course_id =
+                                                            result.Data6!![i].Courses!![j].COURSE_ID
+                                                        val listsdeptz: Int =
+                                                            result.Data6!![i].Courses!![j].Departments!!.size
+                                                        for (k in 0 until listsdeptz) {
+                                                            deptlist.add(result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME)
+                                                        }
+                                                    }
+
+                                                }
                                             }
                                         }
+
                                     }
-
                                 }
-                            }
-                        })
-                    deptlist.add("All")
-                    var userdeptlistadp: ArrayAdapter<String> =
-                        ArrayAdapter<String>(
-                            this@InstituteNoticeBoard,
-                            R.layout.support_simple_spinner_dropdown_item, deptlist
-                        )
-                    spinner_deptlist.adapter = userdeptlistadp
-                } catch (ex: Exception) {
+                            })
+                        deptlist.add("All")
+                        var userdeptlistadp: ArrayAdapter<String> =
+                            ArrayAdapter<String>(
+                                this@InstituteNoticeBoard,
+                                R.layout.support_simple_spinner_dropdown_item, deptlist
+                            )
+                        spinner_deptlist.adapter = userdeptlistadp
+                    } catch (ex: Exception) {
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@InstituteNoticeBoard,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                } else {
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@InstituteNoticeBoard,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
+
+
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -389,6 +415,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 
         spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@InstituteNoticeBoard)) {
                 try {
                     selecteddeptlist = p0!!.getItemAtPosition(p2) as String
                     mServices.GetInstituteData()
@@ -444,6 +471,12 @@ class InstituteNoticeBoard() : AppCompatActivity(){
                         "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                     )
                 }
+            } else {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this@InstituteNoticeBoard,
+                    getString(R.string.failureNoInternetErr)
+                )
+            }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -567,7 +600,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
             return
         }
 
-        if (confirmStatus == "T" && type == "pdf" && mediaPath!=null) {
+        if (confirmStatus == "T" && type == "pdf" && mediaPath != null) {
             try {
 //                uploadFile()
 
@@ -581,11 +614,10 @@ class InstituteNoticeBoard() : AppCompatActivity(){
                 )
             }
         }
-        if (confirmStatus == "T" && type == "image" && mediaPath!=null) {
+        if (confirmStatus == "T" && type == "image" && mediaPath != null) {
             try {
                 uploadFileImg()
-            }
-            catch (ex: Exception) {
+            } catch (ex: Exception) {
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(
                     this,
@@ -596,9 +628,11 @@ class InstituteNoticeBoard() : AppCompatActivity(){
         if (confirmStatus == "F") {
             var CustDialog = Dialog(this)
             CustDialog.setContentView(R.layout.dialog_question_yes_no_custom_popup)
-            var ivNegClose1: ImageView = CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
+            var ivNegClose1: ImageView =
+                CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
             var btnOk: Button = CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
-            var btnCustomDialogCancel: Button = CustDialog.findViewById(R.id.btnCustomDialogCancel) as Button
+            var btnCustomDialogCancel: Button =
+                CustDialog.findViewById(R.id.btnCustomDialogCancel) as Button
             var tvMsg: TextView = CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
 
 
@@ -622,8 +656,9 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 
     }
 
-    private fun SubmitNoticeWithoutFile(){
-        try {
+    private fun SubmitNoticeWithoutFile() {
+        if (InternetConnection.checkConnection(this)) {
+            try {
             //Dialog Start
             val dialog: AlertDialog = SpotsDialog.Builder().setContext(this).build()
             dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
@@ -675,7 +710,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(
-                    applicationContext,
+                    this,
                     "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                 )
             }
@@ -689,6 +724,15 @@ class InstituteNoticeBoard() : AppCompatActivity(){
             )
         }
     }
+    else {
+        dialogCommon!!.dismiss()
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr)
+        )
+    }
+    }
+
     private fun uploadFile() {
         // Map is used to multipart the file using okhttp3.RequestBody
         val file = File(mediaPath)
@@ -716,6 +760,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 //                            serverResponse.message,
 //                            Toast.LENGTH_SHORT
 //                        ).show()
+                        if (InternetConnection.checkConnection(this@InstituteNoticeBoard)) {
                         try {
                             mServices.UploadNotice(
                                 notice_date,
@@ -763,13 +808,21 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 
                             ex.printStackTrace()
                             GenericUserFunction.showApiError(
-                                applicationContext,
+                                this@InstituteNoticeBoard,
                                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                             )
                         }
+                    }
+                    else {
+                        dialogCommon!!.dismiss()
+                        GenericUserFunction.showInternetNegativePopUp(
+                            this@InstituteNoticeBoard,
+                            getString(R.string.failureNoInternetErr)
+                        )
+                    }
                     } else {
                         Toast.makeText(
-                            applicationContext,
+                            this@InstituteNoticeBoard,
                             serverResponse!!.message,
                             Toast.LENGTH_SHORT
                         ).show()
@@ -788,7 +841,6 @@ class InstituteNoticeBoard() : AppCompatActivity(){
             }
         })
     }
-
 
 
     //new one
@@ -834,8 +886,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 
 //               uploadFile(selectedImage, "My Image")
             }
-        }
-        else if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
+        } else if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
             var bitmap: Bitmap = data.getExtras()!!.get("data") as Bitmap
             type = "image"
 //        // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
@@ -870,7 +921,8 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 //                    finish()
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
-                    val cursor = contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
+                    val cursor =
+                        contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
                     cursor.moveToFirst()
 
                     val columnIndex = cursor.getColumnIndex(filePathColumn[0])
@@ -893,8 +945,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
                 CustDialog.show()
 //
             }
-        }
-        else if (requestCode == 300 && resultCode == Activity.RESULT_OK && null != data) {
+        } else if (requestCode == 300 && resultCode == Activity.RESULT_OK && null != data) {
             val selectedImage = data.data
             type = "pdf"
 
@@ -917,10 +968,10 @@ class InstituteNoticeBoard() : AppCompatActivity(){
             //imgView.setImageBitmap(BitmapFactory.decodeFile(mediaPath))
             cursor.close()
 
-        }
-        else if (requestCode == 400 && resultCode == Activity.RESULT_OK && null != data) {
+        } else if (requestCode == 400 && resultCode == Activity.RESULT_OK && null != data) {
             val selectedImage = data.data
-            var bitmaps :Bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+            var bitmaps: Bitmap =
+                MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
             if (selectedImage != null) {
                 println("Selected Image >>> " + selectedImage)
                 var CustDialog = Dialog(this)
@@ -950,7 +1001,8 @@ class InstituteNoticeBoard() : AppCompatActivity(){
                     }
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
-                    val cursor = contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
+                    val cursor =
+                        contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
                     cursor.moveToFirst()
 
                     val columnIndex = cursor.getColumnIndex(filePathColumn[0])
@@ -973,7 +1025,6 @@ class InstituteNoticeBoard() : AppCompatActivity(){
                 CustDialog.show()
 //
             }
-
 
 
         }
@@ -1039,7 +1090,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
         //finally performing the call
         call.enqueue(object : Callback<MyResponse> {
             override fun onFailure(call: retrofit2.Call<MyResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, t.message.toString(), Toast.LENGTH_LONG).show()
+                Toast.makeText(this@InstituteNoticeBoard, t.message.toString(), Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
@@ -1091,7 +1142,9 @@ class InstituteNoticeBoard() : AppCompatActivity(){
         //val PDF_UPLOAD_HTTP_URL = "http://avbrh.gearhostpreview.com/pdfupload/upload.php"
         val PDF_UPLOAD_HTTP_URL = "http://dmimsdu.in/web/pdfupload/pdfnoticeupload.php"
     }
+
     private fun uploadFileImg() {
+        if (InternetConnection.checkConnection(this)) {
         dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
         dialogCommon!!.setCancelable(false)
         dialogCommon!!.show()
@@ -1100,7 +1153,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
         // Map is used to multipart the file using okhttp3.RequestBody
         val file = File(mediaPath)
 
-        var longString=file.name+"@cut"+roleadmin.trim() //roleadmin
+        var longString = file.name + "@cut" + roleadmin.trim() //roleadmin
         // Parsing any Media type file
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
         val fileToUpload = MultipartBody.Part.createFormData("file", longString, requestBody)
@@ -1110,15 +1163,16 @@ class InstituteNoticeBoard() : AppCompatActivity(){
         var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
             PhpApiInterface::class.java
         )
-        var call3: Call<ServerResponse> =phpApiInterface.noticeCommonUpload(fileToUpload, filename)
+        var call3: Call<ServerResponse> = phpApiInterface.noticeCommonUpload(fileToUpload, filename)
         call3.enqueue(object : Callback<ServerResponse> {
-            override fun onResponse(call: Call<ServerResponse>,responsee: Response<ServerResponse>)
-            {
+            override fun onResponse(
+                call: Call<ServerResponse>,
+                responsee: Response<ServerResponse>
+            ) {
                 val serverResponse3 = responsee.body()
                 if (serverResponse3 != null) {
-                    if (serverResponse3!!.success)
-                    {
-                        var fileurl:String=serverResponse3.message.toString()
+                    if (serverResponse3!!.success) {
+                        var fileurl: String = serverResponse3.message.toString()
 //                        var filename:String=serverResponse3.filename.toString()
                         try {
                             if (InternetConnection.checkConnection(this@InstituteNoticeBoard)) {
@@ -1145,7 +1199,11 @@ class InstituteNoticeBoard() : AppCompatActivity(){
                                 ).enqueue(object : Callback<APIResponse> {
                                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                         dialogCommon!!.dismiss()
-                                        Toast.makeText(this@InstituteNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            this@InstituteNoticeBoard,
+                                            t.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
 
                                     override fun onResponse(
@@ -1156,40 +1214,36 @@ class InstituteNoticeBoard() : AppCompatActivity(){
                                         dialogCommon!!.dismiss()
 //                                        Toast.makeText(this@GreivanceStudFile, result!!.Status, Toast.LENGTH_SHORT)
 //                                            .show()Responsecode
-                                        if (result!!.Responsecode==200){
+                                        if (result!!.Responsecode == 200) {
 
                                             GenericUserFunction.showPositivePopUp(
                                                 this@InstituteNoticeBoard,
                                                 "Notice Send Successfully"
                                             )
-                                        }else{
+                                        } else {
                                             GenericUserFunction.showApiError(
                                                 this@InstituteNoticeBoard,
                                                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                                             )
                                         }
-                                        mediaPath=null
-                                        confirmStatus="F"
+                                        mediaPath = null
+                                        confirmStatus = "F"
                                     }
                                 })
-                            }else
-                            {
+                            } else {
                                 GenericUserFunction.showInternetNegativePopUp(
                                     this@InstituteNoticeBoard,
                                     getString(R.string.failureNoInternetErr)
                                 )
                             }
-                        }
-                        catch (ex:java.lang.Exception){
+                        } catch (ex: java.lang.Exception) {
                             dialogCommon!!.dismiss()
                             GenericUserFunction.showApiError(
                                 this@InstituteNoticeBoard,
                                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                             )
                         }
-                    }
-                    else
-                    {
+                    } else {
                         dialogCommon!!.dismiss()
                         GenericUserFunction.showApiError(
                             this@InstituteNoticeBoard,
@@ -1204,8 +1258,7 @@ class InstituteNoticeBoard() : AppCompatActivity(){
 
             }
 
-            override fun onFailure(call: Call<ServerResponse>, t: Throwable)
-            {
+            override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
                 dialogCommon!!.dismiss()
                 GenericUserFunction.showApiError(
                     this@InstituteNoticeBoard,
@@ -1213,6 +1266,13 @@ class InstituteNoticeBoard() : AppCompatActivity(){
                 )
             }
         })
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
+        }
     }
 
 }

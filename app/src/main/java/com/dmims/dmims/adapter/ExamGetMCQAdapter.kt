@@ -16,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.activity.Common_Image_Viewer
 import com.dmims.dmims.activity.Common_PDF_Viewer
@@ -151,6 +152,7 @@ class ExamGetMCQAdapter(val userlist: ArrayList<McqFields>,context: Context) :
                 }
                 else
                 {
+                    if (InternetConnection.checkConnection(ctx)) {
 
                     var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
                         PhpApiInterface::class.java
@@ -189,6 +191,13 @@ class ExamGetMCQAdapter(val userlist: ArrayList<McqFields>,context: Context) :
 
                         }
                     })
+                }
+                else
+                {
+                    GenericUserFunction.showInternetNegativePopUp(
+                        ctx,
+                        ctx.getString(R.string.failureNoInternetErr))
+                }
 
                 }
             } catch (ex: Exception) {

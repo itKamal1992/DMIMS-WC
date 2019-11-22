@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.common.Common
 import com.dmims.dmims.dashboard.*
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun authenticateUser(mobile: String, password: String) {
+        if (InternetConnection.checkConnection(this)) {
         try {
             val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
             dialog.setMessage("Please Wait!!! \nwhile we are authenticating your details")
@@ -99,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                             ) {
                                 dialog.dismiss()
                                 val intent =
-                                    Intent(applicationContext, StudentDashboard::class.java)
+                                    Intent(this@MainActivity, StudentDashboard::class.java)
                                 println(" course >>> " + result.Data1!!.COURSE_ID!!.get(0))
                                 saveData(
                                     result.Data1!!.USER_ROLE,
@@ -123,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                             {
                                 dialog.dismiss()
                                 val intent =
-                                    Intent(applicationContext, StudentDashboard::class.java)
+                                    Intent(this@MainActivity, StudentDashboard::class.java)
 
                                 saveData(
                                     result.Data2!!.USER_ROLE,
@@ -146,7 +148,7 @@ class MainActivity : AppCompatActivity() {
                             ) {
                                 dialog.dismiss()
                                 val intent =
-                                    Intent(applicationContext, FacultyDashboard::class.java)
+                                    Intent(this@MainActivity, FacultyDashboard::class.java)
                                 saveData(
                                     result.Data3!!.USER_ROLE,
                                     result.Data3!!.NAME,
@@ -164,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                                 )
                             ) {
                                 dialog.dismiss()
-                                val intent = Intent(applicationContext, AdminDashboard::class.java)
+                                val intent = Intent(this@MainActivity, AdminDashboard::class.java)
                                 saveData(
                                     result.Data4!!.USER_ROLE,
                                     result.Data4!!.ADMIN_NAME,
@@ -180,7 +182,7 @@ class MainActivity : AppCompatActivity() {
                             }
                             if (result.Data4?.ROLL != null && result.Data4?.ROLL!!.contains("HOD",ignoreCase = true)) {
                                 dialog.dismiss()
-                                val intent = Intent(applicationContext, HodDashboard::class.java)
+                                val intent = Intent(this@MainActivity, HodDashboard::class.java)
 
                                 if (result.Data4!!.MNAME == null && result.Data4!!.LNAME== null) {
                                     hod_name = result.Data4!!.FNAME
@@ -209,7 +211,7 @@ class MainActivity : AppCompatActivity() {
                             {
                                 dialog.dismiss()
                                 println(" result >>> " + result.Data4)
-
+                                if (InternetConnection.checkConnection(this@MainActivity)) {
                                 mServices.CheckPrincipal(mobile)
                                     .enqueue(object : Callback<APIResponse> {
                                         override fun onFailure(
@@ -243,7 +245,7 @@ class MainActivity : AppCompatActivity() {
 
                                                     )
 
-                                                    val intent =Intent(applicationContext, InstituteDashboard::class.java)
+                                                    val intent =Intent(this@MainActivity, InstituteDashboard::class.java)
                                                     startActivity(intent)
                                                 }
                                                 else
@@ -262,7 +264,13 @@ class MainActivity : AppCompatActivity() {
 
                                     }
                                     )
-
+                            }
+                            else
+                            {
+                                GenericUserFunction.showInternetNegativePopUp(
+                                    this@MainActivity,
+                                    getString(R.string.failureNoInternetErr))
+                            }
 
 //                                startActivity(intent)
                             }
@@ -273,7 +281,7 @@ class MainActivity : AppCompatActivity() {
                             ) {
                                 dialog.dismiss()
                                 val intent =
-                                    Intent(applicationContext, RegisterarCellDashboard::class.java)
+                                    Intent(this@MainActivity, RegisterarCellDashboard::class.java)
                                 saveData(
                                     result.Data4!!.USER_ROLE,
                                     result.Data4!!.ADMIN_NAME,
@@ -327,7 +335,7 @@ class MainActivity : AppCompatActivity() {
 
                                                     )
 
-                                                    val intent =Intent(applicationContext, HodDashboard::class.java)
+                                                    val intent =Intent(this@MainActivity, HodDashboard::class.java)
                                                     startActivity(intent)
                                                 }
                                                 else
@@ -356,7 +364,7 @@ class MainActivity : AppCompatActivity() {
                                 )
                             ) {
                                 dialog.dismiss()
-                                val intent = Intent(applicationContext, AdminDashboard::class.java)
+                                val intent = Intent(this@MainActivity, AdminDashboard::class.java)
                                 saveData(
                                     result.Data4!!.USER_ROLE,
                                     result.Data4!!.ADMIN_NAME,
@@ -374,7 +382,7 @@ class MainActivity : AppCompatActivity() {
                                 )
                             ) {
                                 dialog.dismiss()
-                                val intent = Intent(applicationContext, AdminDashboard::class.java)
+                                val intent = Intent(this@MainActivity, AdminDashboard::class.java)
                                 saveData(
                                     result.Data4!!.USER_ROLE,
                                     result.Data4!!.ADMIN_NAME,
@@ -393,7 +401,7 @@ class MainActivity : AppCompatActivity() {
                             ) {
                                 dialog.dismiss()
                                 val intent =
-                                    Intent(applicationContext, ExamCellDashboard::class.java)
+                                    Intent(this@MainActivity, ExamCellDashboard::class.java)
                                 saveData(
                                     result.Data4!!.USER_ROLE,
                                     result.Data4!!.ADMIN_NAME,
@@ -412,7 +420,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 })
-        } catch (ex: Exception)
+        }
+        catch (ex: Exception)
         {
 
             ex.printStackTrace()
@@ -420,12 +429,20 @@ class MainActivity : AppCompatActivity() {
                 this,
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
+        }}
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
         }
     }
 
 
     private fun authenticateUsermyDb(mobile: String, password: String) {
-        try {
+        if (InternetConnection.checkConnection(this)) {
+            try {
             val dialog2: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
             dialog2.setMessage("Please Wait!!! \nwhile we are authenticating your details")
             dialog2.setCancelable(false)
@@ -465,7 +482,7 @@ class MainActivity : AppCompatActivity() {
                     if (arrSplit[0].equals("1")) {
                         dialog2.dismiss()
 //NAME,STUDENT_ID,COURSE_ID,ROLLNO
-                        val intent = Intent(applicationContext, StudentDashboard::class.java)
+                        val intent = Intent(this@MainActivity, StudentDashboard::class.java)
                         saveData(
                             "Student",
                             arrSplit[1],
@@ -506,6 +523,14 @@ class MainActivity : AppCompatActivity() {
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
         }
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
+
     }
 
     private fun saveData(
@@ -625,7 +650,7 @@ class MainActivity : AppCompatActivity() {
             result1.Data4!!.EMAIL
 
         )
-            val intent = Intent(applicationContext, HodDashboard::class.java)
+            val intent = Intent(this@MainActivity, HodDashboard::class.java)
             startActivity(intent)
         }
         else if(result1.Data4!!.USER_ROLE.equals("INSTITUTE",ignoreCase = true)) {
@@ -643,7 +668,7 @@ class MainActivity : AppCompatActivity() {
 
             )
 
-            val intent = Intent(applicationContext, InstituteDashboard::class.java)
+            val intent = Intent(this@MainActivity, InstituteDashboard::class.java)
             startActivity(intent)
         }
     }
@@ -677,7 +702,7 @@ var str_ComplaintToGriev:String=""
                 result2.Data19!!.DESIG,
                 result2.Data19!!.EMAIL
             )
-            val intent = Intent(applicationContext, HodDashboard::class.java)
+            val intent = Intent(this@MainActivity, HodDashboard::class.java)
             startActivity(intent)
         }
     }

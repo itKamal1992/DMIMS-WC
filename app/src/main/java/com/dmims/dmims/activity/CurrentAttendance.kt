@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.AttendanceAdapterCurrent
 import com.dmims.dmims.common.Common
@@ -57,6 +58,7 @@ class CurrentAttendance : AppCompatActivity() {
 
 //        Toast.makeText(this@CurrentAttendance, begining.toString() + "  and   " + end.toString(), Toast.LENGTH_SHORT).show()
         progressBar.visibility = View.VISIBLE
+        if (InternetConnection.checkConnection(this)) {
         try {
             mServices.GetProgressiveAttend(stud_k2!!.toInt(), begining.toString(), end.toString(), COURSE_ID)
                 .enqueue(object : Callback<APIResponse> {
@@ -113,6 +115,13 @@ class CurrentAttendance : AppCompatActivity() {
 
             ex.printStackTrace()
             GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
+        }}
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
         }
 
     }

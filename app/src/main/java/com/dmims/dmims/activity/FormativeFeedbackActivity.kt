@@ -14,6 +14,7 @@ import com.dmims.dmims.ExamFeedBack.Feed_Form_SectB
 import com.dmims.dmims.ExamFeedBack.Formative
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.model.APIResponse
 import com.dmims.dmims.model.DeptListStudData
@@ -245,7 +246,7 @@ class FormativeFeedbackActivity : AppCompatActivity() {
 
 
         btn_Af_Ex_Submit.setOnClickListener {
-
+            if (InternetConnection.checkConnection(this)) {
             if (Validate()) {
                 val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
                 Course_ID = mypref.getString("course_id", null)!!
@@ -311,6 +312,13 @@ class FormativeFeedbackActivity : AppCompatActivity() {
                 CustDialog.show()
 
             }
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
+        }
         }
 
     }
@@ -457,6 +465,7 @@ class FormativeFeedbackActivity : AppCompatActivity() {
     }
 
     fun Update() {
+        if (InternetConnection.checkConnection(this)) {
         val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
         try {
             dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
@@ -503,7 +512,8 @@ class FormativeFeedbackActivity : AppCompatActivity() {
 
 
             GenericPublicVariable.mServices.SubmitExamFeedback(commonFeedBack)
-                .enqueue(object : Callback<APIResponse> {
+                .enqueue(object : Callback<APIResponse>
+                {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                         dialog.dismiss()
                         Toast.makeText(
@@ -540,6 +550,13 @@ class FormativeFeedbackActivity : AppCompatActivity() {
             )
 
         }
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
     }
 
 //    FeedbackType,

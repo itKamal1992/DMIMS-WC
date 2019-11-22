@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.GrievanceAdapterHodShow
 import com.dmims.dmims.adapter.GrievanceAdapterNewStud
@@ -89,6 +90,7 @@ class StudentSubmittedGrievance : AppCompatActivity()
 
 
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        if (InternetConnection.checkConnection(this)) {
         try {
             mServices.GetStudGrievanceSubmited()
                 .enqueue(object : Callback<APIResponse> {
@@ -206,9 +208,17 @@ class StudentSubmittedGrievance : AppCompatActivity()
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
         }
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
+        }
     }
 
     private fun GetDateGrievance() {
+        if (InternetConnection.checkConnection(this)) {
         progressBar1.visibility=View.VISIBLE
         users.clear()
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
@@ -325,6 +335,13 @@ class StudentSubmittedGrievance : AppCompatActivity()
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
         }
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
 
     }
 

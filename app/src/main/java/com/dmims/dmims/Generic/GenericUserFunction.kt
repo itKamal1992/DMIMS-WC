@@ -110,12 +110,40 @@ class GenericUserFunction {
             tvMsg.text = msg
             GenericPublicVariable.CustDialog.setCancelable(false)
             ivNegClose1.setOnClickListener {
-                exitProcess(-1)
+//                exitProcess(-1)
+                GenericPublicVariable.CustDialog.dismiss()
                // GenericPublicVariable.CustDialog.dismiss()
             }
             btnOk.setOnClickListener {
-                exitProcess(-1)
+//                exitProcess(-1)
+                GenericPublicVariable.CustDialog.dismiss()
                // GenericPublicVariable.CustDialog.dismiss()
+            }
+            GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+            GenericPublicVariable.CustDialog.show()
+        }
+
+        fun showInternetNegativePopUpSplash(
+            context: Context,
+            msg: String
+        ) {
+            GenericPublicVariable.CustDialog = Dialog(context)
+            GenericPublicVariable.CustDialog.setContentView(R.layout.negative_custom_popup)
+            var ivNegClose1: ImageView =
+                GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
+            var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+            var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+            tvMsg.text = msg
+            GenericPublicVariable.CustDialog.setCancelable(false)
+            ivNegClose1.setOnClickListener {
+                                exitProcess(-1)
+//                GenericPublicVariable.CustDialog.dismiss()
+                // GenericPublicVariable.CustDialog.dismiss()
+            }
+            btnOk.setOnClickListener {
+                                exitProcess(-1)
+//                GenericPublicVariable.CustDialog.dismiss()
+                // GenericPublicVariable.CustDialog.dismiss()
             }
             GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
             GenericPublicVariable.CustDialog.show()

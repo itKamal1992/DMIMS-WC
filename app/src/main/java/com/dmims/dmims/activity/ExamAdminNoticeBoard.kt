@@ -59,7 +59,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ExamAdminNoticeBoard : AppCompatActivity(){
+class ExamAdminNoticeBoard : AppCompatActivity() {
     private var mediaPath: String? = null
     var dialogCommon: android.app.AlertDialog? = null
     private var selectedImage: Uri? = null
@@ -75,8 +75,7 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
     private lateinit var btnPubNotice: Button
     private lateinit var spinner_noticetype: Spinner
     private lateinit var spinner_facultystud: Spinner
-    private lateinit var MultiSpinnerYear: MultiSpinnerSearch
-    private lateinit var spinner_multiple: Spinner
+
 
 
     private lateinit var spinner_institue: Spinner
@@ -140,12 +139,12 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
         spinner_courselist = findViewById(R.id.spinner_courselist)
         spinner_deptlist = findViewById(R.id.spinner_deptlist)
         spinner_facultystud = findViewById(R.id.spinner_facultystud)
-        MultiSpinnerYear = findViewById(R.id.MultiSpinnerYear)
-        multiYearLayout.visibility=View.GONE
-        MultiSpinnerYear.visibility=View.GONE
-        spinner_multiple = findViewById(R.id.spinner_multiple)
-        spinner_multiple.visibility=View.GONE
-        selfMultipleYear.visibility=View.GONE
+
+        multiYearLayout.visibility = View.GONE
+        MultiSpinnerYear.visibility = View.GONE
+
+        spinner_multiple.visibility = View.VISIBLE
+        selfMultipleYear.visibility = View.VISIBLE
 
         //val progressBar = findViewById<ProgressBar>(R.id.progressBar2)
 
@@ -271,31 +270,32 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
-        try {
+        if (InternetConnection.checkConnection(this)) {
+            try {
 
-            mServices.GetInstituteData()
-                .enqueue(object : Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                        Toast.makeText(this@ExamAdminNoticeBoard, t.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                mServices.GetInstituteData()
+                    .enqueue(object : Callback<APIResponse> {
+                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                            Toast.makeText(this@ExamAdminNoticeBoard, t.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
 
-                    override fun onResponse(
-                        call: Call<APIResponse>,
-                        response: Response<APIResponse>
-                    ) {
-                        val result: APIResponse? = response.body()
-                        if (result!!.Responsecode == 204) {
-                            Toast.makeText(
-                                this@ExamAdminNoticeBoard,
-                                result.Status,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            listsinstz = result.Data6!!.size
-                            instituteName1.add("All")
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
+                            val result: APIResponse? = response.body()
+                            if (result!!.Responsecode == 204) {
+                                Toast.makeText(
+                                    this@ExamAdminNoticeBoard,
+                                    result.Status,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                listsinstz = result.Data6!!.size
+                                instituteName1.add("All")
 //                            instituteName1.add(Institute_Name!!)
-                            for (i in 0..listsinstz - 1)
+                                for (i in 0..listsinstz - 1)
 //                            {
 //
 //                                if (result.Data6!![i].Course_Institute.equals(
@@ -303,82 +303,96 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
 //                                        ignoreCase = true
 //                                    )
 //                                )
-                            {
+                                {
 
-                                instituteName1.add(result.Data6!![i].Course_Institute)
-                            }
+                                    instituteName1.add(result.Data6!![i].Course_Institute)
+                                }
 //                            }
+                            }
                         }
-                    }
 
-                })
+                    })
 
 
-            var institueAdap: ArrayAdapter<String> = ArrayAdapter<String>(
-                this@ExamAdminNoticeBoard,
-                R.layout.support_simple_spinner_dropdown_item, instituteName1
-            )
-            spinner_institue.adapter = institueAdap
-        } catch (ex: Exception) {
+                var institueAdap: ArrayAdapter<String> = ArrayAdapter<String>(
+                    this@ExamAdminNoticeBoard,
+                    R.layout.support_simple_spinner_dropdown_item, instituteName1
+                )
+                spinner_institue.adapter = institueAdap
+            } catch (ex: Exception) {
 
-            ex.printStackTrace()
-            GenericUserFunction.showApiError(
+                ex.printStackTrace()
+                GenericUserFunction.showApiError(
+                    this,
+                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                )
+            }
+        } else {
+            GenericUserFunction.showInternetNegativePopUp(
                 this,
-                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                getString(R.string.failureNoInternetErr)
             )
         }
         spinner_institue.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selectedInstituteName = p0!!.getItemAtPosition(p2) as String
-                    courselist.clear()
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(
-                                    this@ExamAdminNoticeBoard,
-                                    t.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            override fun onResponse(
-                                call: Call<APIResponse>,
-                                response: Response<APIResponse>
-                            ) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
+                if (InternetConnection.checkConnection(this@ExamAdminNoticeBoard)) {
+                    try {
+                        selectedInstituteName = p0!!.getItemAtPosition(p2) as String
+                        courselist.clear()
+                        mServices.GetInstituteData()
+                            .enqueue(object : Callback<APIResponse> {
+                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                     Toast.makeText(
                                         this@ExamAdminNoticeBoard,
-                                        result.Status,
+                                        t.message,
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                courselist.add(result.Data6!![i].Courses!![j].COURSE_NAME)
+                                }
+
+                                override fun onResponse(
+                                    call: Call<APIResponse>,
+                                    response: Response<APIResponse>
+                                ) {
+                                    val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 204) {
+                                        Toast.makeText(
+                                            this@ExamAdminNoticeBoard,
+                                            result.Status,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val listsinstz: Int = result.Data6!!.size
+                                        for (i in 0..listsinstz - 1) {
+                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                val listscoursez: Int =
+                                                    result.Data6!![i].Courses!!.size
+                                                for (j in 0..listscoursez - 1) {
+                                                    courselist.add(result.Data6!![i].Courses!![j].COURSE_NAME)
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                        })
-                    courselist.add("All")
-                    var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
-                        this@ExamAdminNoticeBoard,
-                        R.layout.support_simple_spinner_dropdown_item,
-                        courselist
-                    )
-                    spinner_courselist.adapter = usercourselistadp
-                } catch (ex: Exception) {
+                            })
+                        courselist.add("All")
+                        var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
+                            this@ExamAdminNoticeBoard,
+                            R.layout.support_simple_spinner_dropdown_item,
+                            courselist
+                        )
+                        spinner_courselist.adapter = usercourselistadp
+                    } catch (ex: Exception) {
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@ExamAdminNoticeBoard,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                } else {
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@ExamAdminNoticeBoard,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
             }
@@ -389,66 +403,74 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
 
         spinner_courselist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selectedcourselist = p0!!.getItemAtPosition(p2) as String
-                    deptlist.clear()
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(
-                                    this@ExamAdminNoticeBoard,
-                                    t.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            override fun onResponse(
-                                call: Call<APIResponse>,
-                                response: Response<APIResponse>
-                            ) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
+                if (InternetConnection.checkConnection(this@ExamAdminNoticeBoard)) {
+                    try {
+                        selectedcourselist = p0!!.getItemAtPosition(p2) as String
+                        deptlist.clear()
+                        mServices.GetInstituteData()
+                            .enqueue(object : Callback<APIResponse> {
+                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                     Toast.makeText(
                                         this@ExamAdminNoticeBoard,
-                                        result.Status,
+                                        t.message,
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-                                                    course_id =
-                                                        result.Data6!![i].Courses!![j].COURSE_ID
-                                                    val listsdeptz: Int =
-                                                        result.Data6!![i].Courses!![j].Departments!!.size
-                                                    for (k in 0 until listsdeptz) {
-                                                        deptlist.add(result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME)
-                                                    }
-                                                }
+                                }
 
+                                override fun onResponse(
+                                    call: Call<APIResponse>,
+                                    response: Response<APIResponse>
+                                ) {
+                                    val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 204) {
+                                        Toast.makeText(
+                                            this@ExamAdminNoticeBoard,
+                                            result.Status,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val listsinstz: Int = result.Data6!!.size
+                                        for (i in 0..listsinstz - 1) {
+                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                val listscoursez: Int =
+                                                    result.Data6!![i].Courses!!.size
+                                                for (j in 0..listscoursez - 1) {
+                                                    if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                        course_id =
+                                                            result.Data6!![i].Courses!![j].COURSE_ID
+                                                        val listsdeptz: Int =
+                                                            result.Data6!![i].Courses!![j].Departments!!.size
+                                                        for (k in 0 until listsdeptz) {
+                                                            deptlist.add(result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME)
+                                                        }
+                                                    }
+
+                                                }
                                             }
                                         }
+
                                     }
-
                                 }
-                            }
-                        })
-                    deptlist.add("All")
-                    var userdeptlistadp: ArrayAdapter<String> =
-                        ArrayAdapter<String>(
-                            this@ExamAdminNoticeBoard,
-                            R.layout.support_simple_spinner_dropdown_item, deptlist
-                        )
-                    spinner_deptlist.adapter = userdeptlistadp
-                } catch (ex: Exception) {
+                            })
+                        deptlist.add("All")
+                        var userdeptlistadp: ArrayAdapter<String> =
+                            ArrayAdapter<String>(
+                                this@ExamAdminNoticeBoard,
+                                R.layout.support_simple_spinner_dropdown_item, deptlist
+                            )
+                        spinner_deptlist.adapter = userdeptlistadp
+                    } catch (ex: Exception) {
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@ExamAdminNoticeBoard,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                } else {
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@ExamAdminNoticeBoard,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
             }
@@ -459,59 +481,67 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
 
         spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selecteddeptlist = p0!!.getItemAtPosition(p2) as String
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(
-                                    this@ExamAdminNoticeBoard,
-                                    t.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            override fun onResponse(
-                                call: Call<APIResponse>,
-                                response: Response<APIResponse>
-                            ) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
+                if (InternetConnection.checkConnection(this@ExamAdminNoticeBoard)) {
+                    try {
+                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+                        mServices.GetInstituteData()
+                            .enqueue(object : Callback<APIResponse> {
+                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                     Toast.makeText(
                                         this@ExamAdminNoticeBoard,
-                                        result.Status,
+                                        t.message,
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-                                                    val listsdeptz: Int =
-                                                        result.Data6!![i].Courses!![j].Departments!!.size
-                                                    for (k in 0 until listsdeptz) {
-                                                        if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
-                                                            dept_id =
-                                                                result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
-                                                        }
+                                }
 
+                                override fun onResponse(
+                                    call: Call<APIResponse>,
+                                    response: Response<APIResponse>
+                                ) {
+                                    val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 204) {
+                                        Toast.makeText(
+                                            this@ExamAdminNoticeBoard,
+                                            result.Status,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        val listsinstz: Int = result.Data6!!.size
+                                        for (i in 0..listsinstz - 1) {
+                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                val listscoursez: Int =
+                                                    result.Data6!![i].Courses!!.size
+                                                for (j in 0..listscoursez - 1) {
+                                                    if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                        val listsdeptz: Int =
+                                                            result.Data6!![i].Courses!![j].Departments!!.size
+                                                        for (k in 0 until listsdeptz) {
+                                                            if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
+                                                                dept_id =
+                                                                    result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+                                                            }
+
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
+
                                     }
-
                                 }
-                            }
-                        })
-                } catch (ex: Exception) {
+                            })
+                    } catch (ex: Exception) {
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
+                        ex.printStackTrace()
+                        GenericUserFunction.showApiError(
+                            this@ExamAdminNoticeBoard,
+                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        )
+                    }
+                } else {
+                    GenericUserFunction.showInternetNegativePopUp(
                         this@ExamAdminNoticeBoard,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                        getString(R.string.failureNoInternetErr)
                     )
                 }
             }
@@ -556,7 +586,7 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
 
             }
             btnpdf.setOnClickListener {
-//                REQUEST_CODE = 200
+                //                REQUEST_CODE = 200
                 CustDialog.dismiss()
                 val galleryIntent = Intent(
                     Intent.ACTION_PICK,
@@ -629,11 +659,11 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
             return
         }
 
-        if (confirmStatus == "T" && type == "pdf" && mediaPath!=null) {
+        if (confirmStatus == "T" && type == "pdf" && mediaPath != null) {
             try {
 //                uploadFile()
                 uploadFileImg()
-            }catch (ex: Exception) {
+            } catch (ex: Exception) {
 
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(
@@ -642,11 +672,11 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
                 )
             }
         }
-        if (confirmStatus == "T" && type == "image" && mediaPath!=null) {
+        if (confirmStatus == "T" && type == "image" && mediaPath != null) {
             try {
                 uploadFileImg()
 
-            }catch (ex: Exception) {
+            } catch (ex: Exception) {
 
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(
@@ -658,9 +688,11 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
         if (confirmStatus == "F") {
             var CustDialog = Dialog(this)
             CustDialog.setContentView(R.layout.dialog_question_yes_no_custom_popup)
-            var ivNegClose1: ImageView = CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
+            var ivNegClose1: ImageView =
+                CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
             var btnOk: Button = CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
-            var btnCustomDialogCancel: Button = CustDialog.findViewById(R.id.btnCustomDialogCancel) as Button
+            var btnCustomDialogCancel: Button =
+                CustDialog.findViewById(R.id.btnCustomDialogCancel) as Button
             var tvMsg: TextView = CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
 
 
@@ -686,71 +718,79 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
     }
 
     private fun SubmitNoticeWithoutFile() {
-        try {
-            //Dialog Start
-            val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
-            dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
-            dialog.setCancelable(false)
-            dialog.show()
-            //Dialog End
-            filename = "-"
+        if (InternetConnection.checkConnection(this)) {
             try {
-                mServices.UploadNotice(
-                    notice_date,
-                    notice_title,
-                    notice_desc,
-                    selectedInstituteName,
-                    selectedcourselist,
-                    selecteddeptlist,
-                    selectedNoticeType,
-                    selectedFacultyStud,
-                    confirmStatus,
-                    UserRole,
-                    UserID,
-                    filename,
-                    course_id,
-                    dept_id,
-                    student_flag,
-                    faculty_flag,
-                    admin_flag
-                ).enqueue(object : Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                        Toast.makeText(this@ExamAdminNoticeBoard, t.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                //Dialog Start
+                val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
+                dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
+                dialog.setCancelable(false)
+                dialog.show()
+                //Dialog End
+                filename = "-"
+                try {
+                    mServices.UploadNotice(
+                        notice_date,
+                        notice_title,
+                        notice_desc,
+                        selectedInstituteName,
+                        selectedcourselist,
+                        selecteddeptlist,
+                        selectedNoticeType,
+                        selectedFacultyStud,
+                        confirmStatus,
+                        UserRole,
+                        UserID,
+                        filename,
+                        course_id,
+                        dept_id,
+                        student_flag,
+                        faculty_flag,
+                        admin_flag
+                    ).enqueue(object : Callback<APIResponse> {
+                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                            Toast.makeText(this@ExamAdminNoticeBoard, t.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
 
-                    override fun onResponse(
-                        call: Call<APIResponse>,
-                        response: Response<APIResponse>
-                    ) {
-                        dialog.dismiss()
-                        // val result: APIResponse? = response.body()
-                        GenericUserFunction.showPositivePopUp(
-                            this@ExamAdminNoticeBoard,
-                            "Notice Send Successfully"
-                        )
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
+                            dialog.dismiss()
+                            // val result: APIResponse? = response.body()
+                            GenericUserFunction.showPositivePopUp(
+                                this@ExamAdminNoticeBoard,
+                                "Notice Send Successfully"
+                            )
 //                            Toast.makeText(this@ExamAdminNoticeBoard, result!!.Status, Toast.LENGTH_SHORT)
 //                                .show()
-                    }
-                })
+                        }
+                    })
+                } catch (ex: Exception) {
+                    dialog.dismiss()
+
+                    ex.printStackTrace()
+                    GenericUserFunction.showApiError(
+                        this,
+                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                    )
+                }
             } catch (ex: Exception) {
-                dialog.dismiss()
 
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(
-                    applicationContext,
+                    this,
                     "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                 )
             }
-        }
-        catch (ex: Exception) {
-
-            ex.printStackTrace()
-            GenericUserFunction.showApiError(
+        } else {
+            dialogCommon!!.dismiss()
+            GenericUserFunction.showInternetNegativePopUp(
                 this,
-                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                getString(R.string.failureNoInternetErr)
             )
         }
+
     }
 
 
@@ -812,8 +852,7 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
 
 //               uploadFile(selectedImage, "My Image")
             }
-        }
-        else if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
+        } else if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
             var bitmap: Bitmap = data.getExtras()!!.get("data") as Bitmap
             type = "image"
 //        // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
@@ -848,7 +887,8 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
 //                    finish()
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
-                    val cursor = contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
+                    val cursor =
+                        contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
                     cursor.moveToFirst()
 
                     val columnIndex = cursor.getColumnIndex(filePathColumn[0])
@@ -871,8 +911,7 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
                 CustDialog.show()
 //
             }
-        }
-        else if (requestCode == 300 && resultCode == Activity.RESULT_OK && null != data) {
+        } else if (requestCode == 300 && resultCode == Activity.RESULT_OK && null != data) {
             val selectedImage = data.data
             type = "pdf"
 
@@ -895,10 +934,10 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
             //imgView.setImageBitmap(BitmapFactory.decodeFile(mediaPath))
             cursor.close()
 
-        }
-        else if (requestCode == 400 && resultCode == Activity.RESULT_OK && null != data) {
+        } else if (requestCode == 400 && resultCode == Activity.RESULT_OK && null != data) {
             val selectedImage = data.data
-            var bitmaps :Bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+            var bitmaps: Bitmap =
+                MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
             if (selectedImage != null) {
                 println("Selected Image >>> " + selectedImage)
                 var CustDialog = Dialog(this)
@@ -928,7 +967,8 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
                     }
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
-                    val cursor = contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
+                    val cursor =
+                        contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
                     cursor.moveToFirst()
 
                     val columnIndex = cursor.getColumnIndex(filePathColumn[0])
@@ -951,7 +991,6 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
                 CustDialog.show()
 //
             }
-
 
 
         }
@@ -1124,133 +1163,145 @@ class ExamAdminNoticeBoard : AppCompatActivity(){
             MediaStore.Images.Media.insertImage(inContext!!.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
     }
+
     companion object {
         //val PDF_UPLOAD_HTTP_URL = "http://avbrh.gearhostpreview.com/pdfupload/upload.php"
         val PDF_UPLOAD_HTTP_URL = "http://dmimsdu.in/web/pdfupload/pdfnoticeupload.php"
     }
 
     private fun uploadFileImg() {
-        dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
-        dialogCommon!!.setCancelable(false)
-        dialogCommon!!.show()
+        if (InternetConnection.checkConnection(this)) {
+            dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
+            dialogCommon!!.setCancelable(false)
+            dialogCommon!!.show()
 
 //        PdfNameHolder = txt_fileStart.text.toString() + "_" + PdfNameEditText!!.text.toString().trim()
-        // Map is used to multipart the file using okhttp3.RequestBody
-        val file = File(mediaPath)
+            // Map is used to multipart the file using okhttp3.RequestBody
+            val file = File(mediaPath)
 
-        var longString=file.name+"@cut"+UserRole.trim() //roleadmin
-        // Parsing any Media type file
-        val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
-        val fileToUpload = MultipartBody.Part.createFormData("file", longString, requestBody)
-        val filename = RequestBody.create(MediaType.parse("text/plain"), longString)
+            var longString = file.name + "@cut" + UserRole.trim() //roleadmin
+            // Parsing any Media type file
+            val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
+            val fileToUpload = MultipartBody.Part.createFormData("file", longString, requestBody)
+            val filename = RequestBody.create(MediaType.parse("text/plain"), longString)
 //        val std_Id = RequestBody.create(MediaType.parse("text/plain"), STUD_ID.trim())
 
-        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
-            PhpApiInterface::class.java
-        )
-        var call3: Call<ServerResponse> =phpApiInterface.noticeCommonUpload(fileToUpload, filename)
-        call3.enqueue(object : Callback<ServerResponse> {
-            override fun onResponse(call: Call<ServerResponse>,responsee: Response<ServerResponse>)
-            {
-                val serverResponse3 = responsee.body()
-                if (serverResponse3 != null) {
-                    if (serverResponse3!!.success)
-                    {
-                        var fileurl:String=serverResponse3.message.toString()
+            var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
+                PhpApiInterface::class.java
+            )
+            var call3: Call<ServerResponse> =
+                phpApiInterface.noticeCommonUpload(fileToUpload, filename)
+            call3.enqueue(object : Callback<ServerResponse> {
+                override fun onResponse(
+                    call: Call<ServerResponse>,
+                    responsee: Response<ServerResponse>
+                ) {
+                    val serverResponse3 = responsee.body()
+                    if (serverResponse3 != null) {
+                        if (serverResponse3!!.success) {
+                            var fileurl: String = serverResponse3.message.toString()
 //                        var filename:String=serverResponse3.filename.toString()
-                        try {
-                            if (InternetConnection.checkConnection(this@ExamAdminNoticeBoard)) {
+                            try {
+                                if (InternetConnection.checkConnection(this@ExamAdminNoticeBoard)) {
 
 
-                                mServices.UploadNotice(
-                                    notice_date,
-                                    notice_title,
-                                    notice_desc,
-                                    selectedInstituteName,
-                                    selectedcourselist,
-                                    selecteddeptlist,
-                                    selectedNoticeType,
-                                    selectedFacultyStud,
-                                    confirmStatus,
-                                    UserRole,
-                                    UserID,
-                                    fileurl,
-                                    course_id,
-                                    dept_id,
-                                    student_flag,
-                                    faculty_flag,
-                                    admin_flag
-                                ).enqueue(object : Callback<APIResponse> {
-                                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                        dialogCommon!!.dismiss()
-                                        Toast.makeText(this@ExamAdminNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
-                                    }
+                                    mServices.UploadNotice(
+                                        notice_date,
+                                        notice_title,
+                                        notice_desc,
+                                        selectedInstituteName,
+                                        selectedcourselist,
+                                        selecteddeptlist,
+                                        selectedNoticeType,
+                                        selectedFacultyStud,
+                                        confirmStatus,
+                                        UserRole,
+                                        UserID,
+                                        fileurl,
+                                        course_id,
+                                        dept_id,
+                                        student_flag,
+                                        faculty_flag,
+                                        admin_flag
+                                    ).enqueue(object : Callback<APIResponse> {
+                                        override fun onFailure(
+                                            call: Call<APIResponse>,
+                                            t: Throwable
+                                        ) {
+                                            dialogCommon!!.dismiss()
+                                            Toast.makeText(
+                                                this@ExamAdminNoticeBoard,
+                                                t.message,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
 
-                                    override fun onResponse(
-                                        call: Call<APIResponse>,
-                                        response: Response<APIResponse>
-                                    ) {
-                                        val result: APIResponse? = response.body()
-                                        dialogCommon!!.dismiss()
+                                        override fun onResponse(
+                                            call: Call<APIResponse>,
+                                            response: Response<APIResponse>
+                                        ) {
+                                            val result: APIResponse? = response.body()
+                                            dialogCommon!!.dismiss()
 //                                        Toast.makeText(this@GreivanceStudFile, result!!.Status, Toast.LENGTH_SHORT)
 //                                            .show()Responsecode
-                                        if (result!!.Responsecode==200){
+                                            if (result!!.Responsecode == 200) {
 
-                                            GenericUserFunction.showPositivePopUp(
-                                                this@ExamAdminNoticeBoard,
-                                                "Notice Send Successfully"
-                                            )
-                                        }else{
-                                            GenericUserFunction.showApiError(
-                                                this@ExamAdminNoticeBoard,
-                                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-                                            )
+                                                GenericUserFunction.showPositivePopUp(
+                                                    this@ExamAdminNoticeBoard,
+                                                    "Notice Send Successfully"
+                                                )
+                                            } else {
+                                                GenericUserFunction.showApiError(
+                                                    this@ExamAdminNoticeBoard,
+                                                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                                                )
+                                            }
+                                            mediaPath = null
+                                            confirmStatus = "F"
                                         }
-                                        mediaPath=null
-                                        confirmStatus="F"
-                                    }
-                                })
-                            }else
-                            {
-                                GenericUserFunction.showInternetNegativePopUp(
+                                    })
+                                } else {
+                                    GenericUserFunction.showInternetNegativePopUp(
+                                        this@ExamAdminNoticeBoard,
+                                        getString(R.string.failureNoInternetErr)
+                                    )
+                                }
+                            } catch (ex: java.lang.Exception) {
+                                dialogCommon!!.dismiss()
+                                GenericUserFunction.showApiError(
                                     this@ExamAdminNoticeBoard,
-                                    getString(R.string.failureNoInternetErr)
+                                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                                 )
                             }
-                        }
-                        catch (ex:java.lang.Exception){
+                        } else {
                             dialogCommon!!.dismiss()
                             GenericUserFunction.showApiError(
                                 this@ExamAdminNoticeBoard,
                                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                             )
                         }
-                    }
-                    else
-                    {
+                    } else {
                         dialogCommon!!.dismiss()
-                        GenericUserFunction.showApiError(
-                            this@ExamAdminNoticeBoard,
-                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-                        )
-                    }
-                } else {
-                    dialogCommon!!.dismiss()
-                    assert(serverResponse3 != null)
+                        assert(serverResponse3 != null)
 //                    Log.v("Response", serverResponse3!!.toString())
+                    }
+
                 }
 
-            }
-
-            override fun onFailure(call: Call<ServerResponse>, t: Throwable)
-            {
-                dialogCommon!!.dismiss()
-                GenericUserFunction.showApiError(
-                    this@ExamAdminNoticeBoard,
-                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-                )
-            }
-        })
+                override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
+                    dialogCommon!!.dismiss()
+                    GenericUserFunction.showApiError(
+                        this@ExamAdminNoticeBoard,
+                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                    )
+                }
+            })
+        } else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
+        }
     }
 }
 

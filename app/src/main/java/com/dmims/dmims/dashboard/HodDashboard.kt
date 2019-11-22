@@ -100,6 +100,9 @@ class HodDashboard : AppCompatActivity()
         txt_Institute.text = "Ins Name: " +mypref.getString("key_institute", null)
         txt_designation.text = "Designation: " + mypref.getString("key_designation", null)
 
+        var pinfo=packageManager.getPackageInfo(packageName, 0)
+        var versionName = pinfo.versionName
+        txt_versionName.text="App Version : $versionName"
 
         helpdiloadboad.setOnClickListener {
             displayHelpAlert()

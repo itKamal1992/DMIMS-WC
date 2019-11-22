@@ -24,6 +24,7 @@ import com.dmims.dmims.Generic.GenericPublicVariable.Companion.remainingPermissi
 import com.dmims.dmims.Generic.GenericPublicVariable.Companion.userRole
 import com.dmims.dmims.Generic.GenericUserFunction.Companion.showApiError
 import com.dmims.dmims.Generic.GenericUserFunction.Companion.showInternetNegativePopUp
+import com.dmims.dmims.Generic.GenericUserFunction.Companion.showInternetNegativePopUpSplash
 import com.dmims.dmims.Generic.GenericUserFunction.Companion.showPerMissNegativePopUp
 import com.dmims.dmims.Generic.GenericUserFunction.Companion.showSplashNegativePopUp
 import com.dmims.dmims.Generic.InternetConnection
@@ -171,7 +172,7 @@ class SplashScreen : AppCompatActivity() {
                 )
             }
         } else {
-            showInternetNegativePopUp(
+            showInternetNegativePopUpSplash(
                 this@SplashScreen,
                 getString(R.string.failureNoInternetErr)
             )

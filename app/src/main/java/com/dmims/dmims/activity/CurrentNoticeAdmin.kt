@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.NoticeAdapterCurrent
 import com.dmims.dmims.common.Common
@@ -61,7 +62,8 @@ class CurrentNoticeAdmin : AppCompatActivity() {
         var end = sdf.format(cal.time).toString()
 
 //        Toast.makeText(this@CurrentNoticeAdmin, begining.toString() + "  and   " + end.toString(), Toast.LENGTH_SHORT).show()
-        progressBar.visibility = View.VISIBLE
+        if (InternetConnection.checkConnection(this)) {
+            progressBar.visibility = View.VISIBLE
         try {
             mServices.GetNotice(begining.toString(), end.toString())
                 .enqueue(object : Callback<APIResponse> {
@@ -115,6 +117,7 @@ class CurrentNoticeAdmin : AppCompatActivity() {
                                                 "Dept ID : " + result.Data14!![i].DEPT_ID,
                                                 "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
                                                 result.Data14!![i].FILENAME,
+                                                result.Data14!![i].YEAR,
                                                 k
                                             )
                                         )
@@ -173,6 +176,14 @@ class CurrentNoticeAdmin : AppCompatActivity() {
             ex.printStackTrace()
             GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
         }
+    }else {
+            progressBar!!.visibility = View.INVISIBLE
+            progressBar.visibility = View.GONE
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr)
+        )
+    }
 
     }
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable.Companion.mServices
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.Generic.showToast
 import com.dmims.dmims.R
 import com.dmims.dmims.dataclass.FeedBackDataC
@@ -86,7 +87,7 @@ class NewRegistration : AppCompatActivity() {
             semlist.add("08")
             semlist.add("09")
             semlist.add("No Semester Pattern")
-
+            if (InternetConnection.checkConnection(this)) {
             mServices.GetInstituteData()
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
@@ -106,6 +107,13 @@ class NewRegistration : AppCompatActivity() {
                     }
                 })
 
+        } else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
+        }
+
             var institueAdap: ArrayAdapter<String> =
                 ArrayAdapter<String>(
                     this@NewRegistration,
@@ -122,6 +130,7 @@ class NewRegistration : AppCompatActivity() {
         }
         spinner_institue.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (InternetConnection.checkConnection(this@NewRegistration)) {
                 try {
                     selectedInstituteName = p0!!.getItemAtPosition(p2) as String
                     courselist.clear()
@@ -166,6 +175,12 @@ class NewRegistration : AppCompatActivity() {
                         "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                     )
                 }
+            } else {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this@NewRegistration,
+                    getString(R.string.failureNoInternetErr)
+                )
+            }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -179,6 +194,7 @@ class NewRegistration : AppCompatActivity() {
                 if (selectedcourselist.equals("Select Course")) {
 
                 } else {
+                    if (InternetConnection.checkConnection(this@NewRegistration)) {
                     try {
 
                         var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
@@ -237,6 +253,13 @@ class NewRegistration : AppCompatActivity() {
                         )
                     }
                 }
+                else
+                {
+                    GenericUserFunction.showInternetNegativePopUp(
+                        this@NewRegistration,
+                        getString(R.string.failureNoInternetErr))
+                }
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -289,6 +312,7 @@ class NewRegistration : AppCompatActivity() {
                                         showToast("Please select your Semester")
                                         return@setOnClickListener
                                     } else {
+                                        if (InternetConnection.checkConnection(this)) {
                                         try {
                                             mServices.StudentSearchByRollNo(
                                                 edit_RollNo.text.toString().trim(),
@@ -382,6 +406,12 @@ class NewRegistration : AppCompatActivity() {
                                                 this@NewRegistration,
                                                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                                             )
+                                        }}
+                                        else
+                                        {
+                                            GenericUserFunction.showInternetNegativePopUp(
+                                                this,
+                                                getString(R.string.failureNoInternetErr))
                                         }
 
 

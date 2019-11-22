@@ -249,6 +249,9 @@
 						          android:layout_marginRight="10dp"
 						          android:layout_height="150dp"
 						          android:textColor="@android:color/background_dark"/>
+
+
+
 					</LinearLayout>
 				
 				

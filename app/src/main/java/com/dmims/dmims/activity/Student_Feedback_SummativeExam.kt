@@ -12,6 +12,7 @@ import android.widget.*
 import com.dmims.dmims.ExamFeedBack.*
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.dataclass.FeedBackDataC
 import com.dmims.dmims.model.APIResponse
@@ -177,7 +178,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
 
             Toast.makeText(
-                applicationContext, " On checked change : ${radio.text}",
+                this, " On checked change : ${radio.text}",
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -423,7 +424,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
         Stud_Roll_No = mypref.getString("roll_no", null)!!
         Stud_Institute = mypref.getString("key_institute_stud", null)!!
 
-
+        if (InternetConnection.checkConnection(this)) {
         var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
             PhpApiInterface::class.java
         )
@@ -454,7 +455,13 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
         })
 
-
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
         btnSubmit = findViewById(R.id.btn_summFeedSubmit)
         btnSubmit.setOnClickListener {
             str_summNameFaculty = spinner_SummaNameFaculty.selectedItem.toString()
@@ -470,11 +477,11 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
 
             if (str_summNameFaculty.equals("Select Faculty")) {
-                Toast.makeText(applicationContext, "Select Faculty", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Select Faculty", Toast.LENGTH_LONG).show()
             } else if (str_summExamination.equals("Select Examination")) {
-                Toast.makeText(applicationContext, "Select exam", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Select exam", Toast.LENGTH_LONG).show()
             } else if (str_summYear.equals("Select Year")) {
-                Toast.makeText(applicationContext, "Select year", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Select year", Toast.LENGTH_LONG).show()
             } else {
 //                COURSE_ID = mypref.getString("course_id", null)
 //                stud_kstr = mypref.getString("Stud_id_key", null)
@@ -637,6 +644,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
                 tvMsg.text = "Do you want to Submit your Feedback"
 //    GenericPublicVariable.CustDialog.setCancelable(false)
                 btnOk.setOnClickListener {
+                    if (InternetConnection.checkConnection(this)) {
                     var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
                         PhpApiInterface::class.java
                     )
@@ -672,6 +680,13 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
                         }
 
                     })
+                }
+                else
+                {
+                    GenericUserFunction.showInternetNegativePopUp(
+                        this,
+                        getString(R.string.failureNoInternetErr))
+                }
                 }
                 btnCustomDialogCancel.setOnClickListener {
                     CustDialog.dismiss()
@@ -788,7 +803,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
             )
         )
-
+        if (InternetConnection.checkConnection(this)) {
         val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
         try {
 
@@ -830,10 +845,16 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
             ex.printStackTrace()
             GenericUserFunction.showApiError(
-                applicationContext,
+                this,
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
 
+        }}
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
         }
     }
 

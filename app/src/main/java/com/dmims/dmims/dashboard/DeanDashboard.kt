@@ -236,6 +236,7 @@ class DeanDashboard : AppCompatActivity()
 
         })
         progressDiag.dismiss()
+
     }
 
     // Extension function to show toast message easily

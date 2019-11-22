@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.GreivanceNotificationAdapter
 import com.dmims.dmims.common.Common
@@ -59,65 +60,86 @@ class Activity_Greivance_Notification : AppCompatActivity() {
 
 
         progressBar.visibility = View.VISIBLE
-        try {
-            mServices.GetRegisteredGreivance()
-                .enqueue(object : Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                        Toast.makeText(this@Activity_Greivance_Notification, t.message, Toast.LENGTH_SHORT).show()
-                        progressBar.visibility = View.INVISIBLE
-                        progressBar.visibility = View.GONE
-
-                    }
-
-                    override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
-                        val result: APIResponse? = response.body()
-                        if (result!!.Status == "ok") {
-                            var listSize = result.Data12!!.size
-                            val users = ArrayList<GreivanceCellData>()
-                            for (i in 0..listSize - 1) {
-
-                                users.add(
-                                    GreivanceCellData(
-                                        result.Data12!![i].ID,
-                                        result.Data12!![i].INFORMATION,
-                                        result.Data12!![i].NAME_GRIE,
-                                        result.Data12!![i].PHONE_NO,
-                                        result.Data12!![i].EMAIL_ID,
-                                        result.Data12!![i].ADDRESS,
-                                        result.Data12!![i].PLACE_WORK,
-                                        result.Data12!![i].JOB_TITLE,
-                                        result.Data12!![i].TYPE_GRIE,
-                                        result.Data12!![i].DT_TIME_PLACE,
-                                        result.Data12!![i].DETAIL_DESC,
-                                        result.Data12!![i].OTHER_INFO,
-                                        result.Data12!![i].PRO_SOL_GRIE,
-                                        result.Data12!![i].OTHER_DETAILS,
-                                        result.Data12!![i].INSERT_DATE,
-                                        result.Data12!![i].COURSE_NAME,
-                                        result.Data12!![i].COURSE_ID,
-                                        result.Data12!![i].COURSE_INSTITUTE,
-                                        result.Data12!![i].STUDENT_ID,
-                                        R.drawable.ic_attendence
-                                    )
-                                )
-                            }
+        if (InternetConnection.checkConnection(this)) {
+            try {
+                mServices.GetRegisteredGreivance()
+                    .enqueue(object : Callback<APIResponse> {
+                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                            Toast.makeText(
+                                this@Activity_Greivance_Notification,
+                                t.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
                             progressBar.visibility = View.INVISIBLE
                             progressBar.visibility = View.GONE
-                            val adapter = GreivanceNotificationAdapter(users)
-                            recyclerView.adapter = adapter
-                        } else {
-                            progressBar.visibility = View.INVISIBLE
-                            progressBar.visibility = View.GONE
-                            Toast.makeText(this@Activity_Greivance_Notification, result.Status, Toast.LENGTH_SHORT)
-                                .show()
+
                         }
-                    }
-                })
 
-        } catch (ex: Exception) {
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
+                            val result: APIResponse? = response.body()
+                            if (result!!.Status == "ok") {
+                                var listSize = result.Data12!!.size
+                                val users = ArrayList<GreivanceCellData>()
+                                for (i in 0..listSize - 1) {
 
-            ex.printStackTrace()
-            GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
+                                    users.add(
+                                        GreivanceCellData(
+                                            result.Data12!![i].ID,
+                                            result.Data12!![i].INFORMATION,
+                                            result.Data12!![i].NAME_GRIE,
+                                            result.Data12!![i].PHONE_NO,
+                                            result.Data12!![i].EMAIL_ID,
+                                            result.Data12!![i].ADDRESS,
+                                            result.Data12!![i].PLACE_WORK,
+                                            result.Data12!![i].JOB_TITLE,
+                                            result.Data12!![i].TYPE_GRIE,
+                                            result.Data12!![i].DT_TIME_PLACE,
+                                            result.Data12!![i].DETAIL_DESC,
+                                            result.Data12!![i].OTHER_INFO,
+                                            result.Data12!![i].PRO_SOL_GRIE,
+                                            result.Data12!![i].OTHER_DETAILS,
+                                            result.Data12!![i].INSERT_DATE,
+                                            result.Data12!![i].COURSE_NAME,
+                                            result.Data12!![i].COURSE_ID,
+                                            result.Data12!![i].COURSE_INSTITUTE,
+                                            result.Data12!![i].STUDENT_ID,
+                                            R.drawable.ic_attendence
+                                        )
+                                    )
+                                }
+                                progressBar.visibility = View.INVISIBLE
+                                progressBar.visibility = View.GONE
+                                val adapter = GreivanceNotificationAdapter(users)
+                                recyclerView.adapter = adapter
+                            } else {
+                                progressBar.visibility = View.INVISIBLE
+                                progressBar.visibility = View.GONE
+                                Toast.makeText(
+                                    this@Activity_Greivance_Notification,
+                                    result.Status,
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        }
+                    })
+
+            } catch (ex: Exception) {
+
+                ex.printStackTrace()
+                GenericUserFunction.showApiError(
+                    this,
+                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                )
+            }
+        } else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
         }
     }
 

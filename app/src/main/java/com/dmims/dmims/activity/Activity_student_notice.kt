@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.AttendanceAdapterCurrent
 import com.dmims.dmims.adapter.NoticeAdapterCurrent
@@ -69,7 +70,8 @@ class Activity_student_notice : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.attendance_list)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        try {
+        if (InternetConnection.checkConnection(this)) {
+            try {
             mServices.GetNotice( to_date_sel,from_date_sel)
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
@@ -122,6 +124,7 @@ class Activity_student_notice : AppCompatActivity() {
                                                         "Dept ID : " + result.Data14!![i].DEPT_ID,
                                                         "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
                                                         result.Data14!![i].FILENAME,
+                                                        result.Data14!![i].YEAR,
                                                         k
                                                     )
                                                 )
@@ -173,6 +176,12 @@ class Activity_student_notice : AppCompatActivity() {
             ex.printStackTrace()
             GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
         }
+    }else {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr)
+        )
+    }
 
         btn_current_id!!.setOnClickListener {
             val intent = Intent(this@Activity_student_notice, CurrentNotice::class.java)
@@ -183,7 +192,7 @@ class Activity_student_notice : AppCompatActivity() {
         search_id!!.setOnClickListener {
 
             validateDate()
-
+            if (InternetConnection.checkConnection(this)) {
             progressBar!!.visibility = View.VISIBLE
             try {
                 mServices.GetNotice( to_date_sel,from_date_sel)
@@ -240,6 +249,7 @@ class Activity_student_notice : AppCompatActivity() {
                                                             "Dept ID : " + result.Data14!![i].DEPT_ID,
                                                             "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
                                                             result.Data14!![i].FILENAME,
+                                                            result.Data14!![i].YEAR,
                                                             k
                                                         )
                                                     )
@@ -290,6 +300,12 @@ class Activity_student_notice : AppCompatActivity() {
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
             }
+        }else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
+        }
 
         }
         /* DatePicker Listener --End*/

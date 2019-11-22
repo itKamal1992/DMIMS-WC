@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.model.FeedBackSchedule
 import com.dmims.dmims.model.FeedBackScheduleField
@@ -110,6 +111,7 @@ class FeedbackOptionActivity : AppCompatActivity() {
 
     }
     fun GetCurrentDate(date:String) {
+        if (InternetConnection.checkConnection(this)) {
         val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
         try {
 
@@ -160,8 +162,15 @@ class FeedbackOptionActivity : AppCompatActivity() {
             dialog.dismiss()
             ex.printStackTrace()
             GenericUserFunction.showApiError(
-                applicationContext,
+                this,
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
         }
+    }
+    else
+    {
+        GenericUserFunction.showInternetNegativePopUp(
+            this,
+            getString(R.string.failureNoInternetErr))
+    }
     }
 }

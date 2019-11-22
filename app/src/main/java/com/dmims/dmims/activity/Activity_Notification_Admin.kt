@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.NoticeAdapterCurrent
 import com.dmims.dmims.adapter.NoticeDeleteAdapterCurrent
@@ -65,104 +66,116 @@ class Activity_Notification_Admin : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.attendance_list)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        try {
-            mServices.GetNotice(to_date_sel, from_date_sel)
-                .enqueue(object : Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+        if (InternetConnection.checkConnection(this@Activity_Notification_Admin)) {
+            try {
+                mServices.GetNotice(to_date_sel, from_date_sel)
+                    .enqueue(object : Callback<APIResponse> {
+                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
 
-                        Toast.makeText(
-                            this@Activity_Notification_Admin,
-                            t.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        progressBar!!.visibility = View.INVISIBLE
-                        progressBar!!.visibility = View.GONE
-
-                    }
-
-                    override fun onResponse(
-                        call: Call<APIResponse>,
-                        response: Response<APIResponse>
-                    ) {
-                        val result: APIResponse? = response.body()
-                        println("result 1 >>> " + result.toString())
-                        if (result!!.Status == "ok") {
-                            println("result >>> $result")
-                            println("result.Data14!! >>> " + result.Data14!!)
-                            var listSize = result.Data14!!.size
-                            val users = ArrayList<NoticeStudCurrent>()
-                            println("result 4>>> " + users)
-
-                            for (i in 0..listSize - 1) {
-                                if (result.Data14!![i].ADMIN_FLAG == "T") {
-                                    //    if (result!!.Data14!![i].COURSE_ID == "All" || result!!.Data14!![i].COURSE_ID == COURSE_ID) {
-                                    if (result.Data14!![i].RESOU_FLAG == "T") {
-                                        k = R.drawable.ic_notice_yes
-                                    } else {
-                                        k = R.drawable.ic_anotice_no
-                                    }
-                                    users.add(
-                                        NoticeStudCurrent(
-                                            result.Data14!![i].NOTICE_TITLE,
-                                            result.Data14!![i].USER_ROLE,
-                                            result.Data14!![i].USER_TYPE,
-                                            result.Data14!![i].NOTICE_TYPE,
-                                            result.Data14!![i].NOTICE_DESC,
-                                            result.Data14!![i].NOTICE_DATE,
-                                            result.Data14!![i].INSTITUTE_NAME,
-                                            result.Data14!![i].COURSE_NAME,
-                                            result.Data14!![i].COURSE_ID,
-                                            result.Data14!![i].DEPT_NAME,
-//                                                result!!.Data14!![i].DEPT_ID,
-                                            result.Data14!![i].ID,// in this we have pass ROW ID instead of DEPT_ID() to delete perticular notice
-                                            result.Data14!![i].RESOU_FLAG,
-                                            result.Data14!![i].FILENAME,
-                                            k
-                                        )
-                                    )
-                                    // }
-                                }
-                            }
+                            Toast.makeText(
+                                this@Activity_Notification_Admin,
+                                t.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
                             progressBar!!.visibility = View.INVISIBLE
                             progressBar!!.visibility = View.GONE
-                            val adapter = NoticeDeleteAdapterCurrent(
-                                users,
-                                this@Activity_Notification_Admin
-                            )//StudentNotificationAdapter
-                            recyclerView.adapter = adapter
 
-                        } else {
-                            if (result.Status.equals("No data found", ignoreCase = true)) {
+                        }
 
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
+                            val result: APIResponse? = response.body()
+                            println("result 1 >>> " + result.toString())
+                            if (result!!.Status == "ok") {
+                                println("result >>> $result")
+                                println("result.Data14!! >>> " + result.Data14!!)
+                                var listSize = result.Data14!!.size
+                                val users = ArrayList<NoticeStudCurrent>()
+                                println("result 4>>> " + users)
+
+                                for (i in 0..listSize - 1) {
+                                    if (result.Data14!![i].ADMIN_FLAG == "T") {
+                                        //    if (result!!.Data14!![i].COURSE_ID == "All" || result!!.Data14!![i].COURSE_ID == COURSE_ID) {
+                                        if (result.Data14!![i].RESOU_FLAG == "T") {
+                                            k = R.drawable.ic_notice_yes
+                                        } else {
+                                            k = R.drawable.ic_anotice_no
+                                        }
+                                        users.add(
+                                            NoticeStudCurrent(
+                                                result.Data14!![i].NOTICE_TITLE,
+                                                result.Data14!![i].USER_ROLE,
+                                                result.Data14!![i].USER_TYPE,
+                                                result.Data14!![i].NOTICE_TYPE,
+                                                result.Data14!![i].NOTICE_DESC,
+                                                result.Data14!![i].NOTICE_DATE,
+                                                result.Data14!![i].INSTITUTE_NAME,
+                                                result.Data14!![i].COURSE_NAME,
+                                                result.Data14!![i].COURSE_ID,
+                                                result.Data14!![i].DEPT_NAME,
+//                                                result!!.Data14!![i].DEPT_ID,
+                                                result.Data14!![i].ID,// in this we have pass ROW ID instead of DEPT_ID() to delete perticular notice
+                                                result.Data14!![i].RESOU_FLAG,
+                                                result.Data14!![i].FILENAME,
+                                                result.Data14!![i].YEAR,
+                                                k
+                                            )
+                                        )
+                                        // }
+                                    }
+                                }
                                 progressBar!!.visibility = View.INVISIBLE
                                 progressBar!!.visibility = View.GONE
-                                GenericUserFunction.showOopsError(
-                                    this@Activity_Notification_Admin,
-                                    "No Notices found for the current request"
-                                )
+                                val adapter = NoticeDeleteAdapterCurrent(
+                                    users,
+                                    this@Activity_Notification_Admin
+                                )//StudentNotificationAdapter
+                                recyclerView.adapter = adapter
+
                             } else {
-                                progressBar!!.visibility = View.INVISIBLE
-                                progressBar!!.visibility = View.GONE
-                                println("result 3>>>" + result.Status)
-                                Toast.makeText(
-                                    this@Activity_Notification_Admin,
-                                    result.Status,
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
+                                if (result.Status.equals("No data found", ignoreCase = true)) {
+
+                                    progressBar!!.visibility = View.INVISIBLE
+                                    progressBar!!.visibility = View.GONE
+                                    GenericUserFunction.showOopsError(
+                                        this@Activity_Notification_Admin,
+                                        "No Notices found for the current request"
+                                    )
+                                } else {
+                                    progressBar!!.visibility = View.INVISIBLE
+                                    progressBar!!.visibility = View.GONE
+                                    println("result 3>>>" + result.Status)
+                                    Toast.makeText(
+                                        this@Activity_Notification_Admin,
+                                        result.Status,
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                }
                             }
                         }
-                    }
-                })
+                    })
 
-        } catch (ex: Exception) {
+            } catch (ex: Exception) {
 
-            ex.printStackTrace()
-            GenericUserFunction.showApiError(
-                this,
-                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-            )
-        }
+                ex.printStackTrace()
+                progressBar!!.visibility = View.INVISIBLE
+                progressBar!!.visibility = View.GONE
+                GenericUserFunction.showApiError(
+                    this,
+                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                )
+            }
+        }else {
+            progressBar!!.visibility = View.INVISIBLE
+            progressBar!!.visibility = View.GONE
+        GenericUserFunction.showInternetNegativePopUp(
+            this@Activity_Notification_Admin,
+            getString(R.string.failureNoInternetErr)
+        )
+    }
 
         btn_current_id!!.setOnClickListener {
             val intent =
@@ -173,7 +186,7 @@ class Activity_Notification_Admin : AppCompatActivity() {
         search_id!!.setOnClickListener {
 
             validateDate()
-
+            if (InternetConnection.checkConnection(this)) {
             progressBar!!.visibility = View.VISIBLE
             try {
                 mServices.GetNotice(to_date_sel, from_date_sel)
@@ -225,6 +238,7 @@ class Activity_Notification_Admin : AppCompatActivity() {
                                                 result.Data14!![i].ID,// in this we have pass ROW ID instead of DEPT_ID() to delete perticular notice
                                                 result.Data14!![i].RESOU_FLAG,
                                                 result.Data14!![i].FILENAME,
+                                                result.Data14!![i].YEAR,
                                                 k
                                             )
                                         )
@@ -272,6 +286,14 @@ class Activity_Notification_Admin : AppCompatActivity() {
                     "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                 )
             }
+        }else {
+//                progressBar!!.visibility = View.INVISIBLE
+//                progressBar!!.visibility = View.GONE
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
+        }
 
         }
         /* DatePicker Listener --End*/

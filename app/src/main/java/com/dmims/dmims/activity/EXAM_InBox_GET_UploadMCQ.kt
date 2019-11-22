@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
+import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.adapter.ExamGetMCQAdapter
 import com.dmims.dmims.adapter.ExamInBoxGetMCQAdapter
@@ -70,6 +71,7 @@ class EXAM_InBox_GET_UploadMCQ : AppCompatActivity() {
         var end = sdf.format(cal.time).toString()
 
 //        Toast.makeText(this@Student_CurrentNotification, begining.toString() + "  and   " + end.toString(),Toast.LENGTH_SHORT).show()
+        if (InternetConnection.checkConnection(this)) {
         progressBar.visibility = View.VISIBLE
         try {
             var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
@@ -290,6 +292,13 @@ class EXAM_InBox_GET_UploadMCQ : AppCompatActivity() {
                 this,
                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
             )
+        }
+        }
+        else
+        {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr))
         }
 
     }

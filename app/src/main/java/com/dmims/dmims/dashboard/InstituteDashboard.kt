@@ -70,6 +70,10 @@ class InstituteDashboard : AppCompatActivity(), View.OnClickListener {
         helpdiloadboad = findViewById<View>(R.id.helpdiloadboad) as LinearLayout
         noticeInboxGrid = findViewById<View>(R.id.noticeInboxGrid) as LinearLayout
 
+        var pinfo=packageManager.getPackageInfo(packageName, 0)
+        var versionName = pinfo.versionName
+        txt_versionName.text="App Version : $versionName"
+
         time_table_grid.setOnClickListener(this)
 
 
@@ -128,6 +132,10 @@ class InstituteDashboard : AppCompatActivity(), View.OnClickListener {
 
                 R.id.action_academic_cal_upload -> {
                     val intent = Intent(this@InstituteDashboard, AcademicCalUploadInsti::class.java)
+                    startActivity(intent)
+                }
+                R.id.action_view_academic_cal_upload -> {
+                    val intent = Intent(this@InstituteDashboard, Activity_time_table_student::class.java)
                     startActivity(intent)
                 }
                 R.id.action_noticeInbox -> {

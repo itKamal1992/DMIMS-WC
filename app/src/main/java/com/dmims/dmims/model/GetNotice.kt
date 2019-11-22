@@ -20,4 +20,6 @@ class GetNotice {
      var STUDENT_FLAG: String = "-"
      var FACULTY_FLAG: String = "-"
      var ADMIN_FLAG: String = "-"
+     var YEAR: String = "-"
+
 }
