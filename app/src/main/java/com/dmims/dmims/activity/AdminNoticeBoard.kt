@@ -74,7 +74,7 @@ class AdminNoticeBoard : AppCompatActivity() {
     private var TAG = AdminNoticeBoard::class.java.simpleName
     var noticetype = arrayOf("Administrative", "General")
     var facultystud = arrayOf("All", "Faculty", "Student")
-    var studYearArray = arrayOf("Select Year","1st", "2nd","3rd","4th","5th")
+    var studYearArray = arrayOf("Select Year","1st", "2nd","3rd","4th","5th","All")
     private lateinit var btnPickImage: Button
     private lateinit var btnPubNotice: Button
     private lateinit var spinner_noticetype: Spinner

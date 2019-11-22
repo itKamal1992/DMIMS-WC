@@ -143,8 +143,8 @@ class ExamAdminNoticeBoard : AppCompatActivity() {
         multiYearLayout.visibility = View.GONE
         MultiSpinnerYear.visibility = View.GONE
 
-        spinner_multiple.visibility = View.VISIBLE
-        selfMultipleYear.visibility = View.VISIBLE
+        spinner_multiple.visibility = View.GONE
+        selfMultipleYear.visibility = View.GONE
 
         //val progressBar = findViewById<ProgressBar>(R.id.progressBar2)
 

@@ -107,7 +107,12 @@
 						android:textColor="@color/colorWhite"
 							  android:textAppearance="@style/TextAppearance.AppCompat.Small"
 							  android:layout_height="match_parent"/>
-
+					<TextView android:layout_width="match_parent"
+						android:id="@+id/txtStudYear"
+						android:text="Student in year"
+						android:textColor="@color/colorWhite"
+						android:textAppearance="@style/TextAppearance.AppCompat.Small"
+						android:layout_height="match_parent"/>
 					<TextView android:layout_width="match_parent"
 							  android:id="@+id/txtNOTICE_DESC"
 							  android:text="NOTICE_DESC"

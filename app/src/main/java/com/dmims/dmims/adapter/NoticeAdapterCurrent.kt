@@ -126,11 +126,11 @@ class NoticeAdapterCurrent(userlist: ArrayList<NoticeStudCurrent>, context: Cont
             itemView.txtUSER_TYPE?.text = cc.USER_TYPE
             itemView.txtNOTICE_TYPE?.text = cc.NOTICE_TYPE
             itemView.txtNOTICE_DESC?.text = cc.NOTICE_DESC
+            itemView.txtStudYear?.text = cc.YEAR
             itemView.txtNOTICE_DATE?.text = cc.NOTICE_DATE
             itemView.txtINSTITUTE_NAME?.text = cc.INSTITUTE_NAME
             itemView.txtCOURSE_NAME?.text = cc.COURSE_NAME
             itemView.txtCOURSE_ID?.text = cc.COURSE_ID
-            itemView.txtDEPT_NAME?.text = cc.NOTICE_TYPE
             itemView.txtDEPT_ID?.text = cc.DEPT_ID
             itemView.txtDEPT_NAME?.text = cc.DEPT_NAME
 //            itemView.txtRESOU_FLAG?.text = cc!!.RESOU_FLAG
