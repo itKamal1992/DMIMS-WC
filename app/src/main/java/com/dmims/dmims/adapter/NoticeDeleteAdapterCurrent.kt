@@ -26,14 +26,13 @@ import com.dmims.dmims.remote.IMyAPI
 import kotlinx.android.synthetic.main.admin_adapter_notification.view.*
 import kotlinx.android.synthetic.main.custom_layout.view.*
 import kotlinx.android.synthetic.main.notice_adaptercurrent.view.*
-
+import kotlinx.android.synthetic.main.notice_adaptercurrent.view.camera_image
+import kotlinx.android.synthetic.main.notice_adaptercurrent.view.txtNOTICE_DATE
+import kotlinx.android.synthetic.main.notice_adaptercurrent.view.txtNOTICE_TITLE
+import kotlinx.android.synthetic.main.notice_adaptercurrent.view.txtUSER_ROLE
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlinx.android.synthetic.main.admin_adapter_notification.view.camera_image as camera_image1
-import kotlinx.android.synthetic.main.admin_adapter_notification.view.txtNOTICE_DATE as txtNOTICE_DATE1
-import kotlinx.android.synthetic.main.admin_adapter_notification.view.txtNOTICE_TITLE as txtNOTICE_TITLE1
-import kotlinx.android.synthetic.main.admin_adapter_notification.view.txtUSER_ROLE as txtUSER_ROLE1
 import kotlinx.android.synthetic.main.notice_adaptercurrent.view.txtStudYear as txtStudYear1
 
 private lateinit var mServices: IMyAPI
@@ -133,8 +132,8 @@ class NoticeDeleteAdapterCurrent(userlist: ArrayList<NoticeStudCurrent>, context
             itemView.txtUSER_ROLE?.text = "From :" + cc.USER_ROLE
             var studYear=cc.YEAR
             if (studYear.equals("All", ignoreCase = true)) {
-                itemView.txtStudYear?.text = "Student in year : first to final years"
-                studYear="first to final years"
+                itemView.txtStudYear?.text = "Student in year : all years"
+                studYear="all years"
             } else {
                 itemView.txtStudYear?.text = "Student in year :" + cc.YEAR
                 studYear=studYear+" year"

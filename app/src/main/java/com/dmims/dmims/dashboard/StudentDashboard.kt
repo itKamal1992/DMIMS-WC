@@ -138,8 +138,7 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
 
 
                 R.id.action_time_table -> {
-                    val intent =
-                        Intent(this@StudentDashboard, Activity_time_table_student::class.java)
+                    val intent = Intent(this@StudentDashboard, Activity_time_table_student::class.java)
                     val mypref22 = getSharedPreferences("mypref", Context.MODE_PRIVATE)
                     var student_id_key22 = mypref22.getString("Stud_id_key", null)
                     intent.putExtra("stud_k", student_id_key22?.toString())
@@ -159,8 +158,7 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
                     startActivity(intent)
                 }
                 R.id.action_notification -> {
-                    val intent =
-                        Intent(this@StudentDashboard, Activity_Notification_Student::class.java)
+                    val intent = Intent(this@StudentDashboard, Activity_Notification_Student::class.java)
                     intent.putExtra("info", "Notice Board Activity")
                     val mypref13 = getSharedPreferences("mypref", Context.MODE_PRIVATE)
                     var student_id_key13 = mypref13.getString("Stud_id_key", null)
@@ -187,12 +185,12 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
                 R.id.action_feedback -> {
 //                    val intent = Intent(this@StudentDashboard, FeedbackDackOptionsForStud::class.java)
 
-     /*               val intent = Intent(this@StudentDashboard, FeedbackOptionActivity::class.java)
+                   val intent = Intent(this@StudentDashboard, FeedbackOptionActivity::class.java)
                     val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
                     var student_id_key = mypref.getString("Stud_id_key", null)
                     intent.putExtra("stud_k", student_id_key?.toString())
-                    startActivity(intent)*/
-                    GenericUserFunction.showOopsError(this,"Sorry...\nFeedback Not Scheduled Yet")
+                    startActivity(intent)
+                  //  GenericUserFunction.showOopsError(this,"Sorry...\nFeedback Not Scheduled Yet")
                 }
 
                 R.id.action_greviance -> {
@@ -508,13 +506,13 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
                 displayHelpAlert()
             }
             R.id.feedback_grid -> {
-          /*      val intent = Intent(this@StudentDashboard, FeedbackOptionActivity::class.java)
+             val intent = Intent(this@StudentDashboard, FeedbackOptionActivity::class.java)
                 val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
                 var student_id_key = mypref.getString("Stud_id_key", null)
                 intent.putExtra("stud_k", student_id_key?.toString())
-                startActivity(intent)*/
+                startActivity(intent)
 
-                GenericUserFunction.showOopsError(this,"Feedback not scheduled yet!!")
+      //          GenericUserFunction.showOopsError(this,"Feedback not scheduled yet!!")
             }
             R.id.academic_cal_board -> {
                 val intent = Intent(this@StudentDashboard, AcademicCalender::class.java)

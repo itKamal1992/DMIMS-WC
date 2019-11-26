@@ -177,10 +177,6 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
             val radio: RadioButton = findViewById(checkedId)
 
 
-            Toast.makeText(
-                this, " On checked change : ${radio.text}",
-                Toast.LENGTH_SHORT
-            ).show()
 
             str_SummAQ1 = radio.text.toString()
 

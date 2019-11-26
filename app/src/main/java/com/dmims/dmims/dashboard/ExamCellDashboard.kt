@@ -19,10 +19,7 @@ import com.dmims.dmims.R
 import com.dmims.dmims.activity.*
 import com.dmims.dmims.adapter.ViewPagerAdapter
 import kotlinx.android.synthetic.main.examcell_dashboard.*
-import kotlinx.android.synthetic.main.faculty_dashboard.*
-import kotlinx.android.synthetic.main.faculty_dashboard.drawer_layout
-import kotlinx.android.synthetic.main.faculty_dashboard.navigation_view
-import kotlinx.android.synthetic.main.faculty_dashboard.toolbar
+
 import java.util.*
 
 class ExamCellDashboard : AppCompatActivity() {

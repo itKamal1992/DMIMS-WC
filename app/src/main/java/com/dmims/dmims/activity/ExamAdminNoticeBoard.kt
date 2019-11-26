@@ -140,11 +140,11 @@ class ExamAdminNoticeBoard : AppCompatActivity() {
         spinner_deptlist = findViewById(R.id.spinner_deptlist)
         spinner_facultystud = findViewById(R.id.spinner_facultystud)
 
-        multiYearLayout.visibility = View.GONE
-        MultiSpinnerYear.visibility = View.GONE
+        multiYearLayout.visibility = View.VISIBLE
+        MultiSpinnerYear.visibility = View.VISIBLE
 
-        spinner_multiple.visibility = View.GONE
-        selfMultipleYear.visibility = View.GONE
+        spinner_multiple.visibility = View.VISIBLE
+        selfMultipleYear.visibility = View.VISIBLE
 
         //val progressBar = findViewById<ProgressBar>(R.id.progressBar2)
 

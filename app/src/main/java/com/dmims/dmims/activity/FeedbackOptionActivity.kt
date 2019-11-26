@@ -1,5 +1,6 @@
 package com.dmims.dmims.activity
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -34,6 +35,15 @@ class FeedbackOptionActivity : AppCompatActivity() {
     var feedbacedates = ArrayList<String>()
     var cal = Calendar.getInstance()
     var current_date: String = "-"
+
+
+    lateinit var Course_ID: String
+    lateinit var Stud_ID: String
+    lateinit var Stud_Name: String
+    lateinit var Stud_Roll_No: String
+    lateinit var Stud_Institute: String
+    lateinit var CurrentDate: String
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -55,6 +65,12 @@ class FeedbackOptionActivity : AppCompatActivity() {
 
 
 
+        val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
+        Course_ID = mypref.getString("course_id", null)!!
+        Stud_ID = mypref.getString("Stud_id_key", null)!!
+        Stud_Name = mypref.getString("key_drawer_title", null)!!
+        Stud_Roll_No = mypref.getString("roll_no", null)!!
+        Stud_Institute = mypref.getString("key_institute_stud", null)!!
 
 
         var Af_SS_Q1_AnswerAdap: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, feedbacknames)
@@ -147,11 +163,14 @@ class FeedbackOptionActivity : AppCompatActivity() {
                 } else {
 
                     var listSize = result!!.size
-                    for (i in 0..listSize - 1) {
 
-                        feedbacknames.add(result!![i].FEEDBACK_NAME)
-                        feedbacdsates.add(result!![i].START_DATE)
-                        feedbacedates.add(result!![i].END_DATE)
+                    for (i in 0..listSize - 1) {
+                        if(result!![i].INSTITUTE_NAME.equals(Stud_Institute) || result!![i].INSTITUTE_NAME.equals("All"))
+                        {
+                            feedbacknames.add(result!![i].FEEDBACK_NAME)
+                            feedbacdsates.add(result!![i].START_DATE)
+                            feedbacedates.add(result!![i].END_DATE)
+                        }
                     }
                 }
             }

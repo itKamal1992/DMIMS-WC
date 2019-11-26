@@ -455,7 +455,7 @@
                         android:layout_margin="10dp"
                         android:textSize="20dp"
                         android:textStyle="bold"
-                        android:entries="@array/arr_Year"
+                        android:entries="@array/Year_notice"
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>

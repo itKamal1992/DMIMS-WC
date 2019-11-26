@@ -18,7 +18,12 @@ import android.widget.Toast
 import com.dmims.dmims.R
 import com.dmims.dmims.activity.*
 import com.dmims.dmims.adapter.ViewPagerAdapter
+import kotlinx.android.synthetic.main.activity_student_dashboard.*
 import kotlinx.android.synthetic.main.faculty_dashboard.*
+import kotlinx.android.synthetic.main.faculty_dashboard.drawer_layout
+import kotlinx.android.synthetic.main.faculty_dashboard.navigation_view
+import kotlinx.android.synthetic.main.faculty_dashboard.toolbar
+import kotlinx.android.synthetic.main.faculty_dashboard.txt_versionName
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -27,6 +32,7 @@ class FacultyDashboard : AppCompatActivity() {
     lateinit var noticeboardgrid: LinearLayout
     lateinit var time_table_grid: LinearLayout
     lateinit var helpdiloadboad: LinearLayout
+    lateinit var emergencuContact: LinearLayout
     lateinit var notification_grid: LinearLayout
     lateinit var feedback_grid: LinearLayout
     lateinit var appraisal_grid: LinearLayout
@@ -47,7 +53,11 @@ class FacultyDashboard : AppCompatActivity() {
         feedback_grid = findViewById<View>(R.id.feedback_grid) as LinearLayout
         appraisal_grid = findViewById<View>(R.id.appraisal_grid) as LinearLayout
         helpdiloadboad = findViewById<View>(R.id.helpdiloadboad) as LinearLayout
+        emergencuContact = findViewById<View>(R.id.emergencygrid) as LinearLayout
 
+        var pinfo=packageManager.getPackageInfo(packageName, 0)
+        var versionName = pinfo.versionName
+        txt_versionName.text="App Version : $versionName"
 
         drawerTitle = findViewById<TextView>(R.id.drawer_title) as TextView
         enrollNo = findViewById<TextView>(R.id.enroll_no) as TextView
@@ -66,9 +76,9 @@ class FacultyDashboard : AppCompatActivity() {
         setTimeTable(time_table_grid)
         setHelpalertEvent(helpdiloadboad)
         setNotice(notification_grid)
-        setFeedback(feedback_grid)
-        setAppaisal(appraisal_grid)
-        setHelpalertEvent(helpdiloadboad)
+      /*  setFeedback(feedback_grid)
+        setAppaisal(appraisal_grid)*/
+        setEmergencyEvent(emergencuContact)
 
         //setToggleEvent(mainGrid);
 
@@ -103,37 +113,58 @@ class FacultyDashboard : AppCompatActivity() {
             when (it.itemId) {
 
                 R.id.action_noticeboard -> {
-                    val intent = Intent(this@FacultyDashboard, FacultyNoticeBoard::class.java)
+                   /* val intent = Intent(this@FacultyDashboard, FacultyNoticeBoard::class.java)
                     intent.putExtra("info", "Notice Board Activity")
+                    startActivity(intent)*/
+
+
+                    val intent = Intent(this@FacultyDashboard, Activity_student_notice::class.java)
+                   /* val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
+                    var student_id_key = mypref.getString("Stud_id_key", null)*/
+                    intent.putExtra("stud_k", "6202")
+              intent.putExtra("date_of_admiss_k", "07/06/2018")
                     startActivity(intent)
+
                 }
 
                 R.id.action_calender -> {
-                    val intent = Intent(this@FacultyDashboard, FacultyAcademicCalender::class.java)
+                    val intent = Intent(this@FacultyDashboard, AcademicCalender::class.java)
                     intent.putExtra("info", "Notice board")
                     startActivity(intent)
                 }
                 R.id.action_time_table -> {
-                    val intent = Intent(this@FacultyDashboard, Activity_time_table_faculty::class.java)
+                  /*  val intent = Intent(this@FacultyDashboard, Activity_time_table_faculty::class.java)
                     intent.putExtra("info", "Notice board")
+                    startActivity(intent)
+*/
+
+                    val intent = Intent(this@FacultyDashboard, Activity_time_table_student::class.java)
+              /*      val mypref22 = getSharedPreferences("mypref", Context.MODE_PRIVATE)
+                    var student_id_key22 = mypref22.getString("Stud_id_key", null)*/
+                    intent.putExtra("stud_k", "")
                     startActivity(intent)
                 }
                 R.id.action_notification -> {
-                    val intent = Intent(this@FacultyDashboard, Notification_Faculty::class.java)
+                 /*   val intent = Intent(this@FacultyDashboard, Notification_Faculty::class.java)
                     intent.putExtra("info", "Notice board")
+                    startActivity(intent)*/
+
+
+                    val intent = Intent(this@FacultyDashboard, Activity_Notification_Student::class.java)
+                    intent.putExtra("info", "Notice Board Activity")
+               /*     val mypref13 = getSharedPreferences("mypref", Context.MODE_PRIVATE)
+                    var student_id_key13 = mypref13.getString("Stud_id_key", null)*/
+                    intent.putExtra("stud_k", "1234")
+                    intent.putExtra("date_of_admiss_k","12/06/18")
                     startActivity(intent)
                 }
 
-                R.id.action_feedback -> {
-                    val intent = Intent(this@FacultyDashboard, Feedback_faculty::class.java)
-                    intent.putExtra("info", "Notice board")
-                    startActivity(intent)
-                }//action_Apprisal
-                R.id.action_Apprisal -> {
-                    val intent = Intent(this@FacultyDashboard, Activity_Appraisal_faculty::class.java)
-                    intent.putExtra("info", "Notice board")
+                R.id.action_emergency ->{
+                    val intent = Intent(this@FacultyDashboard, EmergencyContact::class.java)
+                    intent.putExtra("info", "Notice Board Activity")
                     startActivity(intent)
                 }
+
                 R.id.action_help -> {
                     displayhelpalert()
                 }
@@ -263,16 +294,25 @@ class FacultyDashboard : AppCompatActivity() {
     //ViewPager end
     private fun setNoticeEvent(noticeboardgrid: LinearLayout) {
         noticeboardgrid.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this@FacultyDashboard, FacultyNoticeBoard::class.java)
+           /* val intent = Intent(this@FacultyDashboard, FacultyNoticeBoard::class.java)
             intent.putExtra("info", "Notice Board Activity")
+            startActivity(intent)*/
+
+
+            val intent = Intent(this@FacultyDashboard, Activity_student_notice::class.java)
+            /*val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
+            var student_id_key = mypref.getString("Stud_id_key", null)*/
+            intent.putExtra("stud_k", "6202")
+            intent.putExtra("date_of_admiss_k", "27/06/17")
             startActivity(intent)
+
         })
 
     }
 
     private fun setacdemicCalEvent(academic_cal_board: LinearLayout) {
         academic_cal_board.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this@FacultyDashboard, FacultyAcademicCalender::class.java)
+            val intent = Intent(this@FacultyDashboard, AcademicCalender::class.java)
             intent.putExtra("info", "Notice board")
             startActivity(intent)
 
@@ -281,7 +321,7 @@ class FacultyDashboard : AppCompatActivity() {
 
     private fun setTimeTable(attendanceGrid: LinearLayout) {
         attendanceGrid.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this@FacultyDashboard, Activity_time_table_faculty::class.java)
+            val intent = Intent(this@FacultyDashboard, Activity_time_table_student::class.java)
             intent.putExtra("info", "Attendance Activity")
             startActivity(intent)
         })
@@ -290,30 +330,21 @@ class FacultyDashboard : AppCompatActivity() {
 
     private fun setNotice(attendanceGrid: LinearLayout) {
         attendanceGrid.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this@FacultyDashboard, Notification_Faculty::class.java)
+          /*  val intent = Intent(this@FacultyDashboard, Notification_Faculty::class.java)
             intent.putExtra("info", "Attendance Activity")
+            startActivity(intent)*/
+
+            val intent = Intent(this@FacultyDashboard, Activity_Notification_Student::class.java)
+            intent.putExtra("info", "Notice Board Activity")
+            intent.putExtra("stud_k", "1135")
+            intent.putExtra("date_of_admiss_k", "01/09/2017")
             startActivity(intent)
+
         })
 
     }
 
-    private fun setFeedback(attendanceGrid: LinearLayout) {
-        attendanceGrid.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this@FacultyDashboard, Feedback_faculty::class.java)
-            intent.putExtra("info", "Attendance Activity")
-            startActivity(intent)
-        })
 
-    }
-
-    private fun setAppaisal(attendanceGrid: LinearLayout) {
-        attendanceGrid.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this@FacultyDashboard, Activity_Appraisal_faculty::class.java)
-            intent.putExtra("info", "Attendance Activity")
-            startActivity(intent)
-        })
-
-    }
 
 
     private fun setEmergencyEvent(emergencygrid: LinearLayout) {

@@ -638,7 +638,8 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                 "All",
                 "T",
                 "F",
-                "T"
+                "T",
+                selecteddeptYear
             ).enqueue(object : Callback<APIResponse> {
                 override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                     Toast.makeText(this@RegistrarFeedbackSchdule, t.message, Toast.LENGTH_SHORT)
@@ -647,14 +648,23 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
 
                 override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
 
-                    // val result: APIResponse? = response.body()
+                   val result: APIResponse? = response.body()
+if (result!!.equals("Notice Inserted"))
+{
+    Toast.makeText(
+        this@RegistrarFeedbackSchdule,
+        "Feedback Scheduled Successfully",
+        Toast.LENGTH_SHORT
+    ).show()
+}else
+{
+    Toast.makeText(
+        this@RegistrarFeedbackSchdule,
+        ".",
+        Toast.LENGTH_SHORT
+    ).show()
+}
 
-                    Toast.makeText(
-                        this@RegistrarFeedbackSchdule,
-                        "Notice Send Successfully",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
                 }
             })
         } catch (ex: Exception) {

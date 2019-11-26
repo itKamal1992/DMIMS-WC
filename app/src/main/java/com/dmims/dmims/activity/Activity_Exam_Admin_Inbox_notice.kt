@@ -87,7 +87,7 @@ class Activity_Exam_Admin_Inbox_notice : AppCompatActivity() {
                     override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
                         val result: APIResponse? = response.body()
                         println("result 1 >>> " + result.toString())
-                        if (result!!.Status == "ok") {
+                         if (result!!.Status == "ok") {
                             var listSize = result.Data14!!.size
                             val users = ArrayList<NoticeStudCurrent>()
                             println("result 4>>> " + users)
@@ -293,7 +293,8 @@ class Activity_Exam_Admin_Inbox_notice : AppCompatActivity() {
         /* DatePicker Listener --End*/
     }
 
-    fun clickFromDataPicker(view: View) {
+    fun clickFromDataPicker(view: View)
+    {
         println(view)
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
@@ -326,6 +327,7 @@ class Activity_Exam_Admin_Inbox_notice : AppCompatActivity() {
         val dpd = DatePickerDialog(
             this,
             R.style.AppTheme4, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+
                 println(view)
                 println(year)
                 // Display Selected date in Toast
