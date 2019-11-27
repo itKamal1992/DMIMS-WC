@@ -22,17 +22,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".activity.GrievanceFull"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ViewRegGrievHod"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ViewGrievance" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.AcademicCalUploadInsti" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.AcademicCalenderUploadA" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.StudentSubmittedGrievance" android:screenOrientation="portrait" />
-        <activity android:name=".activity.ViewGrievPrincipal" android:screenOrientation="portrait"/>
-
+        <activity android:name=".activity.UpdateScheduledExamFeedback"></activity>
+        <activity
+            android:name=".activity.GrievanceFull"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ViewRegGrievHod"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ViewGrievance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AcademicCalUploadInsti"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AcademicCalenderUploadA"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.StudentSubmittedGrievance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ViewGrievPrincipal"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".broadCasts.SingleUploadBroadcastReceiverAdmin"
@@ -42,43 +53,79 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.GreivanceStudFile" android:screenOrientation="portrait" />
-        <activity android:name=".activity.ScheduledFeedbackEI" android:screenOrientation="portrait" />
-        <activity android:name=".activity.Student_Feedback_SummativeExam" android:screenOrientation="portrait" />
-        <activity android:name=".activity.FeedbackOptionActivity" android:screenOrientation="portrait" />
-        <activity android:name=".activity.FormativeFeedbackActivity" android:screenOrientation="portrait" />
-        <activity android:name=".activity.FeedbackOptionType" android:screenOrientation="portrait" />
-        <activity android:name=".activity.NewRegistration" android:screenOrientation="portrait" />
-        <activity android:name=".activity.RegistrarFeedbackSchdule" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.StudentPdfViewr" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.GreivanceStudFile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScheduledFeedbackEI"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Student_Feedback_SummativeExam"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FeedbackOptionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FormativeFeedbackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FeedbackOptionType"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NewRegistration"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegistrarFeedbackSchdule"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.StudentPdfViewr"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Activity_time_table_institute"
             android:label="@string/title_activity_time_table_institute"
-            android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.Notification_Admin"
             android:label="@string/title_activity_notification__admin"
-            android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.CurrentAttendance" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ProgAttendance" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.CurrentAttendance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ProgAttendance"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ImageUpload"
             android:label="@string/title_activity_image_upload"
-            android:theme="@style/AppTheme.NoActionBar" 
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.AdminNoticeBoard" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.AdminNoticeBoard"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AcademicCalender"
             android:label="@string/title_activity_academic__calender"
-            android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.EmergencyContact"
             android:label="@string/title_activity_emergency_contact"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.noticeboard" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.Attendance" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.GrievanceCellBoard" android:screenOrientation="portrait" />
-        <activity android:name=".activity.SplashScreen" android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".activity.noticeboard"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Attendance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GrievanceCellBoard"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SplashScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -87,188 +134,253 @@
         </activity>
         <activity
             android:name=".dashboard.StudentDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.AdminDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.InstituteDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Notification_Institute"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.InstituteNoticeBoard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.FacultyDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.FacultyNoticeBoard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.FacultyAcademicCalender"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_time_table_faculty"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Notification_Faculty"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Feedback_faculty"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Appraisal_faculty"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Exam_Student"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_time_table_student"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Appraisal_student"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Notification_Student"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.Exam_FeedBack_Admin_Dashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Exam_FeedBack_Admin"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Notification_FeedBack_Admin"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.StudentAcademicCalender"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.ExamCellDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.MCQ_ExamCell"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Notification_ExamCell"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.StudNoticeData"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_student_notice"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.CurrentNotice"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.CurrentGrievance"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_GetGreivance"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.GreivanceCellDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Greivance_Cell_notice"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Greivance_Notification"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Admin_Inbox_notice"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Institute_Admin_Inbox_notice"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Institute_Current_InboxNoticeAdmin"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.CurrentNoticeAdmin"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Notification_Admin"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Admin_CurrentNotification"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Student_CurrentNotification"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Notification_Institute_Admin"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Institute_Admin_CurrentNotification"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.RegisterarCellDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.PrincipalDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.HodDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".dashboard.DeanDashboard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.ExamMCQ"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.NewUnaRegistration" android:screenOrientation="portrait" />
-        <activity android:name=".activity.MainActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".activity.RegActivity"  android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".activity.NewUnaRegistration"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Activity_Notification_SelfInstitute_Admin"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Institute_Admin_Self_CurrentNotification"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.ExamMcqUpload"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.ExamAdminNoticeBoard"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.EXAM_GET_UploadMCQ"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Common_PDF_Viewer"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Common_Image_Viewer"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Student_GET_UploadMCQ"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Exam_Admin_CurrentNotification"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Notification_SelfExam_Admin"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Exam_Admin_Self_CurrentNotification"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.EXAM_InBox_GET_UploadMCQ"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Activity_Exam_Admin_Inbox_notice"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.Exam_Current_InboxNoticeAdmin"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.CurrentGrievHodPrincConv"
-            android:theme="@style/AppTheme2" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
     </application>
 
 </manifest>

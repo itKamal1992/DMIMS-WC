@@ -37,6 +37,11 @@ interface PhpApiInterface  {
     @POST("feedback_type/feedbackScheInsrt.php")
     fun InsertFeedBackScheduler(@Field("INSTITUTE_NAME") INSTITUTE_NAME: String,@Field("COURSE_NAME") COURSE_NAME: String, @Field("DEPT_NAME") DEPT_NAME: String, @Field("FEEDBACK_NAME") FEEDBACK_NAME: String, @Field("SCHEDULE_DATE") SCHEDULE_DATE: String, @Field("START_DATE") START_DATE: String, @Field("END_DATE") END_DATE: String,@Field("YEAR")Year:String): Call<FeedBackInsert>
 
+
+  @FormUrlEncoded
+    @POST("feedback_type/UpdatefeedbackScheInsrt.php")
+    fun UpdateFeedBackScheduler(@Field("INSTITUTE_NAME") INSTITUTE_NAME: String,@Field("COURSE_NAME") COURSE_NAME: String, @Field("DEPT_NAME") DEPT_NAME: String, @Field("FEEDBACK_NAME") FEEDBACK_NAME: String, @Field("SCHEDULE_DATE") SCHEDULE_DATE: String, @Field("START_DATE") START_DATE: String, @Field("END_DATE") END_DATE: String,@Field("YEAR")Year:String,@Field("ID")ID:String): Call<FeedBackInsert>
+
     @FormUrlEncoded
     @POST("feedback_type/feedbackDeptList.php")
     fun DepartDetailsStudYear(@Field("COURSE_ID") COURSE_ID: String): Call<DeptListStudData>

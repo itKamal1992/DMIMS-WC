@@ -155,22 +155,36 @@ class FeedbackOptionActivity : AppCompatActivity() {
                 val result: List<FeedBackScheduleField>? = response.body()!!.Data
                 println("Response1 >> " + result!![0].id)
                 if (result!![0].id == "error") {
+
+
+                    GenericUserFunction.showPerMissNegativePopUp(this@FeedbackOptionActivity,"Feedback not Scheduled")
                     Toast.makeText(
                         this@FeedbackOptionActivity,
-                        "No Data in faculty Master.",
+                        "Feedback not Scheduled",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
 
                     var listSize = result!!.size
+                    var check:Int=0
 
-                    for (i in 0..listSize - 1) {
+                    for (i in 0 .. listSize - 1) {
                         if(result!![i].INSTITUTE_NAME.equals(Stud_Institute) || result!![i].INSTITUTE_NAME.equals("All"))
                         {
+
                             feedbacknames.add(result!![i].FEEDBACK_NAME)
                             feedbacdsates.add(result!![i].START_DATE)
                             feedbacedates.add(result!![i].END_DATE)
+
+                            println("true part")
+                            check=1
                         }
+                        if (check==0){
+                            GenericUserFunction.showPerMissNegativePopUp(this@FeedbackOptionActivity,"Feedback not Scheduled")
+                        }
+
+
+
                     }
                 }
             }

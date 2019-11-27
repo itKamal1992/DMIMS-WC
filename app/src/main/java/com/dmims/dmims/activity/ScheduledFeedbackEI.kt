@@ -78,11 +78,12 @@ class ScheduledFeedbackEI : AppCompatActivity()
                                 result!![i].FEEDBACK_NAME,
                                 result!![i].SCHEDULE_DATE,
                                 result!![i].START_DATE,
-                                result!![i].END_DATE
+                                result!![i].END_DATE,
+                                result!![i].id
                             )
                         )
                     }
-                    val adapter = ScheduledFeedbackAdapter(userdata)
+                    val adapter = ScheduledFeedbackAdapter(userdata,this@ScheduledFeedbackEI)
                     recyclerView.adapter = adapter
                 }
             }
