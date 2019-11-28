@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--                                             android:layout_width="match_parent"-->
+<!--                                             android:layout_height="match_parent">-->
+<!--<ImageView android:layout_width="50dp"-->
+<!--           android:id="@+id/iv_icon"-->
+<!--           android:layout_centerHorizontal="true"-->
+<!--           android:src="@drawable/ic_help"-->
+<!--           android:layout_marginTop="20dp"-->
+<!--           android:layout_marginBottom="10dp"-->
+<!--           android:layout_height="50dp"/>-->
+
+<!--	<TextView android:layout_width="match_parent"-->
+<!--	          android:id="@+id/txt_labl"-->
+<!--	          android:layout_below="@+id/iv_icon"-->
+<!--	          android:layout_marginTop="10dp"-->
+<!--	          android:layout_marginRight="40dp"-->
+<!--	          android:layout_marginLeft="40dp"-->
+<!--	          android:layout_centerInParent="true"-->
+<!--	          android:layout_centerHorizontal="true"-->
+<!--	          android:textAlignment="center"-->
+<!--	          android:text="Any query or help required? Contact Administrator."-->
+<!--	          android:layout_height="wrap_content"/>-->
+
+<!--	<TextView android:layout_width="wrap_content"-->
+<!--	          android:layout_below="@+id/txt_labl"-->
+<!--	          android:layout_marginTop="10dp"-->
+<!--	          android:id="@+id/txtcontact"-->
+<!--	          android:layout_marginRight="2dp"-->
+<!--	          android:layout_marginLeft="2dp"-->
+<!--	          android:layout_centerInParent="true"-->
+<!--	          android:text="Mr. Kamal Hajari: +91 9860928368"-->
+<!--	          android:textStyle="bold"-->
+<!--	          android:textColor="#000"-->
+<!--	          android:layout_height="wrap_content"/>-->
+<!--</RelativeLayout>-->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+	android:layout_margin="5dp"
+	>
+
+
+	<LinearLayout
+		android:id="@+id/card_view_innder"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="5dp">
+<android.support.v7.widget.CardView
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	app:cardBackgroundColor="@color/colorWhiteShade"
+
+	app:cardCornerRadius="30dp">
+<LinearLayout
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:background="@drawable/gradient_bg"
+				android:orientation="vertical"
+				android:padding="5dp"
+				android:gravity="center_horizontal"
+				xmlns:android="http://schemas.android.com/apk/res/android">
+
+				<ImageView
+					android:id="@+id/iv_icon"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginBottom="10dp"
+					android:src="@drawable/ic_help" />
+
+				<TextView
+					android:id="@+id/tvMsgCustomDialog"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="40dp"
+					android:layout_marginTop="10dp"
+					android:layout_marginRight="40dp"
+					android:text="Any query or help required? Contact Administrator."
+					android:textAlignment="center" />
+
+				<TextView
+					android:id="@+id/txtcontact"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="20dp"
+					android:layout_marginTop="10dp"
+					android:layout_marginRight="20dp"
+					android:layout_marginBottom="10dp"
+					android:text="Mr. Kamal Hajari: +91 9860928368"
+					android:textColor="#000"
+					android:textStyle="bold" />
+			</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="5dp"
+		android:gravity="center_horizontal"
+		android:layout_marginBottom="10dp"
+		xmlns:android="http://schemas.android.com/apk/res/android">
+
+		<Button android:layout_width="wrap_content"
+			android:id="@+id/btnCustomDialogAccept"
+			style="?android:textAppearanceSmall"
+			android:text="ok"
+			android:fontFamily="sans-serif-condensed-medium"
+			android:background="@drawable/blue_button_bg"
+			android:layout_height="50dp"
+			android:textColor="@android:color/background_dark"
+			android:textSize="15sp"/>
+		/>
+	</LinearLayout>
+</LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+
+
+		<!--<LinearLayout android:layout_width="match_parent"-->
+		<!--android:orientation="vertical"-->
+		<!--android:padding="10dp"-->
+		<!--android:layout_height="wrap_content">-->
+		<!---->
+		<!--<ImageView-->
+		<!--android:id="@+id/item_image_view"-->
+		<!--android:layout_width="43dp"-->
+		<!--android:layout_height="57dp"-->
+		<!--android:contentDescription="@string/app_name"-->
+		<!--android:scaleType="centerInside"-->
+		<!--android:padding="10dp"/>-->
+		<!---->
+		<!---->
+		<!---->
+		<!---->
+		<!--</LinearLayout>-->
+	</LinearLayout>
+
+</LinearLayout>
