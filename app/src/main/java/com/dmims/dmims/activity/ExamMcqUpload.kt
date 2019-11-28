@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericPublicVariable.Companion.mServices
 import com.dmims.dmims.Generic.GenericUserFunction
 import com.dmims.dmims.Generic.InternetConnection
@@ -47,67 +48,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiver.Delegate{
+class ExamMcqUpload : AppCompatActivity() {
     private var mediaPath: String? = null
     private val TAG1: String = "AndroidUploadService"
     var dialogCommon: android.app.AlertDialog ?= null
-    val uploadReceiver: com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiver =
-        com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiver()
-
-    override fun onResume() {
-        super.onResume()
-        uploadReceiver.register(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        uploadReceiver.unregister(this)
-    }
-
-
-
-    override fun onError(exception: Exception) {
-        println("onError >>> "+exception!!.stackTrace)
-        dialogCommon!!.dismiss()
-        GenericUserFunction.showApiError(
-            this,
-            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-        )
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
-    override fun onCompleted(serverResponseCode: Int, serverResponseBody: ByteArray) {
-        println("onCompleted >>> serverResponseCode >>> "+serverResponseCode +" serverResponseBody >>> "+serverResponseBody)
-
-        val charset = Charsets.UTF_8
-        println("onCompleted 1 >>> "+serverResponseBody.contentToString()) // [72, 101, 108, 108, 111]
-        println("onCompleted 2 >>> "+serverResponseBody.toString(charset))
-
-        UpdateNotice()
-
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onProgress(progress: Int) {
-        println("onProgress 1 >>> uploadedBytes "+progress)
-    }
-
-
-
-    override fun onProgress(uploadedBytes: Long, totalBytes: Long) {
-        println("onProgress 2 >>> uploadedBytes "+uploadedBytes+" totalBytes >>> "+totalBytes)
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onCancelled() {
-        println("onCancelled >>> ")
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    
     private lateinit var spinner_institue: Spinner
     private lateinit var spinner_courselist: Spinner
-    private lateinit var spinner_deptlist: Spinner
-    private lateinit var spinner_yearlist: Spinner
+
     private lateinit var from_date_layout: LinearLayout
     private lateinit var start_date: TextView
     private lateinit var start_date_send: String
@@ -155,6 +103,10 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
     private lateinit var UserDesig: String
     private lateinit var UserID: String
 
+    var studYearArray = arrayOf("1st", "2nd", "3rd", "4th", "5th", "All ( First to Final Year )")
+    internal var mUserItems = java.util.ArrayList<Int>()
+    internal var mUserDeptItems = java.util.ArrayList<Int>()
+
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,8 +115,7 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
         dialogCommon= SpotsDialog.Builder().setContext(this).build()
         spinner_institue = findViewById(R.id.spinner_institue)
         spinner_courselist = findViewById(R.id.spinner_courselist)
-        spinner_deptlist = findViewById(R.id.spinner_deptlist)
-        spinner_yearlist = findViewById(R.id.spinner_yearlist)
+
         from_date_layout = findViewById(R.id.from_date_layout)
         start_date = findViewById(R.id.txt_from_date)
         to_date_layout = findViewById(R.id.to_date_layout)
@@ -176,15 +127,7 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
 
         var single: SingleUploadBroadcastReceiver
         instituteName1.add("Select Institute")
-        deptlist.add("Select Department")
-
-        stud_year.add("Select Year")
-        stud_year.add("All")
-        stud_year.add("1")
-        stud_year.add("2")
-        stud_year.add("3")
-        stud_year.add("4")
-        stud_year.add("5")
+      
 
         val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)!!
         UserID = mypref.getString("Stud_id_key", null)!!
@@ -193,6 +136,220 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
         UserRole = mypref.getString("key_userrole", null)!!
         UserEmail = mypref.getString("key_email", null)!!
         UserDesig = mypref.getString("key_designation", null)!!
+
+        var checkedItems = BooleanArray(studYearArray.size)
+        txt_year.text = "Select Year"
+        linear_year.setOnTouchListener { v, event ->
+
+            val mBuilder = AlertDialog.Builder(this)
+            mBuilder.setTitle("Select year to send notice")
+            mBuilder.setMultiChoiceItems(
+                studYearArray, checkedItems
+            ) { dialogInterface, position, isChecked ->
+
+                if (isChecked) {
+                    mUserItems.add(position)
+                } else {
+                    mUserItems.remove(Integer.valueOf(position))
+                }
+            }
+
+            mBuilder.setCancelable(false)
+            mBuilder.setPositiveButton(
+                "Ok"
+            ) { dialogInterface, which ->
+                var item = ""
+                for (i in mUserItems.indices) {
+                    item = item + studYearArray[mUserItems.get(i)]
+                    if (i != mUserItems.size - 1) {
+                        item = "$item, "
+                    }
+                }
+                if (item.contains("All ( First to Final Year )")) {
+                    txt_year.text = "All ( First to Final Year )"
+                } else {
+                    txt_year.setText(item)
+                }
+
+                if (txt_year.text.toString()==""){
+                    txt_year.text = "Select Year"
+                }
+            }
+
+            val negativeButton = mBuilder.setNegativeButton(
+                "Dismiss"
+            ) { dialogInterface, i -> dialogInterface.dismiss() }
+
+            mBuilder.setNeutralButton(
+                "Clear All"
+            ) { dialogInterface, which ->
+                for (i in checkedItems.indices) {
+                    checkedItems[i] = false
+                    mUserItems.clear()
+                    txt_year.setText("Select Year")
+                }
+            }
+
+            val mDialog = mBuilder.create()
+            mDialog.show()
+            return@setOnTouchListener false
+        }
+
+
+        txt_Dept.text = "Select Department"
+        selfMultipleDept.setOnTouchListener { v, event ->
+            if(!txt_Dept.text.toString().equals("Select Department")){
+                var checkedDeptItems = BooleanArray(deptlist.size)
+                val mBuilder = AlertDialog.Builder(this)
+                mBuilder.setTitle("Select Department to send notice")
+                var deptArray = deptlist.toArray(arrayOfNulls<String>(deptlist.size))
+                mBuilder.setMultiChoiceItems(deptArray, checkedDeptItems)
+                { dialogInterface, position, isChecked ->
+                    if (isChecked) {
+                        mUserDeptItems.add(position)
+                    } else {
+                        mUserDeptItems.remove(Integer.valueOf(position))
+                    }
+                }
+
+                mBuilder.setCancelable(false)
+                mBuilder.setPositiveButton(
+                    "Ok"
+                ) { dialogInterface, which ->
+
+
+                    var item = ""
+                    txt_Dept.setText("")
+                    for (i in mUserDeptItems.indices) {
+                        item = item + deptArray[mUserDeptItems.get(i)]
+                        if (i != mUserDeptItems.size - 1) {
+                            item = "$item, "
+                        }
+                    }
+
+                    txt_Dept.text = item
+                    if (txt_Dept.text.toString().contains("All Department")) {
+                        dept_id = "D000000"
+                        txt_Dept.text = "All Department"
+                    }
+
+                    if (txt_Dept.text.toString()==""){
+                        txt_Dept.text = "Select Department"
+                    }
+                    mUserDeptItems.removeAll(mUserDeptItems)
+
+                    if (InternetConnection.checkConnection(this)) {
+                        val dialog: android.app.AlertDialog =
+                            SpotsDialog.Builder().setContext(this).build()
+                        dialog.setMessage("Please Wait!!! \nwhile we are getting Department ID's")
+                        dialog.setCancelable(false)
+                        dialog.show()
+                        try {
+//                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+                            selecteddeptlist = txt_Dept.text as String
+                            mServices.GetInstituteData()
+                                .enqueue(object : Callback<APIResponse> {
+                                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                                        dialog.dismiss()
+                                        Toast.makeText(
+                                            this@ExamMcqUpload,
+                                            t.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    override fun onResponse(
+                                        call: Call<APIResponse>,
+                                        response: Response<APIResponse>
+                                    ) {
+                                        dialog.dismiss()
+                                        val result: APIResponse? = response.body()
+                                        if (result!!.Responsecode == 204) {
+                                            Toast.makeText(
+                                                this@ExamMcqUpload,
+                                                result.Status,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            val listsinstz: Int = result.Data6!!.size
+                                            dept_id = ""
+                                            var selected_dept = selecteddeptlist.split(",")
+                                            var selected_dept_size = selected_dept.size
+                                            for (i in 0..listsinstz - 1) {
+                                                if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                    val listscoursez: Int =
+                                                        result.Data6!![i].Courses!!.size
+                                                    for (j in 0..listscoursez - 1) {
+                                                        if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                            val listsdeptz: Int =
+                                                                result.Data6!![i].Courses!![j].Departments!!.size
+                                                            for (k in 0 until listsdeptz) {
+                                                                for (m in 0 until selected_dept_size) {
+//                                                                println(" i >> $i , j >> $j, k >> $k, m >> $m Department >>> $dept_id")
+
+                                                                    if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME.equals(
+                                                                            selected_dept[m].trim()
+                                                                        )
+                                                                    ) {
+                                                                        dept_id =
+                                                                            dept_id + "_" + result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            println("Department >>> " + dept_id)
+
+                                        }
+                                    }
+                                })
+                        } catch (ex: Exception) {
+                            dialog.dismiss()
+                            ex.printStackTrace()
+                            GenericUserFunction.showApiError(
+                                this@ExamMcqUpload,
+                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                            )
+                        }
+                    } else {
+                        GenericUserFunction.showInternetNegativePopUp(
+                            this@ExamMcqUpload,
+                            getString(R.string.failureNoInternetErr)
+                        )
+                    }
+
+                }
+
+                val negativeButton = mBuilder.setNegativeButton(
+                    "Dismiss"
+                ) { dialogInterface, i -> dialogInterface.dismiss() }
+
+                mBuilder.setNeutralButton(
+                    "Clear All"
+                ) { dialogInterface, which ->
+                    for (i in checkedDeptItems.indices) {
+                        checkedDeptItems[i] = false
+                        mUserDeptItems.clear()
+                        txt_Dept.setText("Select Department")
+                    }
+                }
+
+                val mDialog2 = mBuilder.create()
+                mDialog2.show()
+
+
+            }else {
+                GenericUserFunction.DisplayToast(
+                    this, "Please Choose Course then Departments to proceed"
+                )
+            }
+
+            return@setOnTouchListener false
+        }
 
 //        btn_GetMCQ.setOnClickListener {
 //            val intent = Intent(this@ExamMcqUpload, EXAM_GET_UploadMCQ::class.java)
@@ -238,15 +395,49 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
 
         btn_Submit.setOnClickListener {
 
-            if (selectedInstituteName.equals("Select Institute")) {
-
-                GenericUserFunction.showOopsError(this, "Please select valid Institute Name")
+            if (selectedInstituteName=="Select Institute") {
+                Toast.makeText(this, "Please select Institute to proceed", Toast.LENGTH_SHORT).show()
+                GenericUserFunction.DisplayToast(this, "Please select Institute to proceed")
                 return@setOnClickListener
             }
-            if (selectedStudyear.equals("Select Year")) {
-//        Toast.makeText(this, "Please select valid year", Toast.LENGTH_SHORT).show()
-                GenericUserFunction.showOopsError(this, "Please select Valid Year")
+            if (txt_year.text.toString()=="Select Year") {
+                txt_year.error = "Please select year"
+                GenericUserFunction.DisplayToast(this, "Please select year to proceed")
                 return@setOnClickListener
+            } else {
+                txt_year.error = null
+                if (txt_year.text.contains("All ( First to Final Year )")) {
+                    txt_year.text = "All ( First to Final Year )"
+                }
+            }
+
+            if (txt_Dept.text.toString()=="All Department") {
+                selecteddeptlist="All Department"
+                dept_id = "D000000"
+            } else
+                if (txt_Dept.text.toString()=="Select Department") {
+                    txt_Dept.error = "Please Choose Departments to proceed"
+                    GenericUserFunction.DisplayToast(
+                        this, "Please Choose Departments to proceed"
+                    )
+                    return@setOnClickListener
+                } else
+                    if (dept_id != null || dept_id != "") {
+                        txt_Dept.error = null
+                        dept_id = dept_id!!.removeRange(0, 1)
+
+                    } else {
+
+                        txt_Dept.error = "Please Choose Departments to proceed"
+                        GenericUserFunction.DisplayToast(
+                            this, "Please Choose Departments to proceed"
+                        )
+                        return@setOnClickListener
+                    }
+
+            if (selectedcourselist=="All Courses")
+            {
+                course_id="C000000"
             }
 
             if (mediaPath != null) {
@@ -354,6 +545,7 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
                             Toast.makeText(this@ExamMcqUpload, result.Status, Toast.LENGTH_SHORT).show()
                         } else {
                             listsinstz = result.Data6!!.size
+                            instituteName1.add("All Institute")
                             for (i in 0..listsinstz - 1) {
                                 instituteName1.add(result.Data6!![i].Course_Institute)
                             }
@@ -423,7 +615,7 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
                                     }
                                 }
                             })
-                        courselist.add("All")
+                        courselist.add("All Courses")
                         var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
                             this@ExamMcqUpload,
                             R.layout.support_simple_spinner_dropdown_item,
@@ -502,13 +694,9 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
                                     }
                                 }
                             })
-                        deptlist.add("All")
-                        var userdeptlistadp: ArrayAdapter<String> =
-                            ArrayAdapter<String>(
-                                this@ExamMcqUpload,
-                                R.layout.support_simple_spinner_dropdown_item, deptlist
-                            )
-                        spinner_deptlist.adapter = userdeptlistadp
+                        deptlist.add(0, "All Department")
+                        txt_Dept.text="All Department"
+                        
                     } catch (ex: Exception) {
 
                         ex.printStackTrace()
@@ -530,48 +718,43 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
             }
         }
 
-        spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+//        spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                try {
+//                    selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+//
+//                } catch (ex: Exception) {
+//
+//                    ex.printStackTrace()
+//                    GenericUserFunction.showApiError(
+//                        this@ExamMcqUpload,
+//                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+//                    )
+//                }
+//            }
+//
+//            override fun onNothingSelected(p0: AdapterView<*>?) {
+//            }
+//        }
 
-                } catch (ex: Exception) {
+      
 
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
-                        this@ExamMcqUpload,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-                    )
-                }
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
-
-        var stud_yearAdap: ArrayAdapter<String> =
-            ArrayAdapter<String>(
-                this@ExamMcqUpload,
-                R.layout.support_simple_spinner_dropdown_item, stud_year
-            )
-        spinner_yearlist!!.adapter = stud_yearAdap
-
-        spinner_yearlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                try {
-                    selectedStudyear = p0!!.getItemAtPosition(p2) as String
-
-                } catch (ex: java.lang.Exception) {
-
-                }
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        }
+//        spinner_yearlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                try {
+//                    selectedStudyear = p0!!.getItemAtPosition(p2) as String
+//
+//                } catch (ex: java.lang.Exception) {
+//
+//                }
+//            }
+//
+//            override fun onNothingSelected(p0: AdapterView<*>?) {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//            }
+//
+//        }
 
 
     }
@@ -590,85 +773,97 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
 //
 //        else
             if (requestCode == 300 && resultCode == Activity.RESULT_OK && null != data) {
-            val selectedImage = data.data
-            txt_fileStart.text =
-                selectedInstituteName + "_" + selectedcourselist + "_" + selecteddeptlist + "_" + selectedStudyear
+                if (txt_Dept.text.toString()=="All Department") {
+                    selecteddeptlist="All Department"
+                    dept_id = "D000000"
+                }
+                if (txt_year.text.toString()=="Select Year") {
+                    txt_year.error = "Please select year"
+                    GenericUserFunction.DisplayToast(this, "Please select year to proceed")
 
-            val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                }else {
 
-            val cursor = contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
-            cursor.moveToFirst()
+                    val selectedImage = data.data
+                    txt_fileStart.text =
+                        selectedInstituteName + "_" + selectedcourselist + "_" + selecteddeptlist + "_" + txt_year.text.toString()
 
-            val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-            mediaPath = cursor.getString(columnIndex)
-            println("mediaPath >>> $mediaPath")
-            //str1.setText(mediaPath)
-            // Set the Image in ImageView for Previewing the Media
-            //imgView.setImageBitmap(BitmapFactory.decodeFile(mediaPath))
-            cursor.close()
+                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+
+                    val cursor =
+                        contentResolver.query(selectedImage!!, filePathColumn, null, null, null)!!
+                    cursor.moveToFirst()
+
+                    val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+                    mediaPath = cursor.getString(columnIndex)
+                    println("mediaPath >>> $mediaPath")
+                    //str1.setText(mediaPath)
+                    // Set the Image in ImageView for Previewing the Media
+                    //imgView.setImageBitmap(BitmapFactory.decodeFile(mediaPath))
+                    cursor.close()
+                }
 
         }
 
     }
 //
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    fun PdfUploadFunction() {
-
-
-        PdfNameHolder = txt_fileStart.text.toString() + "_" + edit_upload_fname!!.text.toString().trim()
-
-        PdfPathHolder = FilePath.getPath(this, uri)
-
-        if (PdfPathHolder == null) {
-
-            Toast.makeText(this, "Please move your PDF file to internal storage & try again.", Toast.LENGTH_LONG).show()
-
-        } else {
-            //Dialog Start
-
-
-            try {
-                dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
-                dialogCommon!!.setCancelable(false)
-                dialogCommon!!.show()
-                //Dialog End
-
-
-                PdfID = UUID.randomUUID().toString()
-
-                uploadReceiver.setDelegate(this)
-                uploadReceiver.setUploadID(PdfID!!)
-
-                MultipartUploadRequest(this, PdfID, PDF_UPLOAD_HTTP_URL)
-                    .addFileToUpload(PdfPathHolder, "pdf")
-                    .addParameter("name", PdfNameHolder)
-                    .addParameter("institute", selectedInstituteName)
-
-                    .addParameter("UserName", UserName)
-                    .addParameter("UserMobileNO", UserMobileNo)
-                    .addParameter("UserRole", UserRole)
-                    .addParameter("UserEmail", UserEmail)
-                    .addParameter("UserDesig", UserDesig)
-                    .addParameter("Course", selectedcourselist)
-                    .addParameter("Department", selecteddeptlist)
-                    .addParameter("Year", selectedStudyear)
-                    .addParameter("McqUploadDate", McqUploadDate)
-                    .addParameter("StartDate", start_date_send)
-                    .addParameter("EndDate", end_date_send)
-                    .setNotificationConfig(UploadNotificationConfig())
-                    .setMaxRetries(5)
-                    .startUpload()
-
-
-
-            } catch (exception: Exception) {
-                dialogCommon!!.dismiss()
-
-                Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
-            }
-
-        }
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//    fun PdfUploadFunction() {
+//
+//
+//        PdfNameHolder = txt_fileStart.text.toString() + "_" + edit_upload_fname!!.text.toString().trim()
+//
+//        PdfPathHolder = FilePath.getPath(this, uri)
+//
+//        if (PdfPathHolder == null) {
+//
+//            Toast.makeText(this, "Please move your PDF file to internal storage & try again.", Toast.LENGTH_LONG).show()
+//
+//        } else {
+//            //Dialog Start
+//
+//
+//            try {
+//                dialogCommon!!.setMessage("Please Wait!!! \nwhile we are updating your Exam Key")
+//                dialogCommon!!.setCancelable(false)
+//                dialogCommon!!.show()
+//                //Dialog End
+//
+//
+//                PdfID = UUID.randomUUID().toString()
+//
+////                uploadReceiver.setDelegate(this)
+////                uploadReceiver.setUploadID(PdfID!!)
+//
+//                MultipartUploadRequest(this, PdfID, PDF_UPLOAD_HTTP_URL)
+//                    .addFileToUpload(PdfPathHolder, "pdf")
+//                    .addParameter("name", PdfNameHolder)
+//                    .addParameter("institute", selectedInstituteName)
+//
+//                    .addParameter("UserName", UserName)
+//                    .addParameter("UserMobileNO", UserMobileNo)
+//                    .addParameter("UserRole", UserRole)
+//                    .addParameter("UserEmail", UserEmail)
+//                    .addParameter("UserDesig", UserDesig)
+//                    .addParameter("Course", selectedcourselist)
+//                    .addParameter("Department", selecteddeptlist)
+//                    .addParameter("Year", selectedStudyear)
+//                    .addParameter("McqUploadDate", McqUploadDate)
+//                    .addParameter("StartDate", start_date_send)
+//                    .addParameter("EndDate", end_date_send)
+//                    .setNotificationConfig(UploadNotificationConfig())
+//                    .setMaxRetries(5)
+//                    .startUpload()
+//
+//
+//
+//            } catch (exception: Exception) {
+//                dialogCommon!!.dismiss()
+//
+//                Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
+//            }
+//
+//        }
+//    }
 
     fun UpdateNotice(): Boolean {
 
@@ -700,7 +895,8 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
                 dept_id,
                 "T",
                 "T",
-                "T"
+                "T",
+                txt_year.text.toString()
             ).enqueue(object : Callback<APIResponse> {
                 override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                     dialogCommon!!.dismiss()
@@ -711,10 +907,37 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
                 override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
                     dialogCommon!!.dismiss()
                     val result: APIResponse? = response.body()
-//                                        Toast.makeText(this@InstituteNoticeBoard, result!!.Status, Toast.LENGTH_SHORT)
-//                                            .show()
-                    GenericUserFunction.showPositivePopUp(this@ExamMcqUpload, "MCQ Notice Send Successfully")
-                    success = true
+                                 if(result!!.Responsecode==200){
+                                     GenericPublicVariable.CustDialog = Dialog(this@ExamMcqUpload)
+                                     GenericPublicVariable.CustDialog.setContentView(R.layout.positive_custom_popup)
+                                     var ivPosClose1: ImageView =
+                                         GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogPosClose) as ImageView
+                                     var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+                                     var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+                                     tvMsg.text = "MCQ Key Uploaded Successfully"
+                                     GenericPublicVariable.CustDialog.setCancelable(false)
+                                     btnOk.setOnClickListener {
+                                         GenericPublicVariable.CustDialog.dismiss()
+                                         callSelf(this@ExamMcqUpload)
+
+                                     }
+                                     ivPosClose1.setOnClickListener {
+                                         GenericPublicVariable.CustDialog.dismiss()
+                                         callSelf(this@ExamMcqUpload)
+
+                                     }
+
+                                     GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+                                     GenericPublicVariable.CustDialog.show()
+                                     success = true
+                                 }else
+                                 {
+                                     GenericUserFunction.showApiError(
+                                         applicationContext,
+                                         "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                                     )
+                                 }
+
                 }
             })
         }
@@ -889,10 +1112,14 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
                                 selectedInstituteName,
                                 UserName,UserMobileNo,
                                 UserRole,UserEmail,
-                                UserDesig,selectedcourselist,
-                                selecteddeptlist,selectedStudyear,
-                                McqUploadDate,start_date_send,
-                                end_date_send,serverResponse3.message!!,
+                                UserDesig,
+                                selectedcourselist,
+                                selecteddeptlist,
+                                txt_year.text.toString(),
+                                McqUploadDate,
+                                start_date_send,
+                                end_date_send,
+                                serverResponse3.message!!,
                                 PdfNameHolder!!
                                 )
                         call2.enqueue(object : Callback<ServerResponse> {
@@ -953,6 +1180,12 @@ class ExamMcqUpload : AppCompatActivity() , com.dmims.dmims.broadCasts.SingleUpl
                 this,
                 getString(R.string.failureNoInternetErr))
         }
+    }
+
+    fun callSelf (ctx:Context){
+        val intent = Intent(ctx, ctx::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        ctx.startActivity(intent)
     }
 
 

@@ -6,14 +6,14 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		tools:context=".activity.CurrentNotice">
-	
-	
+
+
 	<ScrollView android:id="@+id/login_form"
 	            android:background="@drawable/background"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
 		android:paddingBottom="10dp">
-		
+
 		<LinearLayout android:id="@+id/llSplashScreen"
 		              android:layout_width="match_parent"
 		              android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
 					android:textColor="#fff"
 					android:textSize="22sp"
 			/>
-			
+
 			<!--Notice Date-->
 			<ProgressBar
 					android:id="@+id/progressBar7"
@@ -43,11 +43,12 @@
 					android:indeterminateTintMode="src_atop"
 					android:indeterminateTint="@color/cardview_light_background"
 					android:layout_height="33dp"/>
-			
+
 			<LinearLayout android:layout_width="match_parent"
 			              android:orientation="horizontal"
 			              android:id="@+id/date_layout2"
 			              android:layout_height="match_parent"
+				android:layout_marginBottom="10dp"
 				>
 				<android.support.v7.widget.RecyclerView
 						android:layout_width="match_parent"
@@ -55,8 +56,8 @@
 						android:id="@+id/attendance_list"
 						android:background="@drawable/background"
 				/>
-			
-			
+
+
 			</LinearLayout>
 			<!--Notice Title-->
 			<!--<LinearLayout android:orientation="horizontal"-->
@@ -110,9 +111,9 @@
 			<!---->
 			<!---->
 			<!--</LinearLayout>-->
-		
+
 		</LinearLayout>
-	
-	
+
+
 	</ScrollView>
 </LinearLayout>

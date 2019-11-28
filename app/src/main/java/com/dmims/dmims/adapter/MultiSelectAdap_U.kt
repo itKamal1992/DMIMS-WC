@@ -63,6 +63,15 @@ class MultiSelectAdap_U: BaseAdapter ,SpinnerAdapter, AdapterView.OnItemSelected
         year_txt.text=multiSelectData[position].CheckBox_Title
         chk_year.isChecked=multiSelectData[position].CheckBox_Status
 
+        var layout_btn:LinearLayout=view.findViewById(com.dmims.dmims.R.id.layout_btn)
+        var btn_spinner_cancel:Button=view.findViewById(com.dmims.dmims.R.id.btn_spinner_cancel)
+        var btn_spinner_ok:Button=view.findViewById(com.dmims.dmims.R.id.btn_spinner_ok)
+
+        multiSelectData.size
+
+
+
+
 //        year_txt.setTextColor(Color.parseColor(colors[position]))
 //        textView.setBackgroundColor(Color.parseColor(colorsback[position]))
         if (position==0){

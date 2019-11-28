@@ -71,7 +71,6 @@ class Activity_Notification_Admin : AppCompatActivity() {
                 mServices.GetNotice(to_date_sel, from_date_sel)
                     .enqueue(object : Callback<APIResponse> {
                         override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-
                             Toast.makeText(
                                 this@Activity_Notification_Admin,
                                 t.message,
@@ -120,6 +119,10 @@ class Activity_Notification_Admin : AppCompatActivity() {
                                                 result.Data14!![i].RESOU_FLAG,
                                                 result.Data14!![i].FILENAME,
                                                 result.Data14!![i].YEAR,
+
+                                                result.Data14!![i].STUDENT_FLAG,
+                                                result.Data14!![i].FACULTY_FLAG,
+                                                result.Data14!![i].ADMIN_FLAG,
                                                 k
                                             )
                                         )
@@ -239,6 +242,10 @@ class Activity_Notification_Admin : AppCompatActivity() {
                                                 result.Data14!![i].RESOU_FLAG,
                                                 result.Data14!![i].FILENAME,
                                                 result.Data14!![i].YEAR,
+
+                                                result.Data14!![i].STUDENT_FLAG,
+                                                result.Data14!![i].FACULTY_FLAG,
+                                                result.Data14!![i].ADMIN_FLAG,
                                                 k
                                             )
                                         )

@@ -471,7 +471,8 @@ class FacultyNoticeBoard : AppCompatActivity() {
                 dept_id,
                 student_flag,
                 faculty_flag,
-                admin_flag
+                admin_flag,
+                "take values from multiple year spinner"
             ).enqueue(object : Callback<APIResponse> {
                 override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                     Toast.makeText(this@FacultyNoticeBoard, t.message, Toast.LENGTH_SHORT).show()

@@ -103,6 +103,7 @@
                             android:layout_margin="2dp"
                             android:orientation="vertical"
                             android:background="@color/colorWhite"
+                            android:foreground="?android:attr/selectableItemBackground"
                         >
                             <ImageView
                                 android:layout_width="60dp"
@@ -134,6 +135,7 @@
                             android:layout_margin="2dp"
                             android:orientation="vertical"
                             android:background="@color/colorWhite"
+                            android:foreground="?android:attr/selectableItemBackground"
                         >
                             <ImageView
                                 android:layout_width="60dp"
@@ -164,6 +166,7 @@
                             android:layout_weight="1"
                             android:background="@color/colorWhite"
                             android:orientation="vertical"
+                            android:foreground="?android:attr/selectableItemBackground"
                         >
                             <ImageView
                                 android:layout_width="60dp"
@@ -213,6 +216,7 @@
                             android:layout_margin="2dp"
                             android:orientation="vertical"
                             android:background="@color/colorWhite"
+                            android:foreground="?android:attr/selectableItemBackground"
                         >
                             <ImageView
                                 android:layout_width="60dp"
@@ -244,6 +248,7 @@
                             android:layout_margin="2dp"
                             android:orientation="vertical"
                             android:background="@color/colorWhite"
+                            android:foreground="?android:attr/selectableItemBackground"
                         >
                             <ImageView
                                 android:layout_width="60dp"
@@ -274,6 +279,7 @@
                             android:layout_margin="2dp"
                             android:orientation="vertical"
                             android:background="@color/colorWhite"
+                            android:foreground="?android:attr/selectableItemBackground"
                         >
                             <ImageView
                                 android:layout_width="60dp"
@@ -321,6 +327,7 @@
                             android:layout_margin="2dp"
                             android:orientation="vertical"
                             android:background="@color/colorWhite"
+                            android:foreground="?android:attr/selectableItemBackground"
                             >
                             <ImageView
                                 android:layout_width="60dp"
@@ -352,6 +359,7 @@
                             android:layout_margin="2dp"
                             android:orientation="vertical"
                             android:background="@color/colorWhite"
+                            android:foreground="?android:attr/selectableItemBackground"
                         >
                             <ImageView
                                 android:layout_width="60dp"

@@ -50,5 +50,12 @@ class GenericPublicVariable {
         var editMobOtp: EditText? = null
         var btnGenOtp: Button? = null
         var progressbarlogin: ProgressBar? = null
+
+        //Common Course ID
+        var common_Course_ID:String = "C000000"
+        //Common Department ID
+        var common_Department_ID:String = "D000000"
+
+
     }
 }

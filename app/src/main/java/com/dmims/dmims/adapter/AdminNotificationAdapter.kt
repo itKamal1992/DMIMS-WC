@@ -28,7 +28,7 @@ class AdminNotificationAdapter(val userlist: ArrayList<NoticeStudCurrent>) :
         p0.txtNOTICE_TITLE?.text = "Title : "+attStud.NOTICE_TITLE
         p0.txtNOTICE_DATE?.text = "Date : "+attStud.NOTICE_DATE
         p0.txtUSER_ROLE?.text = "From : "+attStud.USER_ROLE
-        p0.txtPara?.text = "Dear student,\nYou have received notice from "+attStud.USER_ROLE+", stating as"+attStud.NOTICE_DESC+".\nHence we request you to please address the notice as soon as possible."
+        p0.txtPara?.text = "Dear student,\nYou have received notice from "+attStud.USER_ROLE+", stating as \""+attStud.NOTICE_DESC+"\".\nHence we request you to please address the notice as soon as possible."
         p0.txtRegards?.text = "Regards, \nDMIMS APP"
         p0.imageViews?.setImageResource(attStud.image)
     }

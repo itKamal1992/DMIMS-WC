@@ -23,7 +23,6 @@ import com.dmims.dmims.Generic.GenericPublicVariable.Companion.permission
 import com.dmims.dmims.Generic.GenericPublicVariable.Companion.remainingPermissions
 import com.dmims.dmims.Generic.GenericPublicVariable.Companion.userRole
 import com.dmims.dmims.Generic.GenericUserFunction.Companion.showApiError
-import com.dmims.dmims.Generic.GenericUserFunction.Companion.showInternetNegativePopUp
 import com.dmims.dmims.Generic.GenericUserFunction.Companion.showInternetNegativePopUpSplash
 import com.dmims.dmims.Generic.GenericUserFunction.Companion.showPerMissNegativePopUp
 import com.dmims.dmims.Generic.GenericUserFunction.Companion.showSplashNegativePopUp
@@ -66,7 +65,7 @@ class SplashScreen : AppCompatActivity() {
                 var call3: Call<ApiVersion> = phpApiInterface.api_version()
                 call3.enqueue(object : Callback<ApiVersion> {
                     override fun onFailure(call: Call<ApiVersion>, t: Throwable) {
-                        showInternetNegativePopUp(
+                        showInternetNegativePopUpSplash(
                             this@SplashScreen,
                             getString(R.string.failureSSApiVerErr)
                         )
@@ -94,7 +93,7 @@ class SplashScreen : AppCompatActivity() {
                                         handler.postDelayed(runnable, 1300)
                                     }
                                 } else {
-                                    showSplashNegativePopUp(
+                                    showInternetNegativePopUpSplash(
                                         this@SplashScreen,
                                         getString(R.string.failureUpdateApiVerErr)
                                     )

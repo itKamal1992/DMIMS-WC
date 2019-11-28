@@ -148,95 +148,138 @@
 
 	</LinearLayout>
 
-	<!-- Department List -->
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="20dp"
-		android:layout_marginBottom="20dp"
-		android:layout_marginRight="20dp">
-		<!-- Left icon !-->
-		<LinearLayout android:layout_width="60dp"
-			android:orientation="vertical"
-			android:layout_height="wrap_content">
-
-			<LinearLayout android:layout_width="60dp"
-				android:orientation="vertical"
-				android:background="@drawable/white_right_corner_bg2"
-				android:layout_height="wrap_content">
-
-				<LinearLayout android:orientation="vertical"
-					android:gravity="center_vertical|center_horizontal"
-					android:layout_width="match_parent"
-					android:layout_height="50dp">
-
-					<ImageView android:background="@drawable/ic_notice_type"
-						android:scaleType="fitCenter"
-						android:layout_width="30dp"
-						android:layout_height="30dp"/>
-
-				</LinearLayout>
-			</LinearLayout>
-		</LinearLayout>
-		<LinearLayout android:layout_width="fill_parent"
-			android:orientation="vertical"
-			android:background="@drawable/white_right_corner_bg"
-			android:layout_height="50dp">
-			<Spinner
-				android:id="@+id/spinner_deptlist"
-				android:layout_width="match_parent"
-				android:layout_alignParentTop="true"
-				android:layout_margin="10dp"
-				android:textSize="20dp"
-				android:textStyle="bold"
-				android:layout_height="wrap_content"/>
-
-		</LinearLayout>
-
-
-	</LinearLayout>
-		<!-- Year List -->
-		<LinearLayout android:orientation="horizontal"
-					  android:layout_width="match_parent"
-					  android:layout_height="wrap_content"
-					  android:layout_marginLeft="20dp"
-					  android:layout_marginBottom="20dp"
-					  android:layout_marginRight="20dp">
+		<!--Done Year Multiple selection-->
+		<LinearLayout
+			android:id="@+id/linear_year"
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="20dp"
+			android:layout_marginBottom="20dp"
+			android:layout_marginRight="20dp">
 			<!-- Left icon !-->
 			<LinearLayout android:layout_width="60dp"
-						  android:orientation="vertical"
-						  android:layout_height="wrap_content">
+				android:orientation="vertical"
+				android:layout_height="wrap_content">
 
 				<LinearLayout android:layout_width="60dp"
-							  android:orientation="vertical"
-							  android:background="@drawable/white_right_corner_bg2"
-							  android:layout_height="wrap_content">
+					android:orientation="vertical"
+					android:background="@drawable/white_right_corner_bg2"
+					android:layout_height="wrap_content">
 
 					<LinearLayout android:orientation="vertical"
-								  android:gravity="center_vertical|center_horizontal"
-								  android:layout_width="match_parent"
-								  android:layout_height="50dp">
+						android:gravity="center_vertical|center_horizontal"
+						android:layout_width="match_parent"
+						android:layout_height="50dp">
 
 						<ImageView android:background="@drawable/ic_notice_type"
-								   android:scaleType="fitCenter"
-								   android:layout_width="30dp"
-								   android:layout_height="30dp"/>
+							android:scaleType="fitCenter"
+							android:layout_width="30dp"
+							android:layout_height="30dp"/>
 
 					</LinearLayout>
 				</LinearLayout>
 			</LinearLayout>
-			<LinearLayout android:layout_width="fill_parent"
-						  android:orientation="vertical"
-						  android:background="@drawable/white_right_corner_bg"
-						  android:layout_height="50dp">
-				<Spinner
-					android:id="@+id/spinner_yearlist"
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:orientation="horizontal"
+				android:background="@drawable/white_right_corner_bg"
+				android:layout_height="50dp"
+				android:gravity="center_vertical"
+				android:layout_gravity="center_vertical"
+				android:weightSum="10">
+				<!--						<Spinner-->
+				<!--							android:clickable="false"-->
+				<!--							android:id="@+id/spinner_multiple"-->
+				<!--							android:layout_width="fill_parent"-->
+				<!--							android:textSize="20sp"-->
+				<!--							android:textStyle="bold"-->
+				<!--							android:layout_height="wrap_content"-->
+				<!--							/>-->
+				<TextView
+					android:id="@+id/txt_year"
+					android:layout_height="wrap_content"
 					android:layout_width="match_parent"
-					android:layout_alignParentTop="true"
-					android:layout_margin="10dp"
-					android:textSize="20dp"
-					android:textStyle="bold"
-					android:layout_height="wrap_content"/>
+					android:hint="Select year"
+					android:textSize="16sp"
+					android:layout_weight="2"
+					android:paddingLeft="5dp"
+					/>
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_arrow_drop_down_black_24dp"
+					android:layout_weight="8"/>
+
+			</LinearLayout>
+
+
+		</LinearLayout>
+
+		<!-- Department List alert dialog -->
+		<LinearLayout
+			android:id="@+id/selfMultipleDept"
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="20dp"
+			android:layout_marginBottom="20dp"
+			android:layout_marginRight="20dp">
+			<!-- Left icon !-->
+			<LinearLayout android:layout_width="60dp"
+				android:orientation="vertical"
+				android:layout_height="wrap_content">
+
+				<LinearLayout android:layout_width="60dp"
+					android:orientation="vertical"
+					android:background="@drawable/white_right_corner_bg2"
+					android:layout_height="wrap_content">
+
+					<LinearLayout android:orientation="vertical"
+						android:gravity="center_vertical|center_horizontal"
+						android:layout_width="match_parent"
+						android:layout_height="50dp">
+
+						<ImageView android:background="@drawable/ic_notice_type"
+							android:scaleType="fitCenter"
+							android:layout_width="30dp"
+							android:layout_height="30dp"/>
+
+					</LinearLayout>
+				</LinearLayout>
+			</LinearLayout>
+			<LinearLayout
+
+				android:layout_width="fill_parent"
+				android:orientation="horizontal"
+				android:background="@drawable/white_right_corner_bg"
+				android:layout_height="50dp"
+				android:gravity="center_vertical"
+				android:layout_gravity="center_vertical"
+				android:weightSum="10">
+				<!--						<Spinner-->
+				<!--							android:clickable="false"-->
+				<!--							android:id="@+id/spinner_multiple"-->
+				<!--							android:layout_width="fill_parent"-->
+				<!--							android:textSize="20sp"-->
+				<!--							android:textStyle="bold"-->
+				<!--							android:layout_height="wrap_content"-->
+				<!--							/>-->
+				<TextView
+					android:id="@+id/txt_Dept"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:hint="Select Department"
+					android:paddingLeft="5dp"
+					android:scrollbars="vertical"
+					android:textSize="16sp" />
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_arrow_drop_down_black_24dp"
+					android:layout_weight="8"/>
 
 			</LinearLayout>
 

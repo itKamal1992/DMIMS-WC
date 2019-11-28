@@ -50,21 +50,21 @@ interface IMyAPI {
 //    //fun PostFormData(@Part file: MultipartBody.Part): Call<APIResponse>
 //    fun PostFormData(@Part file: MultipartBody.Part,@Part("NOTICE_DATE")notice_date:String,@Part("NOTICE_TITLE")notice_title:String,@Part("NOTICE_DESC")notice_desc:String,@Part("INSTITUE_NAME")selectedInstituteName:String,@Part("COURSE_NAME")selectedcourselist:String,@Part("DEPT_NAME")selecteddeptlist:String,@Part("NOTICE_TYPE")selectedNoticeType:String,@Part("USER_TYPE")selectedFacultyStud:String,@Part("RESOU_FLAG")RESOU_FLAG:String,@Part("USER_ROLE")roleadmin:String,@Part("USER_ID")id_admin:String): Call<APIResponse>
 //old method
-    @FormUrlEncoded
-    @POST("Upload/UploadNotice")
-    fun UploadNotice(
-        @Field("NOTICE_DATE") notice_date: String, @Field("NOTICE_TITLE") notice_title: String, @Field("NOTICE_DESC") notice_desc: String, @Field(
-            "INSTITUTE_NAME"
-        ) selectedInstituteName: String, @Field("COURSE_NAME") selectedcourselist: String, @Field("DEPT_NAME") selecteddeptlist: String, @Field(
-            "NOTICE_TYPE"
-        ) selectedNoticeType: String, @Field("USER_TYPE") selectedFacultyStud: String, @Field("RESOU_FLAG") RESOU_FLAG: String, @Field(
-            "USER_ROLE"
-        ) roleadmin: String, @Field("USER_ID") id_admin: String, @Field("FILENAME") filename: String, @Field("COURSE_ID") course_id: String, @Field(
-            "DEPT_ID"
-        ) dept_id: String, @Field("STUDENT_FLAG") student_flag: String, @Field("FACULTY_FLAG") faculty_flag: String, @Field(
-            "ADMIN_FLAG"
-        ) admin_flag: String
-    ): Call<APIResponse>
+//    @FormUrlEncoded
+//    @POST("Upload/UploadNotice")
+//    fun UploadNotice(
+//        @Field("NOTICE_DATE") notice_date: String, @Field("NOTICE_TITLE") notice_title: String, @Field("NOTICE_DESC") notice_desc: String, @Field(
+//            "INSTITUTE_NAME"
+//        ) selectedInstituteName: String, @Field("COURSE_NAME") selectedcourselist: String, @Field("DEPT_NAME") selecteddeptlist: String, @Field(
+//            "NOTICE_TYPE"
+//        ) selectedNoticeType: String, @Field("USER_TYPE") selectedFacultyStud: String, @Field("RESOU_FLAG") RESOU_FLAG: String, @Field(
+//            "USER_ROLE"
+//        ) roleadmin: String, @Field("USER_ID") id_admin: String, @Field("FILENAME") filename: String, @Field("COURSE_ID") course_id: String, @Field(
+//            "DEPT_ID"
+//        ) dept_id: String, @Field("STUDENT_FLAG") student_flag: String, @Field("FACULTY_FLAG") faculty_flag: String, @Field(
+//            "ADMIN_FLAG"
+//        ) admin_flag: String
+//    ): Call<APIResponse>
 
     @FormUrlEncoded
     @POST("Upload/UploadNotice")

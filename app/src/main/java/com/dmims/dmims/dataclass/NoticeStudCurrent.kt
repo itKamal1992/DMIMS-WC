@@ -14,5 +14,8 @@ data class NoticeStudCurrent(val NOTICE_TITLE: String,
                              val RESOU_FLAG: String,
                              val FILENAME: String,
                              val YEAR: String,
+                             val STUDENT_FLAG: String,
+                             val FACULTY_FLAG: String,
+                             val ADMIN_FLAG: String,
                              val image: Int)
 

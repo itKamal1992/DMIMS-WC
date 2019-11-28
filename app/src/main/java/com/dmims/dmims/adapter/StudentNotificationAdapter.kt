@@ -15,7 +15,8 @@ class StudentNotificationAdapter(val userlist: ArrayList<NoticeStudCurrent>) :
     RecyclerView.Adapter<StudentNotificationAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val v = LayoutInflater.from(p0.context).inflate(R.layout.student_adapter_notification, p0, false)
+        val v = LayoutInflater.from(p0.context)
+            .inflate(R.layout.student_adapter_notification, p0, false)
         return ViewHolder(v)
     }
 
@@ -25,10 +26,27 @@ class StudentNotificationAdapter(val userlist: ArrayList<NoticeStudCurrent>) :
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val attStud: NoticeStudCurrent = userlist[p1]
-        p0.txtNOTICE_TITLE?.text = "Title : "+attStud.NOTICE_TITLE
-        p0.txtNOTICE_DATE?.text = "Date : "+attStud.NOTICE_DATE
-        p0.txtUSER_ROLE?.text = "From : "+attStud.USER_ROLE
-        p0.txtPara?.text = "Dear student,\nYou have received notice from "+attStud.USER_ROLE+", stating as "+attStud.NOTICE_DESC+".\nHence we request you to please address the notice as soon as possible."
+        p0.txtNOTICE_TITLE?.text = "Title : " + attStud.NOTICE_TITLE
+        p0.txtNOTICE_DATE?.text = "Date : " + attStud.NOTICE_DATE
+        p0.txtUSER_ROLE?.text = "From : " + attStud.USER_ROLE
+        p0.txtDept?.text = "Department belongs : " + attStud.DEPT_NAME
+        var after=""
+        if (attStud.STUDENT_FLAG == "T") {
+            p0.txtYEAR?.text = "Student in Year : " + attStud.YEAR
+            after="student in year "+attStud.YEAR
+        }
+        if (attStud.FACULTY_FLAG == "T") {
+            p0.txtYEAR?.text = "Faculty in Year : " + attStud.YEAR
+            after="faculty in year "+attStud.YEAR
+        }
+
+        if (attStud.STUDENT_FLAG == "T" && attStud.FACULTY_FLAG == "T") {
+            p0.txtYEAR?.text = "Faculty and Students in Year : " + attStud.YEAR
+            after="faculty and students in year "+attStud.YEAR
+        }
+
+        p0.txtPara?.text =
+            "Dear "+after+",\nYou have received notice from " + attStud.USER_ROLE + ", stating as \"" + attStud.NOTICE_DESC + "\".\nHence we request you to please address the notice as soon as possible."
         p0.txtRegards?.text = "Regards, \nDMIMS APP"
         p0.imageViews?.setImageResource(attStud.image)
     }
@@ -38,6 +56,8 @@ class StudentNotificationAdapter(val userlist: ArrayList<NoticeStudCurrent>) :
         val txtNOTICE_TITLE = itemView.findViewById<TextView>(R.id.txtNOTICE_TITLE)
         val txtNOTICE_DATE = itemView.findViewById<TextView>(R.id.txtNOTICE_DATE)
         val txtUSER_ROLE = itemView.findViewById<TextView>(R.id.txtUSER_ROLE)
+        val txtDept = itemView.findViewById<TextView>(R.id.txtDept)
+        val txtYEAR = itemView.findViewById<TextView>(R.id.txtYEAR)
         val txtPara = itemView.findViewById<TextView>(R.id.txtPara)
         val txtRegards = itemView.findViewById<TextView>(R.id.txtRegards)
 

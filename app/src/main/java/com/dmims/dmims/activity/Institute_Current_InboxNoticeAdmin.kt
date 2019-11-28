@@ -119,6 +119,10 @@ class Institute_Current_InboxNoticeAdmin : AppCompatActivity() {
                                                 "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
                                                 result.Data14!![i].FILENAME,
                                                 result.Data14!![i].YEAR,
+
+                                                result.Data14!![i].STUDENT_FLAG,
+                                                result.Data14!![i].FACULTY_FLAG,
+                                                result.Data14!![i].ADMIN_FLAG,
                                                 k
                                             )
                                             )

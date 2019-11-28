@@ -66,7 +66,6 @@ class Activity_Admin_Inbox_notice : AppCompatActivity() {
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                         Toast.makeText(this@Activity_Admin_Inbox_notice, t.message, Toast.LENGTH_SHORT).show()
-                        progressBar!!.visibility = View.INVISIBLE
                         progressBar!!.visibility = View.GONE
                     }
                     override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
@@ -111,13 +110,17 @@ class Activity_Admin_Inbox_notice : AppCompatActivity() {
                                                 "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
                                                 result.Data14!![i].FILENAME,
                                                 result.Data14!![i].YEAR,
+
+                                                result.Data14!![i].STUDENT_FLAG,
+                                                result.Data14!![i].FACULTY_FLAG,
+                                                result.Data14!![i].ADMIN_FLAG,
                                                 k
                                             )
                                         )
 
                                     }
                                 }
-                                progressBar!!.visibility = View.INVISIBLE
+
                                 progressBar!!.visibility = View.GONE
                                 val adapter = NoticeAdapterCurrent(users, this@Activity_Admin_Inbox_notice)
                                 recyclerView.adapter = adapter
@@ -147,7 +150,12 @@ class Activity_Admin_Inbox_notice : AppCompatActivity() {
                 })
 
         } catch (ex: Exception) {
+            progressBar!!.visibility = View.GONE
             ex.printStackTrace()
+            GenericUserFunction.showApiError(
+                this,
+                ex.message.toString()
+            )
         }
         }else {
             progressBar!!.visibility = View.INVISIBLE
@@ -219,6 +227,10 @@ class Activity_Admin_Inbox_notice : AppCompatActivity() {
                                                 "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
                                                 result.Data14!![i].FILENAME,
                                                 result.Data14!![i].YEAR,
+
+                                                result.Data14!![i].STUDENT_FLAG,
+                                                result.Data14!![i].FACULTY_FLAG,
+                                                result.Data14!![i].ADMIN_FLAG,
                                                 k
                                             )
                                         )

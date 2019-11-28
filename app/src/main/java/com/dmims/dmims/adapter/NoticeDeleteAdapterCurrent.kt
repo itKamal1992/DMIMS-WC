@@ -130,17 +130,25 @@ class NoticeDeleteAdapterCurrent(userlist: ArrayList<NoticeStudCurrent>, context
             itemView.txtNOTICE_TITLE?.text = "Title :" + cc!!.NOTICE_TITLE
             itemView.txtNOTICE_DATE?.text = "Date :" + cc.NOTICE_DATE
             itemView.txtUSER_ROLE?.text = "From :" + cc.USER_ROLE
-            var studYear=cc.YEAR
-            if (studYear.equals("All", ignoreCase = true)) {
-                itemView.txtStudYear?.text = "Student in year : all years"
-                studYear="all years"
-            } else {
-                itemView.txtStudYear?.text = "Student in year :" + cc.YEAR
-                studYear=studYear+" year"
+            itemView.txtDept?.text = "Department belongs : " + cc.DEPT_NAME
+
+            var after=""
+            if (cc.STUDENT_FLAG == "T") {
+                itemView.txtStudYear?.text = "Student in Year : " + cc.YEAR
+                after="student in year "+cc.YEAR
+            }
+            if (cc.FACULTY_FLAG == "T") {
+                itemView.txtStudYear?.text = "Faculty in Year : " + cc.YEAR
+                after="faculty in year "+cc.YEAR
+            }
+
+            if (cc.STUDENT_FLAG == "T" && cc.FACULTY_FLAG == "T") {
+                itemView.txtStudYear?.text = "Faculty and Students in Year : " + cc.YEAR
+                after="faculty and students in year "+cc.YEAR
             }
 
             itemView.txtPara?.text =
-                "Dear student in $studYear,\nYou have received notice from " + cc.USER_ROLE + ", stating as" + cc.NOTICE_DESC + ".\nHence we request you to please address the notice as soon as possible."
+                "Dear $after,\nYou have received notice from " + cc.USER_ROLE + ", stating as \"" + cc.NOTICE_DESC + "\".\nHence we request you to please address the notice as soon as possible."
 
             itemView.txtRegards?.text = "Regards,\nDMIMS APP"
 //            itemView.txtNOTICE_DESC?.text = cc!!.NOTICE_DESC

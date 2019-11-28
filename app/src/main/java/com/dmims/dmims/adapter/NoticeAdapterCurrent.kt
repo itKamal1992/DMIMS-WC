@@ -126,12 +126,26 @@ class NoticeAdapterCurrent(userlist: ArrayList<NoticeStudCurrent>, context: Cont
             itemView.txtUSER_TYPE?.text = cc.USER_TYPE
             itemView.txtNOTICE_TYPE?.text = cc.NOTICE_TYPE
             itemView.txtNOTICE_DESC?.text = cc.NOTICE_DESC
-            itemView.txtStudYear?.text = cc.YEAR
+
+            var after=""
+            if (cc.STUDENT_FLAG == "T") {
+                itemView.txtStudYear?.text = "Student in Year : " + cc.YEAR
+                after="student in year "+cc.YEAR
+            }
+            if (cc.FACULTY_FLAG == "T") {
+                itemView.txtStudYear?.text = "Faculty in Year : " + cc.YEAR
+                after="faculty in year "+cc.YEAR
+            }
+
+            if (cc.STUDENT_FLAG == "T" && cc.FACULTY_FLAG == "T") {
+                itemView.txtStudYear?.text = "Faculty and Students in Year : " + cc.YEAR
+                after="faculty and students in year "+cc.YEAR
+            }
+
             itemView.txtNOTICE_DATE?.text = cc.NOTICE_DATE
             itemView.txtINSTITUTE_NAME?.text = cc.INSTITUTE_NAME
             itemView.txtCOURSE_NAME?.text = cc.COURSE_NAME
-            itemView.txtCOURSE_ID?.text = cc.COURSE_ID
-            itemView.txtDEPT_ID?.text = cc.DEPT_ID
+//            itemView.txtDEPT_ID?.text = cc.DEPT_ID
             itemView.txtDEPT_NAME?.text = cc.DEPT_NAME
 //            itemView.txtRESOU_FLAG?.text = cc!!.RESOU_FLAG
 //            itemView.txtFILENAME?.text = cc!!.FILENAME

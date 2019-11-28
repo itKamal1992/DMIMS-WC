@@ -88,8 +88,8 @@ class CurrentNotice : AppCompatActivity() {
 
                                 for (i in 0..listSize - 1) {
                                     if (result.Data14!![i].STUDENT_FLAG == "T") {
-                                        if (result.Data14!![i].COURSE_ID .equals("All",ignoreCase = true) || result.Data14!![i].COURSE_ID == COURSE_ID!!) {
-                                            if ((result.Data14!![i].INSTITUTE_NAME == instname) || (result.Data14!![i].INSTITUTE_NAME.equals("All",ignoreCase = true)))
+                                        if (result.Data14!![i].COURSE_ID .equals(GenericPublicVariable.common_Course_ID,ignoreCase = true) || result.Data14!![i].COURSE_ID == COURSE_ID!!) {
+                                            if ((result.Data14!![i].INSTITUTE_NAME == instname) || (result.Data14!![i].INSTITUTE_NAME.equals("All Institute",ignoreCase = true)))
 //                                            if(( result.Data14!![i].USER_ROLE == "ADMIN" )||( result.Data14!![i].USER_ROLE == "EXAMINCHARGE" )){
                                             {
                                                 if (result.Data14!![i].RESOU_FLAG == "T") {
@@ -124,6 +124,10 @@ class CurrentNotice : AppCompatActivity() {
                                                         "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
                                                         result.Data14!![i].FILENAME,
                                                         result.Data14!![i].YEAR,
+
+                                                        result.Data14!![i].STUDENT_FLAG,
+                                                        result.Data14!![i].FACULTY_FLAG,
+                                                        result.Data14!![i].ADMIN_FLAG,
                                                         k
                                                     )
                                                 )

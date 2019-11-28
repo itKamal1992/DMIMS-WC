@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
 import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
@@ -50,6 +51,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiverAdmin
 import com.dmims.dmims.model.ServerResponse
+import kotlinx.android.synthetic.main.activity_institute_notice_board.*
 import okhttp3.MultipartBody
 
 
@@ -72,6 +74,10 @@ class InstituteNoticeBoard() : AppCompatActivity() {
     private var TAG = InstituteNoticeBoard::class.java.simpleName
     var noticetype = arrayOf("Administrative", "General")
     var facultystud = arrayOf("All", "Faculty", "Student")
+    var studYearArray = arrayOf("1st", "2nd", "3rd", "4th", "5th", "All ( First to Final Year )")
+
+    internal var mUserItems = java.util.ArrayList<Int>()
+    internal var mUserDeptItems = java.util.ArrayList<Int>()
     private lateinit var btnPickImage: Button
     private lateinit var btnPubNotice: Button
     private lateinit var spinner_noticetype: Spinner
@@ -79,7 +85,7 @@ class InstituteNoticeBoard() : AppCompatActivity() {
     private lateinit var pb_notice_institute: ProgressBar
     private lateinit var spinner_institue: Spinner
     private lateinit var spinner_courselist: Spinner
-    private lateinit var spinner_deptlist: Spinner
+
     private lateinit var rImage: String
     private lateinit var rTitle: String
     var instituteName1 = ArrayList<String>()//Creating an empty arraylist
@@ -89,7 +95,7 @@ class InstituteNoticeBoard() : AppCompatActivity() {
     var filename: String = "-"
 
     var course_id: String = "All"
-    var dept_id: String = "All"
+    var dept_id: String = ""
     private lateinit var student_flag: String
     private lateinit var faculty_flag: String
     private lateinit var admin_flag: String
@@ -134,14 +140,17 @@ class InstituteNoticeBoard() : AppCompatActivity() {
         spinner_noticetype = findViewById(R.id.spinner_noticetype)
         spinner_institue = findViewById(R.id.spinner_institue)
         spinner_courselist = findViewById(R.id.spinner_courselist)
-        spinner_deptlist = findViewById(R.id.spinner_deptlist)
+
         spinner_facultystud = findViewById(R.id.spinner_facultystud)
 
-        roleadmin = intent.getStringExtra("roleadmin")
-        id_admin = intent.getStringExtra("id_admin")
-        instituteName1.add("Select institute")
+//        roleadmin = intent.getStringExtra("roleadmin")
+//        id_admin = intent.getStringExtra("id_admin")
+
+        instituteName1.add("Select Institute")
         var mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
         Institute_Name = mypref.getString("key_institute", null)
+        roleadmin = mypref.getString("key_userrole", null)!!
+        id_admin = mypref.getString("Stud_id_key", null)!!
 
         pb_notice_institute = findViewById<ProgressBar>(R.id.pb_notice_institute)
         pb_notice_institute.visibility = View.INVISIBLE
@@ -152,12 +161,223 @@ class InstituteNoticeBoard() : AppCompatActivity() {
         editNoticeDate.text = sdf.format(cal.time).toString()
 
 
-//        val displayMetrics = DisplayMetrics()
-//        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        var checkedItems = BooleanArray(studYearArray.size)
+        txt_year.text = "Select Year"
+        linear_year.setOnTouchListener { v, event ->
+
+            val mBuilder = AlertDialog.Builder(this)
+            mBuilder.setTitle("Select year to send notice")
+            mBuilder.setMultiChoiceItems(
+                studYearArray, checkedItems
+            ) { dialogInterface, position, isChecked ->
+
+                if (isChecked) {
+                    mUserItems.add(position)
+                } else {
+                    mUserItems.remove(Integer.valueOf(position))
+                }
+            }
+
+            mBuilder.setCancelable(false)
+            mBuilder.setPositiveButton(
+                "Ok"
+            ) { dialogInterface, which ->
+                var item = ""
+                for (i in mUserItems.indices) {
+                    item = item + studYearArray[mUserItems.get(i)]
+                    if (i != mUserItems.size - 1) {
+                        item = "$item, "
+                    }
+                }
+                if (item.contains("All ( First to Final Year )")) {
+                    txt_year.text = "All ( First to Final Year )"
+                } else {
+                    txt_year.setText(item)
+                }
+
+                if (txt_year.text.toString()==""){
+                    txt_year.text = "Select Year"
+                }
+            }
+
+            val negativeButton = mBuilder.setNegativeButton(
+                "Dismiss"
+            ) { dialogInterface, i -> dialogInterface.dismiss() }
+
+            mBuilder.setNeutralButton(
+                "Clear All"
+            ) { dialogInterface, which ->
+                for (i in checkedItems.indices) {
+                    checkedItems[i] = false
+                    mUserItems.clear()
+                    txt_year.setText("Select Year")
+                }
+            }
+
+            val mDialog = mBuilder.create()
+            mDialog.show()
+            return@setOnTouchListener false
+        }
+
+
+        txt_Dept.text = "Select Department"
+        selfMultipleDept.setOnTouchListener { v, event ->
+            if(!txt_Dept.text.toString().equals("Select Department")){
+                var checkedDeptItems = BooleanArray(deptlist.size)
+                val mBuilder = AlertDialog.Builder(this)
+                mBuilder.setTitle("Select Department to send notice")
+                var deptArray = deptlist.toArray(arrayOfNulls<String>(deptlist.size))
+                mBuilder.setMultiChoiceItems(deptArray, checkedDeptItems)
+                { dialogInterface, position, isChecked ->
+                    if (isChecked) {
+                        mUserDeptItems.add(position)
+                    } else {
+                        mUserDeptItems.remove(Integer.valueOf(position))
+                    }
+                }
+
+                mBuilder.setCancelable(false)
+                mBuilder.setPositiveButton(
+                    "Ok"
+                ) { dialogInterface, which ->
+
+
+                    var item = ""
+                    txt_Dept.setText("")
+                    for (i in mUserDeptItems.indices) {
+                        item = item + deptArray[mUserDeptItems.get(i)]
+                        if (i != mUserDeptItems.size - 1) {
+                            item = "$item, "
+                        }
+                    }
+//                if(item.contains("All ( First to Final Year )")){
+//                    txt_Dept.text="All ( First to Final Year )"
+//                }else {
 //
-//        var width = displayMetrics.widthPixels
-//        var height = displayMetrics.heightPixels
-//        GenericUserFunction.showOopsError(this,"Width ="+width+"\nHeight ="+height)
+                    txt_Dept.text = item
+                    if (txt_Dept.text.toString().contains("All Department")) {
+                        dept_id = "D000000"
+                        txt_Dept.text = "All Department"
+                    }
+                    if (txt_Dept.text.toString()==""){
+                        txt_Dept.text = "Select Department"
+                    }
+                    mUserDeptItems.removeAll(mUserDeptItems)
+
+                    if (InternetConnection.checkConnection(this)) {
+                        val dialog: android.app.AlertDialog =
+                            SpotsDialog.Builder().setContext(this).build()
+                        dialog.setMessage("Please Wait!!! \nwhile we are updating courses")
+                        dialog.setCancelable(false)
+                        dialog.show()
+                        try {
+//                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+                            selecteddeptlist = txt_Dept.text as String
+                            mServices.GetInstituteData()
+                                .enqueue(object : Callback<APIResponse> {
+                                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                                        Toast.makeText(
+                                            this@InstituteNoticeBoard,
+                                            t.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    override fun onResponse(
+                                        call: Call<APIResponse>,
+                                        response: Response<APIResponse>
+                                    ) {
+                                        dialog.dismiss()
+                                        val result: APIResponse? = response.body()
+                                        if (result!!.Responsecode == 204) {
+
+                                            Toast.makeText(
+                                                this@InstituteNoticeBoard,
+                                                result.Status,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            val listsinstz: Int = result.Data6!!.size
+                                            dept_id = ""
+                                            var selected_dept = selecteddeptlist.split(",")
+                                            var selected_dept_size = selected_dept.size
+                                            for (i in 0..listsinstz - 1) {
+                                                if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                    val listscoursez: Int =
+                                                        result.Data6!![i].Courses!!.size
+                                                    for (j in 0..listscoursez - 1) {
+                                                        if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                            val listsdeptz: Int =
+                                                                result.Data6!![i].Courses!![j].Departments!!.size
+                                                            for (k in 0 until listsdeptz) {
+                                                                for (m in 0 until selected_dept_size) {
+//                                                                println(" i >> $i , j >> $j, k >> $k, m >> $m Department >>> $dept_id")
+
+                                                                    if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME.equals(
+                                                                            selected_dept[m].trim()
+                                                                        )
+                                                                    ) {
+                                                                        dept_id =
+                                                                            dept_id + "_" + result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            println("Department >>> " + dept_id)
+
+                                        }
+                                    }
+                                })
+                        } catch (ex: Exception) {
+                            dialog.dismiss()
+
+                            ex.printStackTrace()
+                            GenericUserFunction.showApiError(
+                                this@InstituteNoticeBoard,
+                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                            )
+                        }
+                    } else {
+                        GenericUserFunction.showInternetNegativePopUp(
+                            this@InstituteNoticeBoard,
+                            getString(R.string.failureNoInternetErr)
+                        )
+                    }
+
+                }
+
+                val negativeButton = mBuilder.setNegativeButton(
+                    "Dismiss"
+                ) { dialogInterface, i -> dialogInterface.dismiss() }
+
+                mBuilder.setNeutralButton(
+                    "Clear All"
+                ) { dialogInterface, which ->
+                    for (i in checkedDeptItems.indices) {
+                        checkedDeptItems[i] = false
+                        mUserDeptItems.clear()
+                        txt_Dept.setText("Select Department")
+                    }
+                }
+
+                val mDialog2 = mBuilder.create()
+                mDialog2.show()
+
+
+            }else {
+                GenericUserFunction.DisplayToast(
+                    this, "Please Choose Departments to proceed"
+                )
+            }
+
+            return@setOnTouchListener false
+        }
 
         //Spinner_1
         var noticetypeAdap: ArrayAdapter<String> =
@@ -305,7 +525,7 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                                     }
                                 }
                             })
-                        courselist.add("All")
+                        courselist.add("All Courses")
                         var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
                             this@InstituteNoticeBoard,
                             R.layout.support_simple_spinner_dropdown_item,
@@ -384,13 +604,10 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                                     }
                                 }
                             })
-                        deptlist.add("All")
-                        var userdeptlistadp: ArrayAdapter<String> =
-                            ArrayAdapter<String>(
-                                this@InstituteNoticeBoard,
-                                R.layout.support_simple_spinner_dropdown_item, deptlist
-                            )
-                        spinner_deptlist.adapter = userdeptlistadp
+                        deptlist.add(0, "All Department")
+                        txt_Dept.text="All Department"
+
+
                     } catch (ex: Exception) {
 
                         ex.printStackTrace()
@@ -413,75 +630,75 @@ class InstituteNoticeBoard() : AppCompatActivity() {
             }
         }
 
-        spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (InternetConnection.checkConnection(this@InstituteNoticeBoard)) {
-                try {
-                    selecteddeptlist = p0!!.getItemAtPosition(p2) as String
-                    mServices.GetInstituteData()
-                        .enqueue(object : Callback<APIResponse> {
-                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                Toast.makeText(
-                                    this@InstituteNoticeBoard,
-                                    t.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            override fun onResponse(
-                                call: Call<APIResponse>,
-                                response: Response<APIResponse>
-                            ) {
-                                val result: APIResponse? = response.body()
-                                if (result!!.Responsecode == 204) {
-                                    Toast.makeText(
-                                        this@InstituteNoticeBoard,
-                                        result.Status,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    val listsinstz: Int = result.Data6!!.size
-                                    for (i in 0..listsinstz - 1) {
-                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
-                                            for (j in 0..listscoursez - 1) {
-                                                if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-                                                    val listsdeptz: Int =
-                                                        result.Data6!![i].Courses!![j].Departments!!.size
-                                                    for (k in 0 until listsdeptz) {
-                                                        if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
-                                                            dept_id =
-                                                                result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                }
-                            }
-                        })
-                } catch (ex: Exception) {
-
-                    ex.printStackTrace()
-                    GenericUserFunction.showApiError(
-                        this@InstituteNoticeBoard,
-                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-                    )
-                }
-            } else {
-                GenericUserFunction.showInternetNegativePopUp(
-                    this@InstituteNoticeBoard,
-                    getString(R.string.failureNoInternetErr)
-                )
-            }
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
+//        spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                if (InternetConnection.checkConnection(this@InstituteNoticeBoard)) {
+//                try {
+//                    selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+//                    mServices.GetInstituteData()
+//                        .enqueue(object : Callback<APIResponse> {
+//                            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+//                                Toast.makeText(
+//                                    this@InstituteNoticeBoard,
+//                                    t.message,
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//
+//                            override fun onResponse(
+//                                call: Call<APIResponse>,
+//                                response: Response<APIResponse>
+//                            ) {
+//                                val result: APIResponse? = response.body()
+//                                if (result!!.Responsecode == 204) {
+//                                    Toast.makeText(
+//                                        this@InstituteNoticeBoard,
+//                                        result.Status,
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//                                } else {
+//                                    val listsinstz: Int = result.Data6!!.size
+//                                    for (i in 0..listsinstz - 1) {
+//                                        if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+//                                            val listscoursez: Int = result.Data6!![i].Courses!!.size
+//                                            for (j in 0..listscoursez - 1) {
+//                                                if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+//                                                    val listsdeptz: Int =
+//                                                        result.Data6!![i].Courses!![j].Departments!!.size
+//                                                    for (k in 0 until listsdeptz) {
+//                                                        if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
+//                                                            dept_id =
+//                                                                result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+//                                                        }
+//
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//
+//                                }
+//                            }
+//                        })
+//                } catch (ex: Exception) {
+//
+//                    ex.printStackTrace()
+//                    GenericUserFunction.showApiError(
+//                        this@InstituteNoticeBoard,
+//                        "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+//                    )
+//                }
+//            } else {
+//                GenericUserFunction.showInternetNegativePopUp(
+//                    this@InstituteNoticeBoard,
+//                    getString(R.string.failureNoInternetErr)
+//                )
+//            }
+//            }
+//
+//            override fun onNothingSelected(p0: AdapterView<*>?) {
+//            }
+//        }
 
         btnPickImage.setOnClickListener {
 
@@ -572,31 +789,80 @@ class InstituteNoticeBoard() : AppCompatActivity() {
     private fun sendNotice() {
 
         if (editNoticeDate.text.toString().isEmpty()) {
-            editNoticeDate.error = "Please select notice date"
+            editNoticeDate.error = "Please select Notice Date"
             return
         } else {
             notice_date = editNoticeDate.text.toString()
         }
         if (edit_notice_title.text.toString().isEmpty()) {
-            edit_notice_title.error = "Please input notice board title"
+            edit_notice_title.error = "Please give Notice Title"
+            GenericUserFunction.DisplayToast(this,"Please give Notice Title")
             return
         } else {
             notice_title = edit_notice_title.text.toString()
         }
         if (edit_notice_desc.text.toString().isEmpty()) {
-            edit_notice_desc.error = "Please input notice board description"
+            edit_notice_desc.error = "Please give Notice Description"
+            GenericUserFunction.DisplayToast(this,"Please give Notice Description")
             return
         } else {
             notice_desc = edit_notice_desc.text.toString()
         }
+
+        if (selectedInstituteName == "Select Institute") {
+            Toast.makeText(this, "Please select Institute to proceed", Toast.LENGTH_SHORT).show()
+
+            return
+        }
+
+        if (txt_year.text.toString()=="Select Year") {
+            txt_year.error = "Please select Year"
+            GenericUserFunction.DisplayToast(this, "Please select Year to proceed")
+            return
+        } else {
+            txt_year.error = null
+            if (txt_year.text.contains("All ( First to Final Year )")) {
+                txt_year.text = "All ( First to Final Year )"
+            }
+        }
+
+        if (txt_Dept.text.toString()=="All Department") {
+            selecteddeptlist="All Department"
+            dept_id = "D000000"
+        } else
+            if (txt_Dept.text.toString()=="Select Department") {
+                txt_Dept.error = "Please Choose Course then Departments to proceed"
+                GenericUserFunction.DisplayToast(
+                    this, "Please Choose Course then Departments to proceed"
+                )
+                return
+            } else
+                if (dept_id != null || dept_id != "") {
+                    txt_Dept.error = null
+                    dept_id = dept_id!!.removeRange(0, 1)
+
+                } else {
+
+                    txt_Dept.error = "Please Choose Departments to proceed"
+                    GenericUserFunction.DisplayToast(
+                        this, "Please Choose Departments to proceed"
+                    )
+                    return
+                }
+
+        if (selectedcourselist=="All Courses")
+        {
+            course_id="C000000"
+        }
+
         if (id_admin.isEmpty()) {
             edit_notice_desc.error = "Please relogin again"
             return
         } else {
             id_admin = id_admin
         }
-        if (selectedInstituteName.equals("Select institute")) {
-            Toast.makeText(this, "Please select valid institute name", Toast.LENGTH_SHORT).show()
+        if (selectedInstituteName=="Select Institute") {
+            Toast.makeText(this, "Please select Institute to proceed", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -684,9 +950,11 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                     dept_id,
                     student_flag,
                     faculty_flag,
-                    admin_flag
+                    admin_flag,
+                    txt_year.text.toString()
                 ).enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                        dialog.dismiss()
                         Toast.makeText(this@InstituteNoticeBoard, t.message, Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -696,11 +964,36 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                         response: Response<APIResponse>
                     ) {
                         dialog.dismiss()
-                        // val result: APIResponse? = response.body()
-                        GenericUserFunction.showPositivePopUp(
-                            this@InstituteNoticeBoard,
-                            "Notice Send Successfully"
-                        )
+                         val result: APIResponse? = response.body()
+                        if (result!!.Responsecode == 200) {
+                            GenericPublicVariable.CustDialog = Dialog(this@InstituteNoticeBoard)
+                            GenericPublicVariable.CustDialog.setContentView(R.layout.positive_custom_popup)
+                            var ivPosClose1: ImageView =
+                                GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogPosClose) as ImageView
+                            var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+                            var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+                            tvMsg.text = "Notice Send Successfully"
+                            GenericPublicVariable.CustDialog.setCancelable(false)
+                            btnOk.setOnClickListener {
+                                GenericPublicVariable.CustDialog.dismiss()
+                                callSelf(this@InstituteNoticeBoard)
+
+                            }
+                            ivPosClose1.setOnClickListener {
+                                GenericPublicVariable.CustDialog.dismiss()
+                                callSelf(this@InstituteNoticeBoard)
+
+                            }
+
+                            GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+                            GenericPublicVariable.CustDialog.show()
+                        }else
+                        {
+                            GenericUserFunction.showApiError(
+                                applicationContext,
+                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                            )
+                        }
 //                            Toast.makeText(this@InstituteNoticeBoard, result!!.Status, Toast.LENGTH_SHORT)
 //                                .show()
                     }
@@ -779,7 +1072,8 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                                 dept_id,
                                 student_flag,
                                 faculty_flag,
-                                admin_flag
+                                admin_flag,
+                                txt_year.text.toString()
                             ).enqueue(object : Callback<APIResponse> {
                                 override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                     dialogCommon!!.dismiss()
@@ -794,13 +1088,36 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                                     call: Call<APIResponse>,
                                     response: Response<APIResponse>
                                 ) {
-                                    dialogCommon!!.dismiss()
                                     val result: APIResponse? = response.body()
+                                    if (result!!.Responsecode == 200) {
+                                        GenericPublicVariable.CustDialog = Dialog(this@InstituteNoticeBoard)
+                                        GenericPublicVariable.CustDialog.setContentView(R.layout.positive_custom_popup)
+                                        var ivPosClose1: ImageView =
+                                            GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogPosClose) as ImageView
+                                        var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+                                        var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+                                        tvMsg.text = "Notice Send Successfully"
+                                        GenericPublicVariable.CustDialog.setCancelable(false)
+                                        btnOk.setOnClickListener {
+                                            GenericPublicVariable.CustDialog.dismiss()
+                                            callSelf(this@InstituteNoticeBoard)
 
-                                    GenericUserFunction.showPositivePopUp(
-                                        this@InstituteNoticeBoard,
-                                        "Notice Send Successfully"
-                                    )
+                                        }
+                                        ivPosClose1.setOnClickListener {
+                                            GenericPublicVariable.CustDialog.dismiss()
+                                            callSelf(this@InstituteNoticeBoard)
+
+                                        }
+
+                                        GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+                                        GenericPublicVariable.CustDialog.show()
+                                    }else
+                                    {
+                                        GenericUserFunction.showApiError(
+                                            applicationContext,
+                                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                                        )
+                                    }
                                 }
                             })
                         } catch (ex: Exception) {
@@ -1195,7 +1512,8 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                                     dept_id,
                                     student_flag,
                                     faculty_flag,
-                                    admin_flag
+                                    admin_flag,
+                                    txt_year.text.toString()
                                 ).enqueue(object : Callback<APIResponse> {
                                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                                         dialogCommon!!.dismiss()
@@ -1214,20 +1532,38 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                                         dialogCommon!!.dismiss()
 //                                        Toast.makeText(this@GreivanceStudFile, result!!.Status, Toast.LENGTH_SHORT)
 //                                            .show()Responsecode
-                                        if (result!!.Responsecode == 200) {
 
-                                            GenericUserFunction.showPositivePopUp(
-                                                this@InstituteNoticeBoard,
-                                                "Notice Send Successfully"
-                                            )
-                                        } else {
+                                        if (result!!.Responsecode == 200) {
+                                            GenericPublicVariable.CustDialog = Dialog(this@InstituteNoticeBoard)
+                                            GenericPublicVariable.CustDialog.setContentView(R.layout.positive_custom_popup)
+                                            var ivPosClose1: ImageView =
+                                                GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogPosClose) as ImageView
+                                            var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+                                            var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+                                            tvMsg.text = "Notice Send Successfully"
+                                            GenericPublicVariable.CustDialog.setCancelable(false)
+                                            btnOk.setOnClickListener {
+                                                GenericPublicVariable.CustDialog.dismiss()
+                                                callSelf(this@InstituteNoticeBoard)
+
+                                            }
+                                            ivPosClose1.setOnClickListener {
+                                                GenericPublicVariable.CustDialog.dismiss()
+                                                callSelf(this@InstituteNoticeBoard)
+
+                                            }
+
+                                            GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+                                            GenericPublicVariable.CustDialog.show()
+                                        }else
+                                        {
                                             GenericUserFunction.showApiError(
-                                                this@InstituteNoticeBoard,
+                                                applicationContext,
                                                 "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                                             )
                                         }
-                                        mediaPath = null
-                                        confirmStatus = "F"
+//                                        mediaPath = null
+//                                        confirmStatus = "F"
                                     }
                                 })
                             } else {
@@ -1273,6 +1609,11 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                 this,
                 getString(R.string.failureNoInternetErr))
         }
+    }
+    fun callSelf (ctx:Context){
+        val intent = Intent(ctx, ctx::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        ctx.startActivity(intent)
     }
 
 }

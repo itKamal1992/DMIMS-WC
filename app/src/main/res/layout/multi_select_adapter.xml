@@ -88,5 +88,35 @@
             <!---->
             <!--</LinearLayout>-->
         </android.support.v7.widget.CardView>
+    <LinearLayout
+        android:id="@+id/layout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="5dp">
+        <Button android:layout_width="wrap_content"
+            android:id="@+id/btn_spinner_cancel"
+            style="?android:textAppearanceSmall"
+            android:padding="10dp"
+            android:text="Cancel"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:background="@drawable/btn_green_round"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/background_dark"
+            android:textSize="15sp"
+            android:layout_marginRight="10dp"/>
+        <Button android:layout_width="wrap_content"
+            android:id="@+id/btn_spinner_ok"
+            style="?android:textAppearanceSmall"
+            android:padding="10dp"
+            android:text="Ok"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:background="@drawable/btn_green_round"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/background_dark"
+            android:textSize="15sp"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
 
 </LinearLayout>

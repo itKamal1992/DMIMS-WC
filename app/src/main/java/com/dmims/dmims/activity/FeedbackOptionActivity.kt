@@ -79,11 +79,9 @@ class FeedbackOptionActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selected_Af_SS_Q1_Answer = p0!!.getItemAtPosition(p2) as String
                 if(p2 != 0) {
-
                     tv_startDate.text = feedbacdsates[p2]
                     tv_endDate.text = feedbacedates[p2]
                 }
-
             }
             override fun onNothingSelected(p0: AdapterView<*>?)
             {
@@ -144,6 +142,7 @@ class FeedbackOptionActivity : AppCompatActivity() {
         calldate.enqueue(object : Callback<FeedBackSchedule> {
             override fun onFailure(call: Call<FeedBackSchedule>, t: Throwable) {
                 dialog.dismiss()
+                GenericUserFunction.showApiError(this@FeedbackOptionActivity,t.message.toString())
 
             }
 
@@ -158,18 +157,14 @@ class FeedbackOptionActivity : AppCompatActivity() {
 
 
                     GenericUserFunction.showPerMissNegativePopUp(this@FeedbackOptionActivity,"Feedback not Scheduled")
-                    Toast.makeText(
-                        this@FeedbackOptionActivity,
-                        "Feedback not Scheduled",
-                        Toast.LENGTH_SHORT
-                    ).show()
+
                 } else {
 
                     var listSize = result!!.size
                     var check:Int=0
 
                     for (i in 0 .. listSize - 1) {
-                        if(result!![i].INSTITUTE_NAME.equals(Stud_Institute) || result!![i].INSTITUTE_NAME.equals("All"))
+                        if(result!![i].INSTITUTE_NAME.equals(Stud_Institute) || result!![i].INSTITUTE_NAME=="All Institute")
                         {
 
                             feedbacknames.add(result!![i].FEEDBACK_NAME)

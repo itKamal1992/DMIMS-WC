@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
+import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
 import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
@@ -97,8 +98,8 @@ class Activity_Notification_Student : AppCompatActivity() {
                             println("result 4>>> "+users)
                             for (i in 0..listSize - 1) {
                                 if (result.Data14!![i].STUDENT_FLAG == "T") {
-                                    if (result.Data14!![i].COURSE_ID .equals("All",ignoreCase = true) || result.Data14!![i].COURSE_ID == COURSE_ID!!) {
-                                        if ((result.Data14!![i].INSTITUTE_NAME == instname) || (result.Data14!![i].INSTITUTE_NAME.equals("All",ignoreCase = true)))
+                                    if (result.Data14!![i].COURSE_ID .equals(GenericPublicVariable.common_Course_ID,ignoreCase = true) || result.Data14!![i].COURSE_ID == COURSE_ID!!) {
+                                        if ((result.Data14!![i].INSTITUTE_NAME == instname) || (result.Data14!![i].INSTITUTE_NAME.equals("All Institute",ignoreCase = true)))
 //                                            if(( result.Data14!![i].USER_ROLE == "ADMIN" )||( result.Data14!![i].USER_ROLE == "EXAMINCHARGE" )){
                                         {
                                             if (result.Data14!![i].RESOU_FLAG == "T") {
@@ -112,16 +113,20 @@ class Activity_Notification_Student : AppCompatActivity() {
                                                      result.Data14!![i].USER_ROLE,
                                                     "NOTICE FOR: " + result.Data14!![i].USER_TYPE,
                                                     "NOTICE TYPE: " + result.Data14!![i].NOTICE_TYPE,
-                                                    "NOTICE DESC: " + result.Data14!![i].NOTICE_DESC,
+                                                    result.Data14!![i].NOTICE_DESC,
                                                      result.Data14!![i].NOTICE_DATE,
                                                     "INSTITUTE: " + result.Data14!![i].INSTITUTE_NAME,
                                                     "COURSE NAME: " + result.Data14!![i].COURSE_NAME,
                                                     "COURSE ID: " + result.Data14!![i].COURSE_ID,
-                                                    "DEPT NAME: " + result.Data14!![i].DEPT_NAME,
+                                                    result.Data14!![i].DEPT_NAME,
                                                     "DEPT ID: " + result.Data14!![i].DEPT_ID,
                                                     "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
                                                     result.Data14!![i].FILENAME,
                                                     result.Data14!![i].YEAR,
+
+                                                    result.Data14!![i].STUDENT_FLAG,
+                                                    result.Data14!![i].FACULTY_FLAG,
+                                                    result.Data14!![i].ADMIN_FLAG,
                                                     k
                                                 )
                                             )
@@ -211,8 +216,8 @@ class Activity_Notification_Student : AppCompatActivity() {
                                 println("result 4>>> "+users)
                                 for (i in 0..listSize - 1) {
                                     if (result.Data14!![i].STUDENT_FLAG == "T") {
-                                        if (result.Data14!![i].COURSE_ID .equals("All",ignoreCase = true) || result.Data14!![i].COURSE_ID == COURSE_ID!!) {
-                                            if ((result.Data14!![i].INSTITUTE_NAME == instname) || (result.Data14!![i].INSTITUTE_NAME.equals("All",ignoreCase = true)))
+                                        if (result.Data14!![i].COURSE_ID .equals(GenericPublicVariable.common_Course_ID,ignoreCase = true) || result.Data14!![i].COURSE_ID == COURSE_ID!!) {
+                                            if ((result.Data14!![i].INSTITUTE_NAME == instname) || (result.Data14!![i].INSTITUTE_NAME.equals("All Institute",ignoreCase = true)))
 //                                            if(( result.Data14!![i].USER_ROLE == "ADMIN" )||( result.Data14!![i].USER_ROLE == "EXAMINCHARGE" )){
                                             {
                                                 if (result.Data14!![i].RESOU_FLAG == "T") {
@@ -226,16 +231,20 @@ class Activity_Notification_Student : AppCompatActivity() {
                                                         "SENDER: " + result.Data14!![i].USER_ROLE,
                                                         "NOTICE FOR: " + result.Data14!![i].USER_TYPE,
                                                         "NOTICE TYPE: " + result.Data14!![i].NOTICE_TYPE,
-                                                        "NOTICE DESC: " + result.Data14!![i].NOTICE_DESC,
+                                                        result.Data14!![i].NOTICE_DESC,
                                                         "NOTICE DATE: " + result.Data14!![i].NOTICE_DATE,
                                                         "INSTITUTE: " + result.Data14!![i].INSTITUTE_NAME,
                                                         "COURSE NAME: " + result.Data14!![i].COURSE_NAME,
                                                         "COURSE ID: " + result.Data14!![i].COURSE_ID,
-                                                        "DEPT NAME: " + result.Data14!![i].DEPT_NAME,
+                                                        result.Data14!![i].DEPT_NAME,
                                                         "DEPT ID: " + result.Data14!![i].DEPT_ID,
                                                         "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
                                                         result.Data14!![i].FILENAME,
                                                         result.Data14!![i].YEAR,
+
+                                                        result.Data14!![i].STUDENT_FLAG,
+                                                        result.Data14!![i].FACULTY_FLAG,
+                                                        result.Data14!![i].ADMIN_FLAG,
                                                         k
                                                     )
                                                 )
