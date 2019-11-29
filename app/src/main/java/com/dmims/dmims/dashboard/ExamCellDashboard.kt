@@ -1,8 +1,11 @@
 package com.dmims.dmims.dashboard
 
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
@@ -11,10 +14,8 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.R
 import com.dmims.dmims.activity.*
 import com.dmims.dmims.adapter.ViewPagerAdapter
@@ -326,16 +327,43 @@ class ExamCellDashboard : AppCompatActivity() {
     //EXAM_InBox_GET_UploadMCQ
 
     private fun displayhelpalert() {
-        val dialog = AlertDialog.Builder(this)
-        val dialogView = layoutInflater.inflate(R.layout.custom_dialog, null)
-        dialog.setView(dialogView)
-        dialog.setCancelable(false)
-        dialog.setPositiveButton("Ok") { dialog: DialogInterface, i: Int ->
-            println(dialog)
-            println(i)
-        }
+//        val dialog = AlertDialog.Builder(this)
+//        val dialogView = layoutInflater.inflate(R.layout.custom_dialog, null)
+//        dialog.setView(dialogView)
+//        dialog.setCancelable(false)
+//        dialog.setPositiveButton("Ok") { dialog: DialogInterface, i: Int ->
+//            println(dialog)
+//            println(i)
+//        }
+//        dialog.show()
 
-        dialog.show()
+
+        //////////Start///////////////
+        GenericPublicVariable.CustDialog = Dialog(this)
+        GenericPublicVariable.CustDialog.setContentView(R.layout.custom_dialog_help)
+//        var ivNegClose1: ImageView =
+//            GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
+        var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+//        var btnCancel: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogCancel) as Button
+//        var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+//        tvMsg.text = "Do you really want to delete this Exam Key?"
+//        GenericPublicVariable.CustDialog.setCancelable(false)
+        btnOk.setOnClickListener {
+            GenericPublicVariable.CustDialog.dismiss()
+        }
+//        btnCancel.setOnClickListener {
+//            GenericPublicVariable.CustDialog.dismiss()
+//
+//        }
+//        ivNegClose1.setOnClickListener {
+//            GenericPublicVariable.CustDialog.dismiss()
+//        }
+        GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(
+            ColorDrawable(
+                Color.TRANSPARENT)
+        )
+        GenericPublicVariable.CustDialog.show()
+        //////////End//////////////
     }
 
     private fun displayhelphostelalert() {
