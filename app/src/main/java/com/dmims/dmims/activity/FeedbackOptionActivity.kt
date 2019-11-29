@@ -156,7 +156,7 @@ class FeedbackOptionActivity : AppCompatActivity() {
                 if (result!![0].id == "error") {
 
 
-                    GenericUserFunction.showPerMissNegativePopUp(this@FeedbackOptionActivity,"Feedback not Scheduled")
+                    GenericUserFunction.showApiError(this@FeedbackOptionActivity,"Feedback not Scheduled")
 
                 } else {
 
@@ -174,12 +174,13 @@ class FeedbackOptionActivity : AppCompatActivity() {
                             println("true part")
                             check=1
                         }
-                        if (check==0){
-                            GenericUserFunction.showPerMissNegativePopUp(this@FeedbackOptionActivity,"Feedback not Scheduled")
-                        }
 
 
 
+
+                    }
+                    if (check==0){
+                        GenericUserFunction.showApiError(this@FeedbackOptionActivity,"Feedback not Scheduled")
                     }
                 }
             }
