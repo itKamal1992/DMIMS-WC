@@ -382,17 +382,15 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                                                         val listsdeptz: Int =
                                                             result.Data6!![i].Courses!![j].Departments!!.size
                                                         for (k in 0 until listsdeptz) {
-                                                            if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
-                                                                dept_id =
-                                                                    result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+                                                            if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist)
+                                                            {
+                                                                dept_id = result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
                                                             }
-
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-
                                     }
                                 }
                             })

@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.UpdateScheduledExamFeedback"></activity>
+        <activity android:name=".activity.FeedbackAnalysis1"></activity>
+        <activity android:name=".activity.UpdateScheduledExamFeedback" />
         <activity
             android:name=".activity.GrievanceFull"
             android:screenOrientation="portrait" />

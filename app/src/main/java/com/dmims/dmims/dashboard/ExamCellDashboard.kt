@@ -32,6 +32,7 @@ class ExamCellDashboard : AppCompatActivity() {
     lateinit var noticeInboxGrid: LinearLayout
 
     lateinit var feddbackSchedule_Ei: LinearLayout
+    lateinit var feddbackAnalysis_Ei: LinearLayout
     lateinit var helpdiloadboad: LinearLayout
     lateinit var Mcq_grid: LinearLayout
     lateinit var drawerTitle: TextView
@@ -58,6 +59,9 @@ class ExamCellDashboard : AppCompatActivity() {
         Mcq_grid_Notification = findViewById<View>(R.id.Mcq_grid_Notification) as LinearLayout
         Mcq_grid_Inbox = findViewById<View>(R.id.Mcq_grid_Inbox) as LinearLayout
         feddbackSchedule_Ei = findViewById<View>(R.id.ll_feedbackSchedular_Ei) as LinearLayout
+        feddbackAnalysis_Ei = findViewById<View>(R.id.ll_feedbackAnalysis) as LinearLayout
+
+
         Mcq_grid = findViewById<View>(R.id.Mcq_grid) as LinearLayout
 
         drawerTitle = findViewById(R.id.drawer_title)
@@ -93,6 +97,7 @@ class ExamCellDashboard : AppCompatActivity() {
         setMcq_grid_Inbox_Event(Mcq_grid_Inbox)
         set_grid_Inbox_Event(noticeInboxGrid)
         setFeedbackScheduler(feddbackSchedule_Ei)
+        setFeedbackAnalysis(feddbackAnalysis_Ei)
 
         setSupportActionBar(toolbar)
         val actionBar = supportActionBar
@@ -319,6 +324,15 @@ class ExamCellDashboard : AppCompatActivity() {
     private fun setFeedbackScheduler(emergencygrid: LinearLayout) {
         emergencygrid.setOnClickListener(View.OnClickListener {
             val intent = Intent(this@ExamCellDashboard, RegistrarFeedbackSchdule::class.java)
+            //  intent.putExtra("info", "Notice Board Activity")
+            startActivity(intent)
+        })
+    }
+
+
+    private fun setFeedbackAnalysis(feddbackAnalysis_Ei: LinearLayout) {
+        feddbackAnalysis_Ei.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this@ExamCellDashboard, FeedbackAnalysis1::class.java)
             //  intent.putExtra("info", "Notice Board Activity")
             startActivity(intent)
         })
