@@ -922,7 +922,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                         response: Response<APIResponse>
                     ) {
                         dialogCommon!!.dismiss()
-
+//
                         val result: APIResponse? = response.body()
                         if (result!!.Responsecode == 200) {
                             GenericPublicVariable.CustDialog = Dialog(this@RegistrarFeedbackSchdule)
