@@ -35,7 +35,15 @@ interface PhpApiInterface  {
 
     @FormUrlEncoded
     @POST("feedback_type/feedbackScheInsrt.php")
-    fun InsertFeedBackScheduler(@Field("INSTITUTE_NAME") INSTITUTE_NAME: String,@Field("COURSE_NAME") COURSE_NAME: String, @Field("DEPT_NAME") DEPT_NAME: String, @Field("FEEDBACK_NAME") FEEDBACK_NAME: String, @Field("SCHEDULE_DATE") SCHEDULE_DATE: String, @Field("START_DATE") START_DATE: String, @Field("END_DATE") END_DATE: String,@Field("YEAR")Year:String): Call<FeedBackInsert>
+    fun InsertFeedBackScheduler(@Field(
+        "INSTITUTE_NAME") INSTITUTE_NAME: String,
+                                @Field("COURSE_NAME") COURSE_NAME: String,
+                                @Field("DEPT_NAME") DEPT_NAME: String,
+                                @Field("FEEDBACK_NAME") FEEDBACK_NAME: String,
+                                @Field("SCHEDULE_DATE") SCHEDULE_DATE: String,
+                                @Field("START_DATE") START_DATE: String,
+                                @Field("END_DATE") END_DATE: String,
+                                @Field("YEAR")Year:String): Call<FeedBackInsert>
 
 
   @FormUrlEncoded

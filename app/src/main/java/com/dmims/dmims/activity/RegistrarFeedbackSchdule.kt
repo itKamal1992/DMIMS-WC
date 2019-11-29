@@ -428,6 +428,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
             this@RegistrarFeedbackSchdule,
             R.layout.support_simple_spinner_dropdown_item, instituteName1
         )
+
         if (InternetConnection.checkConnection(this)) {
             try {
                 var phpApiInterface: PhpApiInterface =
@@ -458,13 +459,16 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                                         feedBackType.add(feedbackTypeList!![i].FEEDBACK_NAME)
                                     }
                                 }
+                                userfeedBackTypeadp.notifyDataSetChanged()
                             }
                         }
                     }
 
                     override fun onFailure(call: Call<FeedBackMaster>, t: Throwable) {
-                        Toast.makeText(this@RegistrarFeedbackSchdule, t.message, Toast.LENGTH_SHORT)
-                            .show()
+                        GenericUserFunction.showApiError(
+                            this@RegistrarFeedbackSchdule,
+                            t.message.toString()
+                        )
                     }
 
                 })
@@ -481,6 +485,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                 getString(R.string.failureNoInternetErr)
             )
         }
+
         spinner_institue.adapter = institueAdap
         spinner_institue.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -622,79 +627,6 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
             }
         }
 
-//        spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                if (InternetConnection.checkConnection(this@RegistrarFeedbackSchdule)) {
-//                    try {
-//                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
-//                        mServices.GetInstituteData()
-//                            .enqueue(object : Callback<APIResponse> {
-//                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-//                                    Toast.makeText(
-//                                        this@RegistrarFeedbackSchdule,
-//                                        t.message,
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
-//                                }
-//
-//                                override fun onResponse(
-//                                    call: Call<APIResponse>,
-//                                    response: Response<APIResponse>
-//                                ) {
-//                                    val result: APIResponse? = response.body()
-//                                    if (result!!.Responsecode == 204) {
-//                                        Toast.makeText(
-//                                            this@RegistrarFeedbackSchdule,
-//                                            result.Status,
-//                                            Toast.LENGTH_SHORT
-//                                        ).show()
-//                                    } else {
-//                                        val listsinstz: Int = result.Data6!!.size
-//                                        for (i in 0..listsinstz - 1) {
-//                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-//                                                val listscoursez: Int =
-//                                                    result.Data6!![i].Courses!!.size
-//                                                for (j in 0..listscoursez - 1) {
-//                                                    if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-//                                                        val listsdeptz: Int =
-//                                                            result.Data6!![i].Courses!![j].Departments!!.size
-//                                                        for (k in 0 until listsdeptz) {
-//                                                            if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist) {
-//                                                                dept_id =
-//                                                                    result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
-//                                                            }
-//
-//                                                        }
-//                                                    }
-//                                                }
-//                                            }
-//                                        }
-//
-//                                    }
-//                                }
-//                            })
-//
-//                    } catch (ex: Exception) {
-//                        ex.printStackTrace()
-//                        GenericUserFunction.showApiError(
-//                            this@RegistrarFeedbackSchdule,
-//                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-//                        )
-//                    }
-//                }
-//                else {
-//                    GenericUserFunction.showInternetNegativePopUp(
-//                        this@RegistrarFeedbackSchdule,
-//                        getString(R.string.failureNoInternetErr)
-//                    )
-//                }
-//            }
-//
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//            }
-//        }
-
-
         btn_ScheduleFeedback.setOnClickListener {
             if (selectedFeedbackName.equals("Select Feedback Type")) {
                 showToast("Please select type of Feedback")
@@ -819,6 +751,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
         }
 
         spinner_FeedbackType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedFeedbackName = p0!!.getItemAtPosition(p2) as String
             }
