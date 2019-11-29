@@ -855,7 +855,8 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                 cal.set(year, monthOfYear, dayOfMonth)
                 val date3 = cal.time
                 sdf3.format(date3)
-                from_date_conv = sdf.format(date3).toString()
+                from_date_conv = sdf3.format(date3).toString()
+
 
 
                 val myFormat5 = "dd-MM-yyyy" // mention the format you need
