@@ -163,7 +163,7 @@ class InstituteNoticeBoard() : AppCompatActivity() {
 
         var checkedItems = BooleanArray(studYearArray.size)
         txt_year.text = "Select Year"
-        linear_year.setOnTouchListener { v, event ->
+        linear_year.setOnClickListener {
 
             val mBuilder = AlertDialog.Builder(this)
             mBuilder.setTitle("Select year to send notice")
@@ -216,12 +216,12 @@ class InstituteNoticeBoard() : AppCompatActivity() {
 
             val mDialog = mBuilder.create()
             mDialog.show()
-            return@setOnTouchListener false
+
         }
 
 
         txt_Dept.text = "Select Department"
-        selfMultipleDept.setOnTouchListener { v, event ->
+        selfMultipleDept.setOnClickListener {
             if(!txt_Dept.text.toString().equals("Select Department")){
                 var checkedDeptItems = BooleanArray(deptlist.size)
                 val mBuilder = AlertDialog.Builder(this)
@@ -376,7 +376,7 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                 )
             }
 
-            return@setOnTouchListener false
+
         }
 
         //Spinner_1
