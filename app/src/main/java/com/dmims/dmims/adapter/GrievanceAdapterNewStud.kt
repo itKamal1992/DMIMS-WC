@@ -70,6 +70,7 @@ class GrievanceAdapterNewStud(userlist: ArrayList<StudentGrievanceGet>, context:
         p0.tv_complaintTo?.text =emUser.Comp_To
         p0.complaintAgainst?.text = emUser.G_AGAINST
         p0.tv_departmentTo?.text = emUser.DEPARTMENT
+        p0.grivComment?.text = emUser.G_COMMENT
 
         if (emUser.G_STATUS.equals("Open"))
         {
@@ -143,6 +144,7 @@ class GrievanceAdapterNewStud(userlist: ArrayList<StudentGrievanceGet>, context:
         val category = itemView.findViewById<TextView>(R.id.tv_category)
         val complaintAgainst = itemView.findViewById<TextView>(R.id.tv_complaintAgainst)
         val grievStatus=itemView.findViewById<TextView>(R.id.tv_GrievanceStatus)
+        val grivComment = itemView.findViewById<TextView>(R.id.tv_GrievanceComment)
         val grivDescription=itemView.findViewById<TextView>(R.id.tv_description)
         val tv_complaintTo=itemView.findViewById<TextView>(R.id.tv_complaintTo)
         val tv_departmentTo=itemView.findViewById<TextView>(R.id.tv_departmentTo)

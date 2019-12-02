@@ -329,6 +329,7 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
                     val editor = mypref.edit()
                     editor.putString("key_institute_stud", DeptList!![0].COURSE_INSTITUTE)
                     editor.putString("key_institute", DeptList!![0].COURSE_INSTITUTE)
+                    editor.putString("key_course",DeptList!![0].COURSE_NAME)
                     editor.apply()
 
                 }

@@ -7,6 +7,9 @@ import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 import com.google.gson.GsonBuilder
 import com.google.gson.Gson
+import okhttp3.logging.HttpLoggingInterceptor
+
+
 
 
 
@@ -24,14 +27,22 @@ class ApiClientPhp {
 //                    .setLenient()
 //                    .create()
                 var okHttpClient = OkHttpClient.Builder()
+
+                    .retryOnConnectionFailure(true)
                     .connectTimeout(1, TimeUnit.MINUTES)
                     .readTimeout(30, TimeUnit.SECONDS)
                     .writeTimeout(30, TimeUnit.SECONDS)
                     .build()
 
+//                val interceptor = HttpLoggingInterceptor()
+//                interceptor.level = HttpLoggingInterceptor.Level.BODY
+//                val okHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+
 
 
                 retrofit = Retrofit.Builder()
+
                     .baseUrl(PhpBaseUrl)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())

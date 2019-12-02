@@ -96,6 +96,13 @@
 					  android:textColor="@color/colorblack"
 					  android:textAppearance="@style/TextAppearance.AppCompat.Small"
 					  android:layout_height="match_parent"/>
+			<TextView android:layout_width="match_parent"
+				android:id="@+id/txtYear"
+				android:textStyle="bold"
+				android:text="For student in Year"
+				android:textColor="@color/colorblack"
+				android:textAppearance="@style/TextAppearance.AppCompat.Small"
+				android:layout_height="match_parent"/>
 
 			<TextView android:layout_width="match_parent"
 					  android:id="@+id/txtPara"

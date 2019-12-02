@@ -63,7 +63,7 @@ class Student_GET_UploadMCQ : AppCompatActivity() {
         COURSE_ID = mypref.getString("course_id", null)
         Stud_ID = mypref.getString("Stud_id_key", null)
         Stud_Name = mypref.getString("key_drawer_title", null)
-        Stud_Course = mypref.getString("key_institute", null)
+        Stud_Course = mypref.getString("key_course", null)
         Stud_Institute = mypref.getString("key_institute_stud", null)
         val recyclerView = findViewById<RecyclerView>(R.id.attendance_list)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
@@ -114,11 +114,22 @@ class Student_GET_UploadMCQ : AppCompatActivity() {
                     } else {
                         val users = ArrayList<McqFields>()
                         for (i in 0..listSize - 1) {
-                            if (result.Data!![i].Institute == "All" || result.Data!![i].Institute == Stud_Institute) {
+                            if (result.Data!![i].Institute == "All Institute" || result.Data!![i].Institute == Stud_Institute) {
 
-                                if (result.Data!![i].Course == "All" || result.Data!![i].Course == Stud_Course){
+                                if (result.Data!![i].Course == GenericPublicVariable.common_Course_ID || result.Data!![i].Course == Stud_Course){
 
-                                    k = R.drawable.ic_notice_yes
+                                        if(result.Data!![i].FileUrl.contains(".jpg",ignoreCase = true)||result.Data!![i].FileUrl.contains(".jpeg",ignoreCase = true)||result.Data!![i].FileUrl.contains(".png",ignoreCase = true))
+                                        {
+                                            k = R.drawable.ic_jpg
+                                        }else
+                                            if(result.Data!![i].FileUrl.contains(".pdf",ignoreCase = true)) {
+                                                k = R.drawable.icon_pdf
+                                            }
+                                            else {
+                                                k = R.drawable.ic_anotice_no
+                                            }
+
+
                                     users.add(
                                         McqFields(
                                             result.Data!![i].id,

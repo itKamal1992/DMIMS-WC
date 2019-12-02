@@ -170,7 +170,9 @@ interface PhpApiInterface  {
     @GET("pdfupload/GetMCQUploadData.php")
     fun GetUploadMCQ(): Call<MCQListUpload>
 
+
     @FormUrlEncoded
+
     @POST("pdfupload/GetMCQUploadByDate.php")
     fun GetUploadMCQbyDate(@Field("CURRENT_DATE") CurrentDate: String): Call<MCQListUpload>
 
@@ -262,6 +264,7 @@ interface PhpApiInterface  {
         @Part("file") name: RequestBody
     ): Call<ServerResponse>
 
-
+    @GET("test_folder/graph_api.php")
+    fun GetGraphData(): Call<GetGraphList>
 }
 

@@ -181,14 +181,6 @@ class HodDashboard : AppCompatActivity()
                 }
 
 
-                R.id.action_time_table -> {
-                    val intent = Intent(this@HodDashboard, Activity_time_table_student::class.java)
-                    val mypref22 = getSharedPreferences("mypref", Context.MODE_PRIVATE)
-                    var student_id_key22 = mypref22.getString("Stud_id_key", null)
-                    intent.putExtra("stud_k", student_id_key22?.toString())
-                    startActivity(intent)
-                }
-
                 R.id.action_help -> {
                     displayHelpAlert()
                 }

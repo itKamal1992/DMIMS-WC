@@ -96,7 +96,16 @@ class EXAM_GET_UploadMCQ : AppCompatActivity() {
                         val users = ArrayList<McqFields>()
                         if (listSize!=0) {
                             for (i in 0..listSize - 1) {
-                                k = R.drawable.ic_notice_yes
+                                if(result.Data!![i].FileUrl.contains(".jpg",ignoreCase = true)||result.Data!![i].FileUrl.contains(".jpeg",ignoreCase = true)||result.Data!![i].FileUrl.contains(".png",ignoreCase = true))
+                                {
+                                    k = R.drawable.ic_jpg
+                                }else
+                                    if(result.Data!![i].FileUrl.contains(".pdf",ignoreCase = true)) {
+                                        k = R.drawable.icon_pdf
+                                    }
+                                    else {
+                                        k = R.drawable.ic_anotice_no
+                                    }
                                 users.add(
                                     McqFields(
                                         result.Data!![i].id,

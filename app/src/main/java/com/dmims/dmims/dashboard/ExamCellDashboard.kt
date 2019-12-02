@@ -22,6 +22,7 @@ import com.dmims.dmims.adapter.ViewPagerAdapter
 import kotlinx.android.synthetic.main.examcell_dashboard.*
 
 import java.util.*
+import kotlin.system.exitProcess
 
 class ExamCellDashboard : AppCompatActivity() {
     lateinit var attendanceGrid: LinearLayout
@@ -396,6 +397,41 @@ class ExamCellDashboard : AppCompatActivity() {
         helpdiloadboad.setOnClickListener {
             displayhelpalert()
         }
+    }
+
+    override fun onBackPressed() {
+        exitDialog()
+    }
+    private fun exitDialog() {
+        // build alert dialog
+        val dialogBuilder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.custom_dialog_exit, null)
+        dialogBuilder.setView(dialogView)
+            // set message of alert dialog
+            // dialogBuilder.setMessage("Do you want to close this application ?")
+            // if the dialog is cancelable
+            .setCancelable(false)
+            // positive button text and action
+            .setPositiveButton("Yes") { dialog, id ->
+                println(dialog)
+                println(id)
+                finishAffinity()
+                exitProcess(0)
+
+            }
+            // negative button text and action
+            .setNegativeButton("No") { dialog, id ->
+                println(dialog)
+                println(id)
+                dialog.cancel()
+            }
+
+        // create dialog box
+        val alert = dialogBuilder.create()
+        // set title for alert dialog box
+
+        // show alert dialog
+        alert.show()
     }
 
 }

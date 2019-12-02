@@ -18,6 +18,13 @@ import com.dmims.dmims.dataclass.GreivanceCellData
 import com.dmims.dmims.dataclass.McqFields
 import com.dmims.dmims.dataclass.NoticeStudCurrent
 import kotlinx.android.synthetic.main.exam_get_mcq_adapter_layout.view.*
+import kotlinx.android.synthetic.main.exam_get_mcq_adapter_layout.view.camera_image
+import kotlinx.android.synthetic.main.exam_get_mcq_adapter_layout.view.txtNOTICE_DATE
+import kotlinx.android.synthetic.main.exam_get_mcq_adapter_layout.view.txtNOTICE_TITLE
+import kotlinx.android.synthetic.main.exam_get_mcq_adapter_layout.view.txtPara
+import kotlinx.android.synthetic.main.exam_get_mcq_adapter_layout.view.txtRegards
+import kotlinx.android.synthetic.main.exam_get_mcq_adapter_layout.view.txtUSER_ROLE
+import kotlinx.android.synthetic.main.student_get_mcq_adapter_layout.view.*
 
 class StudentGetMCQAdapter(val userlist: ArrayList<McqFields>, context: Context) :
     RecyclerView.Adapter<StudentGetMCQAdapter.ViewHolder>() {
@@ -83,10 +90,11 @@ class StudentGetMCQAdapter(val userlist: ArrayList<McqFields>, context: Context)
         }
 
         fun setData(cc: McqFields?, position: Int) {
-            itemView.txtNOTICE_TITLE?.text = "Title : Answer Key"
+            itemView.txtNOTICE_TITLE?.text = "MCQ Answer Key "+cc!!.Institute
             itemView.txtNOTICE_DATE?.text = "Date : "+cc!!.StartDate
             itemView.txtUSER_ROLE?.text = cc!!.UserRole
-            itemView.txtPara?.text = "Dear student,\nYou have received MCQ Answer Key from "+cc!!.UserDesig+ " "+cc!!.UserName+" available for you from "+cc!!.StartDate+" till" +cc!!.EndDate+"."+"\nHence we request you to please address the Answer Key as soon as possible."
+            itemView.txtYear?.text = "For students in Year : "+cc!!.Year
+            itemView.txtPara?.text = "Dear student,\nYou have received MCQ Answer Key from "+cc!!.UserDesig+ " "+cc!!.UserName+". You can view this answer key from "+cc!!.StartDate+" to " +cc!!.EndDate+"."+"\nHence, we request you to please view the answer key for your respective examination."
             itemView.txtRegards?.text ="Regards, \nDMIMS APP"
             itemView.camera_image?.setImageResource(cc.image)
             this.mcqFields = cc
