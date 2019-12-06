@@ -133,7 +133,7 @@ class ExamGetMCQAdapter(val userlist: ArrayList<McqFields>,context: Context) :
             itemView.txtNOTICE_TITLE?.text = "MCQ Answer Key "+cc!!.Institute
             itemView.txtNOTICE_DATE?.text = "Date : "+cc!!.StartDate
             itemView.txtUSER_ROLE?.text = cc!!.UserRole
-            itemView.txtPara?.text = "Dear student,\nYou have received MCQ Answer Key from "+cc!!.UserDesig+ " "+cc!!.UserName+" available for you from "+cc!!.StartDate+" till" +cc!!.EndDate+"."+"\nHence we request you to please address the Answer Key as soon as possible."
+            itemView.txtPara?.text = "Dear student,\nYou have received MCQ Answer Key from "+cc!!.UserDesig+ " "+cc!!.UserName+" available for you from "+cc!!.StartDate+" till " +cc!!.EndDate+"."+"\nHence we request you to please address the Answer Key as soon as possible."
             itemView.txtRegards?.text ="Regards, \nDMIMS APP"
             itemView.camera_image?.setImageResource(cc.image)
             this.mcqFields = cc

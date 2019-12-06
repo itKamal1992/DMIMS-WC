@@ -398,6 +398,14 @@ class ExamMcqUpload : AppCompatActivity() {
                 GenericUserFunction.DisplayToast(this, "Please select Institute to proceed")
                 return@setOnClickListener
             }
+            if (selectedcourselist=="Select Course")
+            {
+                //course_id="C000000"
+                GenericUserFunction.DisplayToast(
+                    this, "Please select course to proceed"
+                )
+                return@setOnClickListener
+            }
             if (txt_year.text.toString()=="Select Year") {
                 txt_year.error = "Please select year"
                 GenericUserFunction.DisplayToast(this, "Please select year to proceed")
@@ -433,10 +441,7 @@ class ExamMcqUpload : AppCompatActivity() {
                         return@setOnClickListener
                     }
 
-            if (selectedcourselist=="All Courses")
-            {
-                course_id="C000000"
-            }
+
 
             if (mediaPath != null) {
 //        PdfPathHolder = FilePath.getPath(this, uri)
@@ -543,7 +548,6 @@ class ExamMcqUpload : AppCompatActivity() {
                             Toast.makeText(this@ExamMcqUpload, result.Status, Toast.LENGTH_SHORT).show()
                         } else {
                             listsinstz = result.Data6!!.size
-                            instituteName1.add("All Institute")
                             for (i in 0..listsinstz - 1) {
                                 instituteName1.add(result.Data6!![i].Course_Institute)
                             }
@@ -613,7 +617,7 @@ class ExamMcqUpload : AppCompatActivity() {
                                     }
                                 }
                             })
-                        courselist.add("All Courses")
+                        courselist.add("Select Course")
                         var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
                             this@ExamMcqUpload,
                             R.layout.support_simple_spinner_dropdown_item,
