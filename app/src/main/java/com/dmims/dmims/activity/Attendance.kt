@@ -16,7 +16,13 @@ import com.dmims.dmims.adapter.AttendanceAdapterCurrent
 import com.dmims.dmims.common.Common
 import com.dmims.dmims.dataclass.AttendanceStudCurrent
 import com.dmims.dmims.model.APIResponse
+import com.dmims.dmims.model.GetAcad_Start_Date
+import com.dmims.dmims.model.ServerResponse
+import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.IMyAPI
+import com.dmims.dmims.remote.PhpApiInterface
+import dmax.dialog.SpotsDialog
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,78 +70,164 @@ class Attendance : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         progressBar.visibility = View.VISIBLE
         if (InternetConnection.checkConnection(this)) {
+//            val dialog: android.app.AlertDialog =
+//                SpotsDialog.Builder().setContext(this).build()
+//            dialog.setMessage("Please Wait!!! \nwhile we are getting your Attendance")
+//            dialog.setCancelable(false)
+//            dialog.show()
             try {
-                mServices.GetProgressiveAttend(stud_k, to_date_sel, from_date_sel, COURSE_ID!!)
-                    .enqueue(object : Callback<APIResponse> {
-                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                            Toast.makeText(this@Attendance, t.message, Toast.LENGTH_SHORT).show()
-                            progressBar.visibility = View.INVISIBLE
-                            progressBar.visibility = View.GONE
+
+
+                var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
+                    PhpApiInterface::class.java
+                )
+                var call3: Call<GetAcad_Start_Date> =
+                    phpApiInterface.get_start_date()
+                call3.enqueue(object : Callback<GetAcad_Start_Date> {
+                    override fun onFailure(call: Call<GetAcad_Start_Date>, t: Throwable) {
+//                        dialog.dismiss()
+                        progressBar.visibility = View.GONE
+                        GenericUserFunction.showOopsError(
+                            this@Attendance,
+                            t.message.toString().capitalize()
+                        )
+                    }
+
+                    override fun onResponse(
+                        call: Call<GetAcad_Start_Date>,
+                        responsee: Response<GetAcad_Start_Date>
+                    ) {
+
+                        val results: GetAcad_Start_Date? = responsee.body()
+
+                        var listSize = results!!.Data!!.size
+                        if (listSize>0) {
+
+
+                            to_date!!.text = results.Data!![0].ac_start_date
+
+                                mServices.GetProgressiveAttend(
+                                    stud_k,
+                                    to_date!!.text.toString(),
+                                    from_date_sel,
+                                    COURSE_ID!!
+                                )
+                                    .enqueue(object : Callback<APIResponse> {
+                                        override fun onFailure(
+                                            call: Call<APIResponse>,
+                                            t: Throwable
+                                        ) {
+//                                            dialog.dismiss()
+                                            Toast.makeText(
+                                                this@Attendance,
+                                                t.message,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            progressBar.visibility = View.INVISIBLE
+                                            progressBar.visibility = View.GONE
+                                        }
+
+                                        override fun onResponse(
+                                            call: Call<APIResponse>,
+                                            response: Response<APIResponse>
+                                        ) {
+//                                            dialog.dismiss()
+                                            val result: APIResponse? = response.body()
+                                            if (result!!.Status == "ok") {
+                                                var listSize = result.Data13!!.size
+                                                val users = ArrayList<AttendanceStudCurrent>()
+                                                for (i in 0..listSize - 1) {
+                                                    val per_daycount: Double =
+                                                        ((result.Data13!![i].THEORY.toDouble() + result.Data13!![i].PRACTICAL.toDouble() + result.Data13!![i].CLINICAL.toDouble()) / (result.Data13!![i].NO_LECTURER.toDouble())) * 100.toFloat()
+                                                    var fperatte: Double =
+                                                        String.format("%.2f", per_daycount)
+                                                            .toDouble()
+                                                    if (fperatte.isNaN()) {
+                                                        fperatte = 0.0
+                                                    }
+                                                    if (fperatte != 0.0) {
+
+                                                        var TheoryTotal=result.Data13!![i].THEORY
+                                                        var TheoryAbsent=result.Data13!![i].THEORY_ABSENT
+                                                        var cal_one=TheoryTotal.toDouble()-TheoryAbsent.toDouble()
+                                                        var TheoryPercentage=cal_one/TheoryTotal.toDouble()*100
+                                                        TheoryPercentage=ConvertToPoint(TheoryPercentage)
+
+                                                        var PracticalTotal=result.Data13!![i].PRACTICAL
+                                                        var PracticalAbsent=result.Data13!![i].PRACTICAL_ABSENT
+                                                        var cal_two=PracticalTotal.toDouble()-PracticalAbsent.toDouble()
+                                                        var PracticalPercentage=cal_two/TheoryTotal.toDouble()*100
+                                                        PracticalPercentage=ConvertToPoint(PracticalPercentage)
+
+                                                        var ClinicalTotal=result.Data13!![i].CLINICAL
+                                                        var ClinicalAbsent=result.Data13!![i].CLINICAL_ABSENT
+                                                        var cal_three=ClinicalTotal.toDouble()-ClinicalAbsent.toDouble()
+                                                        var ClinicalPercentage=cal_three/ClinicalTotal.toDouble()*100
+                                                        ClinicalPercentage=ConvertToPoint(ClinicalPercentage)
+
+                                                        users.add(
+                                                            AttendanceStudCurrent(
+                                                                "Dept Name : " + result.Data13!![i].DEPT_NAME,
+                                                                "Dept ID : " + result.Data13!![i].DEPT_ID,
+                                                                "Theory : " + result.Data13!![i].THEORY,
+                                                                "Practical : " + result.Data13!![i].PRACTICAL,
+                                                                "Clinical : " + result.Data13!![i].CLINICAL,
+                                                                "Theory Absent : " + result.Data13!![i].THEORY_ABSENT,
+                                                                "Practical Absent : " + result.Data13!![i].PRACTICAL_ABSENT,
+                                                                "Clinical Absent : " + result.Data13!![i].CLINICAL_ABSENT,
+                                                                "No Lecture : " + result.Data13!![i].NO_LECTURER,
+                                                                "Total Theory Percentage : " + TheoryPercentage+" %",
+                                                                "Total Practical Percentage : " + PracticalPercentage+" %",
+                                                                "Total Clinical Percentage : " + ClinicalPercentage+" %",
+                                                                "Total Percentage : " + fperatte.toString()+" %",
+                                                                R.drawable.attendance_thumb
+                                                            )
+                                                        )
+                                                    }
+                                                }
+                                                progressBar.visibility = View.INVISIBLE
+                                                progressBar.visibility = View.GONE
+                                                if (users.isEmpty()) {
+
+                                                    GenericUserFunction.showApiError(
+                                                        this@Attendance,
+                                                        "No Attendance found for the current request."
+                                                    )
+                                                } else {
+                                                    val adapter = AttendanceAdapterCurrent(users)
+                                                    recyclerView.adapter = adapter
+                                                }
+                                            } else {
+                                                progressBar.visibility = View.INVISIBLE
+                                                progressBar.visibility = View.GONE
+                                                Toast.makeText(
+                                                    this@Attendance,
+                                                    result.Status,
+                                                    Toast.LENGTH_SHORT
+                                                )
+                                                    .show()
+                                            }
+                                        }
+                                    })
+
                         }
 
-                        override fun onResponse(
-                            call: Call<APIResponse>,
-                            response: Response<APIResponse>
-                        ) {
-                            val result: APIResponse? = response.body()
-                            if (result!!.Status == "ok") {
-                                var listSize = result.Data13!!.size
-                                val users = ArrayList<AttendanceStudCurrent>()
-                                for (i in 0..listSize - 1) {
-                                    val per_daycount: Double =
-                                        ((result.Data13!![i].THEORY.toDouble() + result.Data13!![i].PRACTICAL.toDouble() + result.Data13!![i].CLINICAL.toDouble()) / (result.Data13!![i].NO_LECTURER.toDouble())) * 100.toFloat()
-                                    var fperatte: Double =
-                                        String.format("%.2f", per_daycount).toDouble()
-                                    if (fperatte.isNaN()) {
-                                        fperatte = 0.0
-                                    }
-                                    if (fperatte != 0.0) {
-                                        users.add(
-                                            AttendanceStudCurrent(
-                                                "DEPT NAME: " + result.Data13!![i].DEPT_NAME,
-                                                "DEPT ID: " + result.Data13!![i].DEPT_ID,
-                                                "THEORY: " + result.Data13!![i].THEORY,
-                                                "PRACTICAL: " + result.Data13!![i].PRACTICAL,
-                                                "CLINICAL: " + result.Data13!![i].CLINICAL,
-                                                "THEORY ABSENT: " + result.Data13!![i].THEORY_ABSENT,
-                                                "PRACTICAL ABSENT: " + result.Data13!![i].PRACTICAL_ABSENT,
-                                                "CLINICAL ABSENT: " + result.Data13!![i].CLINICAL_ABSENT,
-                                                "NO LECTURE: " + result.Data13!![i].NO_LECTURER,
-                                                "PERCENTAGE: " + fperatte.toString(),
-                                                R.drawable.ic_attendence
-                                            )
-                                        )
-                                    }
-                                }
-                                progressBar.visibility = View.INVISIBLE
-                                progressBar.visibility = View.GONE
-                                if (users.isEmpty()) {
-                                    GenericUserFunction.showApiError(
-                                        this@Attendance,
-                                        "No Attendance found for the current request."
-                                    )
-                                } else {
-                                    val adapter = AttendanceAdapterCurrent(users)
-                                    recyclerView.adapter = adapter
-                                }
-                            } else {
-                                progressBar.visibility = View.INVISIBLE
-                                progressBar.visibility = View.GONE
-                                Toast.makeText(this@Attendance, result.Status, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-                    })
+
+                    }
+                }
+                )
+
 
             } catch (ex: Exception) {
-
+//                dialog.dismiss()
+                progressBar.visibility = View.GONE
                 ex.printStackTrace()
                 GenericUserFunction.showApiError(
                     this,
                     "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                 )
             }
-        }else {
+        } else {
             GenericUserFunction.showInternetNegativePopUp(
                 this,
                 getString(R.string.failureNoInternetErr)
@@ -177,19 +269,40 @@ class Attendance : AppCompatActivity() {
                                             fperatte = 0.0
                                         }
                                         if (fperatte != 0.0) {
+                                            var TheoryTotal=result.Data13!![i].THEORY
+                                            var TheoryAbsent=result.Data13!![i].THEORY_ABSENT
+                                            var cal_one=TheoryTotal.toDouble()-TheoryAbsent.toDouble()
+                                            var TheoryPercentage=cal_one/TheoryTotal.toDouble()*100
+                                            TheoryPercentage=ConvertToPoint(TheoryPercentage)
+
+                                            var PracticalTotal=result.Data13!![i].PRACTICAL
+                                            var PracticalAbsent=result.Data13!![i].PRACTICAL_ABSENT
+                                            var cal_two=PracticalTotal.toDouble()-PracticalAbsent.toDouble()
+                                            var PracticalPercentage=cal_two/TheoryTotal.toDouble()*100
+                                            PracticalPercentage=ConvertToPoint(PracticalPercentage)
+
+                                            var ClinicalTotal=result.Data13!![i].CLINICAL
+                                            var ClinicalAbsent=result.Data13!![i].CLINICAL_ABSENT
+                                            var cal_three=ClinicalTotal.toDouble()-ClinicalAbsent.toDouble()
+                                            var ClinicalPercentage=cal_three/ClinicalTotal.toDouble()*100
+                                            ClinicalPercentage=ConvertToPoint(ClinicalPercentage)
+
                                             users.add(
                                                 AttendanceStudCurrent(
-                                                    "DEPT NAME: " + result.Data13!![i].DEPT_NAME,
-                                                    "DEPT ID: " + result.Data13!![i].DEPT_ID,
-                                                    "THEORY: " + result.Data13!![i].THEORY,
-                                                    "PRACTICAL: " + result.Data13!![i].PRACTICAL,
-                                                    "CLINICAL: " + result.Data13!![i].CLINICAL,
-                                                    "THEORY ABSENT: " + result.Data13!![i].THEORY_ABSENT,
-                                                    "PRACTICAL ABSENT: " + result.Data13!![i].PRACTICAL_ABSENT,
-                                                    "CLINICAL ABSENT: " + result.Data13!![i].CLINICAL_ABSENT,
-                                                    "NO LECTURE: " + result.Data13!![i].NO_LECTURER,
-                                                    "PERCENTAGE: " + fperatte.toString(),
-                                                    R.drawable.ic_attendence
+                                                    "Dept Name : " + result.Data13!![i].DEPT_NAME,
+                                                    "Dept ID : " + result.Data13!![i].DEPT_ID,
+                                                    "Theory : " + result.Data13!![i].THEORY,
+                                                    "Practical : " + result.Data13!![i].PRACTICAL,
+                                                    "Clinical : " + result.Data13!![i].CLINICAL,
+                                                    "Theory Absent : " + result.Data13!![i].THEORY_ABSENT,
+                                                    "Practical Absent : " + result.Data13!![i].PRACTICAL_ABSENT,
+                                                    "Clinical Absent : " + result.Data13!![i].CLINICAL_ABSENT,
+                                                    "No Lecture : " + result.Data13!![i].NO_LECTURER,
+                                                    "Total Theory Percentage : " + TheoryPercentage+" %",
+                                                    "Total Practical Percentage : " + PracticalPercentage+" %",
+                                                    "Total Clinical Percentage : " + ClinicalPercentage +" %",
+                                                    "Total Percentage : " + fperatte.toString()+" %",
+                                                    R.drawable.attendance_thumb
                                                 )
                                             )
                                         }
@@ -226,8 +339,7 @@ class Attendance : AppCompatActivity() {
                         "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                     )
                 }
-            }
-            else {
+            } else {
                 GenericUserFunction.showInternetNegativePopUp(
                     this,
                     getString(R.string.failureNoInternetErr)
@@ -246,7 +358,8 @@ class Attendance : AppCompatActivity() {
         val day = c.get(Calendar.DAY_OF_MONTH)
         val dpd = DatePickerDialog(
             this,
-            R.style.AppTheme4, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            R.style.AppTheme4,
+            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 // Display Selected date in Toast
                 println(view)
                 println(year)
@@ -256,7 +369,10 @@ class Attendance : AppCompatActivity() {
                 val date = cal.time
                 sdf.format(date)
                 from_date!!.text = sdf.format(date).toString()
-            }, year, month, day
+            },
+            year,
+            month,
+            day
         )
         dpd.show()
     }
@@ -270,7 +386,8 @@ class Attendance : AppCompatActivity() {
 
         val dpd = DatePickerDialog(
             this,
-            R.style.AppTheme4, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            R.style.AppTheme4,
+            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 // Display Selected date in Toast
                 println(view)
                 println(year)
@@ -280,7 +397,10 @@ class Attendance : AppCompatActivity() {
                 val date = cal.time
                 sdf.format(date)
                 to_date!!.text = sdf.format(date).toString()
-            }, year, month, day
+            },
+            year,
+            month,
+            day
         )
         dpd.show()
     }
@@ -300,5 +420,13 @@ class Attendance : AppCompatActivity() {
             from_date_sel = from_date!!.text.toString()
         }
     }
-
+fun ConvertToPoint(percent:Double):Double{
+    var fperatte: Double =
+        String.format("%.2f", percent)
+            .toDouble()
+    if (fperatte.isNaN()) {
+        fperatte = 0.0
+    }
+    return fperatte
+}
 }

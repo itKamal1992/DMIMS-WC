@@ -22,6 +22,7 @@ import com.dmims.dmims.model.DeptListStudDataRef
 import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.PhpApiInterface
 import dmax.dialog.SpotsDialog
+import kotlinx.android.synthetic.main.activity_formative_feedback.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -118,7 +119,7 @@ class FormativeFeedbackActivity : AppCompatActivity() {
 //        Af_Ex_S3_suggest=findViewById<TextView>(R.id.Af_Ex_S1_Q1)
 //        Af_Ex_S2_Q11=findViewById<TextView>(R.id.Af_Ex_S1_Q1)
 //        Af_Ex_S2_Q12=findViewById<TextView>(R.id.Af_Ex_S1_Q1)
-        spinner_FeedbackFaculty = findViewById(R.id.spinner_FeedbackFaculty)
+
         Ex_S1_Rdg1 = findViewById(R.id.Ex_S1_Rdg1)
         Ex_S1_Rdg2 = findViewById(R.id.Ex_S1_Rdg2)
         Ex_S1_Rdg3 = findViewById(R.id.Ex_S1_Rdg3)
@@ -152,6 +153,24 @@ class FormativeFeedbackActivity : AppCompatActivity() {
         Af_Ex_S2_Q5_q2_answer.visibility = View.GONE
         Af_Ex_S2_Q5_q3_answer.visibility = View.GONE
         Af_Ex_S2_Q5_q4_answer.visibility = View.GONE
+
+        val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
+        Course_ID = mypref.getString("course_id", null)!!
+        Stud_ID = mypref.getString("Stud_id_key", null)!!
+        Stud_Name = mypref.getString("key_drawer_title", null)!!
+        Stud_Roll_No = mypref.getString("roll_no", null)!!
+        Stud_Institute = mypref.getString("key_institute_stud", null)!!
+        when (Stud_Institute) {
+            "JNMC" -> selected_spinner_FeedbackFaculty = "Medicine"
+            "SPDC" -> selected_spinner_FeedbackFaculty = "Dental"
+            "MGAC" -> selected_spinner_FeedbackFaculty = "Ayurveda"
+            "SRMMCON" -> selected_spinner_FeedbackFaculty = "Nursing"
+            "RNPC" -> selected_spinner_FeedbackFaculty = "Physiotherapy"
+            "Inter Disciplinary" -> selected_spinner_FeedbackFaculty = "Inter Disciplinary"
+
+        }
+
+        txt_faculty.text = selected_spinner_FeedbackFaculty
 
         var cal = Calendar.getInstance()
         val myFormat = "dd-MM-yyyy" // mention the format you need
@@ -228,97 +247,75 @@ class FormativeFeedbackActivity : AppCompatActivity() {
 
         btn_Af_Ex_Submit = findViewById(R.id.btn_Af_Ex_Submit)
 
-        var Ex_FacultyAdap: ArrayAdapter<String> = ArrayAdapter(
-            this,
-            R.layout.support_simple_spinner_dropdown_item,
-            resources.getStringArray(R.array.FeedbackFaculty)
-        )
-        spinner_FeedbackFaculty.adapter = Ex_FacultyAdap
-        spinner_FeedbackFaculty.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    selected_spinner_FeedbackFaculty = p0!!.getItemAtPosition(p2) as String
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
-            }
-
 
         btn_Af_Ex_Submit.setOnClickListener {
             if (InternetConnection.checkConnection(this)) {
-            if (Validate()) {
-                val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
-                Course_ID = mypref.getString("course_id", null)!!
-                Stud_ID = mypref.getString("Stud_id_key", null)!!
-                Stud_Name = mypref.getString("key_drawer_title", null)!!
-                Stud_Roll_No = mypref.getString("roll_no", null)!!
-                Stud_Institute = mypref.getString("key_institute_stud", null)!!
-
-                var CustDialog = Dialog(this)
-                CustDialog.setContentView(R.layout.dialog_question_yes_no_custom_popup)
-                var ivNegClose1: ImageView =
-                    CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
-                var btnOk: Button = CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
-                var btnCustomDialogCancel: Button =
-                    CustDialog.findViewById(R.id.btnCustomDialogCancel) as Button
-                var tvMsg: TextView = CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
-                tvMsg.text = "Do you want to Submit your Feedback"
+                if (Validate()) {
+                    var CustDialog = Dialog(this)
+                    CustDialog.setContentView(R.layout.dialog_question_yes_no_custom_popup)
+                    var ivNegClose1: ImageView =
+                        CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
+                    var btnOk: Button =
+                        CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+                    var btnCustomDialogCancel: Button =
+                        CustDialog.findViewById(R.id.btnCustomDialogCancel) as Button
+                    var tvMsg: TextView =
+                        CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+                    tvMsg.text = "Do you want to Submit your Feedback"
 //    GenericPublicVariable.CustDialog.setCancelable(false)
-                btnOk.setOnClickListener {
-                    var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
-                        PhpApiInterface::class.java
-                    )
-                    var call3: Call<DeptListStudData> =
-                        phpApiInterface.InstDetailsStudYear(Course_ID)
-                    call3.enqueue(object : Callback<DeptListStudData> {
-                        override fun onFailure(call: Call<DeptListStudData>, t: Throwable) {
-                            Toast.makeText(
-                                this@FormativeFeedbackActivity,
-                                t.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                    btnOk.setOnClickListener {
+                        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
+                            PhpApiInterface::class.java
+                        )
+                        var call3: Call<DeptListStudData> =
+                            phpApiInterface.InstDetailsStudYear(Course_ID)
+                        call3.enqueue(object : Callback<DeptListStudData> {
+                            override fun onFailure(call: Call<DeptListStudData>, t: Throwable) {
+                                Toast.makeText(
+                                    this@FormativeFeedbackActivity,
+                                    t.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-                        override fun onResponse(
-                            call: Call<DeptListStudData>,
-                            response: Response<DeptListStudData>
-                        ) {
+                            override fun onResponse(
+                                call: Call<DeptListStudData>,
+                                response: Response<DeptListStudData>
+                            ) {
 
-                            var users = ArrayList<DeptListStudDataRef>()
-                            if (response.isSuccessful) {
-                                users.clear()
-                                users = response.body()!!.Data!!
-                                if (users!!.size > 0) {
-                                    Institute = users!![0].COURSE_INSTITUTE
-                                    Course = users!![0].COURSE_NAME
-                                    Update()
+                                var users = ArrayList<DeptListStudDataRef>()
+                                if (response.isSuccessful) {
+                                    users.clear()
+                                    users = response.body()!!.Data!!
+                                    if (users!!.size > 0) {
+                                        Institute = users!![0].COURSE_INSTITUTE
+                                        Course = users!![0].COURSE_NAME
+                                        Update()
+                                    }
+
                                 }
+                                CustDialog.dismiss()
 
                             }
-                            CustDialog.dismiss()
 
-                        }
+                        })
+                    }
+                    btnCustomDialogCancel.setOnClickListener {
+                        CustDialog.dismiss()
+                    }
+                    ivNegClose1.setOnClickListener {
+                        CustDialog.dismiss()
+                    }
+                    CustDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    CustDialog.show()
 
-                    })
                 }
-                btnCustomDialogCancel.setOnClickListener {
-                    CustDialog.dismiss()
-                }
-                ivNegClose1.setOnClickListener {
-                    CustDialog.dismiss()
-                }
-                CustDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                CustDialog.show()
-
+            } else {
+                GenericUserFunction.showInternetNegativePopUp(
+                    this,
+                    getString(R.string.failureNoInternetErr)
+                )
             }
-        }
-        else
-        {
-            GenericUserFunction.showInternetNegativePopUp(
-                this,
-                getString(R.string.failureNoInternetErr))
-        }
         }
 
     }
@@ -466,97 +463,102 @@ class FormativeFeedbackActivity : AppCompatActivity() {
 
     fun Update() {
         if (InternetConnection.checkConnection(this)) {
-        val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
-        try {
-            dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
-            dialog.setCancelable(false)
-            dialog.show()
-            //Dialog End
-            var commonFeedBack = CommonFeedBack(
-                "Formative",
-                Course_ID,
-                Stud_ID,
-                Stud_Name,
-                Stud_Roll_No,
-                Course,
-                Stud_Institute,
-                Formative(
-                    selected_spinner_FeedbackFaculty,
-                    CurrentDate,
-                    Af_Ex_S3_suggest_Text,
-                    Feed_Form_SectA(
-                        Ex_S1_Rdg1_radioButton_Text,
-                        Ex_S1_Rdg2_radioButton_Text,
-                        Ex_S1_Rdg3_radioButton_Text,
-                        Ex_S1_Rdg4_radioButton_Text,
-                        Ex_S1_Rdg5_radioButton_Text
-                    ),
-                    Feed_Form_SectB(
-                        Ex_S2_Rdg1_radioButton_Text,
-                        Ex_S2_Rdg2_radioButton_Text,
-                        Ex_S2_Rdg3_radioButton_Text,
-                        Af_Ex_S2_Q3_Text,
-                        Ex_S2_Rdg4_radioButton_Text,
-                        Ex_S2_Rdg5_Rdg5_q1_radioButton_Text,
-                        Af_Ex_S2_Q5_q1_Text,
-                        Ex_S2_Rdg5_Rdg5_q2_radioButton_Text,
-                        Af_Ex_S2_Q5_q2_Text,
-                        Ex_S2_Rdg5_Rdg5_q3_radioButton_Text,
-                        Af_Ex_S2_Q5_q3_Text,
-                        Ex_S2_Rdg5_Rdg5_q4_radioButton_Text,
-                        Af_Ex_S2_Q5_q4_Text
+            val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
+            try {
+                dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
+                dialog.setCancelable(false)
+                dialog.show()
+                //Dialog End
+                var commonFeedBack = CommonFeedBack(
+                    "Formative",
+                    Course_ID,
+                    Stud_ID,
+                    Stud_Name,
+                    Stud_Roll_No,
+                    Course,
+                    Stud_Institute,
+                    CurrentDate.substring(6),
+                    Formative(
+                        selected_spinner_FeedbackFaculty,
+                        CurrentDate,
+                        Af_Ex_S3_suggest_Text,
+                        Feed_Form_SectA(
+                            Ex_S1_Rdg1_radioButton_Text,
+                            Ex_S1_Rdg2_radioButton_Text,
+                            Ex_S1_Rdg3_radioButton_Text,
+                            Ex_S1_Rdg4_radioButton_Text,
+                            Ex_S1_Rdg5_radioButton_Text
+                        ),
+                        Feed_Form_SectB(
+                            Ex_S2_Rdg1_radioButton_Text,
+                            Ex_S2_Rdg2_radioButton_Text,
+                            Ex_S2_Rdg3_radioButton_Text,
+                            Af_Ex_S2_Q3_Text,
+                            Ex_S2_Rdg4_radioButton_Text,
+                            Ex_S2_Rdg5_Rdg5_q1_radioButton_Text,
+                            Af_Ex_S2_Q5_q1_Text,
+                            Ex_S2_Rdg5_Rdg5_q2_radioButton_Text,
+                            Af_Ex_S2_Q5_q2_Text,
+                            Ex_S2_Rdg5_Rdg5_q3_radioButton_Text,
+                            Af_Ex_S2_Q5_q3_Text,
+                            Ex_S2_Rdg5_Rdg5_q4_radioButton_Text,
+                            Af_Ex_S2_Q5_q4_Text
+                        )
                     )
                 )
+                //
+
+
+                GenericPublicVariable.mServices.SubmitExamFeedback(commonFeedBack)
+                    .enqueue(object : Callback<APIResponse> {
+                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                            dialog.dismiss()
+                            Toast.makeText(
+                                this@FormativeFeedbackActivity,
+                                t.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
+                            dialog.dismiss()
+                            val result: APIResponse? = response.body()
+
+                            println("Result >>> " + result!!.Responsecode)
+                            if (result!!.Responsecode == 200) {
+                                GenericUserFunction.showPositivePopUp(
+                                    this@FormativeFeedbackActivity,
+                                    result.Status
+                                )
+                            } else {
+                                GenericUserFunction.showApiError(
+                                    applicationContext,
+                                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                                )
+                            }
+                        }
+                    })
+
+
+            } catch (ex: Exception) {
+                dialog.dismiss()
+
+                ex.printStackTrace()
+                GenericUserFunction.showApiError(
+                    applicationContext,
+                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                )
+
+            }
+        } else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
             )
-            //
-
-
-            GenericPublicVariable.mServices.SubmitExamFeedback(commonFeedBack)
-                .enqueue(object : Callback<APIResponse>
-                {
-                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                        dialog.dismiss()
-                        Toast.makeText(
-                            this@FormativeFeedbackActivity,
-                            t.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    override fun onResponse(
-                        call: Call<APIResponse>,
-                        response: Response<APIResponse>
-                    ) {
-                        dialog.dismiss()
-                        val result: APIResponse? = response.body()
-
-                        println("Result >>> " + result!!.Responsecode)
-
-                        GenericUserFunction.showPositivePopUp(
-                            this@FormativeFeedbackActivity,
-                            result.Status
-                        )
-                    }
-                })
-
-
-        } catch (ex: Exception) {
-            dialog.dismiss()
-
-            ex.printStackTrace()
-            GenericUserFunction.showApiError(
-                applicationContext,
-                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-            )
-
         }
-    }
-    else
-    {
-        GenericUserFunction.showInternetNegativePopUp(
-            this,
-            getString(R.string.failureNoInternetErr))
-    }
     }
 
 //    FeedbackType,

@@ -64,7 +64,7 @@ class CurrentAttendance : AppCompatActivity() {
                 .enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                         Toast.makeText(this@CurrentAttendance, t.message, Toast.LENGTH_SHORT).show()
-                        progressBar.visibility = View.INVISIBLE
+                        progressBar.visibility = View.GONE
                     }
 
                     override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
@@ -75,29 +75,51 @@ class CurrentAttendance : AppCompatActivity() {
                             for (i in 0..listSize - 1) {
                                 val per_daycount: Double =
                                     ((result.Data13!![i].THEORY.toDouble() + result.Data13!![i].PRACTICAL.toDouble() + result.Data13!![i].CLINICAL.toDouble()) / (result.Data13!![i].NO_LECTURER.toDouble())) * 100.toFloat()
-                                var fperatte: Double = String.format("%.2f", per_daycount).toDouble()
+                                var fperatte: Double =
+                                    String.format("%.2f", per_daycount).toDouble()
                                 if (fperatte.isNaN()) {
                                     fperatte = 0.0
                                 }
                                 if (fperatte != 0.0) {
+                                    var TheoryTotal=result.Data13!![i].THEORY
+                                    var TheoryAbsent=result.Data13!![i].THEORY_ABSENT
+                                    var cal_one=TheoryTotal.toDouble()-TheoryAbsent.toDouble()
+                                    var TheoryPercentage=cal_one/TheoryTotal.toDouble()*100
+                                    TheoryPercentage=ConvertToPoint(TheoryPercentage)
+
+                                    var PracticalTotal=result.Data13!![i].PRACTICAL
+                                    var PracticalAbsent=result.Data13!![i].PRACTICAL_ABSENT
+                                    var cal_two=PracticalTotal.toDouble()-PracticalAbsent.toDouble()
+                                    var PracticalPercentage=cal_two/TheoryTotal.toDouble()*100
+                                    PracticalPercentage=ConvertToPoint(PracticalPercentage)
+
+                                    var ClinicalTotal=result.Data13!![i].CLINICAL
+                                    var ClinicalAbsent=result.Data13!![i].CLINICAL_ABSENT
+                                    var cal_three=ClinicalTotal.toDouble()-ClinicalAbsent.toDouble()
+                                    var ClinicalPercentage=cal_three/ClinicalTotal.toDouble()*100
+                                    ClinicalPercentage=ConvertToPoint(ClinicalPercentage)
+
                                     users.add(
                                         AttendanceStudCurrent(
-                                            "DEPT NAME: " + result.Data13!![i].DEPT_NAME,
-                                            "DEPT ID: " + result.Data13!![i].DEPT_ID,
-                                            "THEORY: " + result.Data13!![i].THEORY,
-                                            "PRACTICAL: " + result.Data13!![i].PRACTICAL,
-                                            "CLINICAL: " + result.Data13!![i].CLINICAL,
-                                            "THEORY ABSENT: " + result.Data13!![i].THEORY_ABSENT,
-                                            "PRACTICAL ABSENT: " + result.Data13!![i].PRACTICAL_ABSENT,
-                                            "CLINICAL ABSENT: " + result.Data13!![i].CLINICAL_ABSENT,
-                                            "NO LECTURE: " + result.Data13!![i].NO_LECTURER,
-                                            "PERCENTAGE: " + fperatte.toString(),
-                                            R.drawable.ic_attendence
+                                            "Dept Name : " + result.Data13!![i].DEPT_NAME,
+                                            "Dept ID : " + result.Data13!![i].DEPT_ID,
+                                            "Theory : " + result.Data13!![i].THEORY,
+                                            "Practical : " + result.Data13!![i].PRACTICAL,
+                                            "Clinical : " + result.Data13!![i].CLINICAL,
+                                            "Theory Absent : " + result.Data13!![i].THEORY_ABSENT,
+                                            "Practical Absent : " + result.Data13!![i].PRACTICAL_ABSENT,
+                                            "Clinical Absent : " + result.Data13!![i].CLINICAL_ABSENT,
+                                            "No Lecture : " + result.Data13!![i].NO_LECTURER,
+                                            "Total Theory Percentage : " + TheoryPercentage+" %",
+                                            "Total Practical Percentage : " + PracticalPercentage+" %",
+                                            "Total Clinical Percentage : " + ClinicalPercentage+" %",
+                                            "Total Percentage : " + fperatte.toString()+" %",
+                                            R.drawable.attendance_thumb
                                         )
                                     )
                                 }
                             }
-                            progressBar.visibility = View.INVISIBLE
+                            progressBar.visibility = View.GONE
                             if(users.isEmpty()){
                                 GenericUserFunction.showApiError(this@CurrentAttendance,"No Attendance found for the current request.")
                             }else {
@@ -105,7 +127,7 @@ class CurrentAttendance : AppCompatActivity() {
                                 recyclerView.adapter = adapter
                             }
                         } else {
-                            progressBar.visibility = View.INVISIBLE
+                            progressBar.visibility = View.GONE
                             Toast.makeText(this@CurrentAttendance, result.Status, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -139,6 +161,14 @@ class CurrentAttendance : AppCompatActivity() {
         calendar.set(Calendar.SECOND, 59)
         calendar.set(Calendar.MILLISECOND, 999)
     }
-
+    fun ConvertToPoint(percent:Double):Double{
+        var fperatte: Double =
+            String.format("%.2f", percent)
+                .toDouble()
+        if (fperatte.isNaN()) {
+            fperatte = 0.0
+        }
+        return fperatte
+    }
 
 }

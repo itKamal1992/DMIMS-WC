@@ -46,6 +46,7 @@ android:background="@drawable/background">
                     android:layout_marginLeft="@dimen/FB_QuestionLeft_10dp"
                     android:layout_marginRight="@dimen/FB_QuestionLeft_10dp"
                     android:weightSum="2"
+                    android:gravity="center_vertical"
                 >
                     <TextView
                         android:layout_weight="1.2"
@@ -55,23 +56,32 @@ android:background="@drawable/background">
                         android:text="Faculty :"
                         android:textColor="@color/colorblack"
                         android:gravity="left"
-                        android:textSize="20sp"
+                        android:textSize="18dp"
                         android:textStyle="bold"
                     />
 
 
-                <Spinner
-                    android:layout_weight="0.8"
-                    android:id="@+id/spinner_FeedbackFaculty"
-                    android:layout_width="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_margin="10dp"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:entries="@array/FeedbackFaculty"
-                    android:layout_height="38dp"
+<!--                <Spinner-->
+<!--                    android:layout_weight="0.8"-->
+<!--                    android:id="@+id/spinner_FeedbackFaculty"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_alignParentTop="true"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:textSize="20dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:entries="@array/FeedbackFaculty"-->
+<!--                    android:layout_height="38dp"-->
 
-                />
+<!--                />-->
+                    <TextView
+                        android:id="@+id/txt_faculty"
+                        android:layout_weight="0.8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Medicine"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        />
                 </LinearLayout>
             </LinearLayout>
 

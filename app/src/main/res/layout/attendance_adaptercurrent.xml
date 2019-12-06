@@ -128,12 +128,36 @@
 				          android:text="NO_LECTURER"
 				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
 				          android:layout_height="match_parent"/>
-				
+
+				<TextView android:layout_width="match_parent"
+					android:id="@+id/txtTheoryPercentage"
+					android:textStyle="bold"
+
+					android:text="Theory Percentage"
+					android:textAppearance="@style/TextAppearance.AppCompat.Small"
+					android:layout_height="match_parent"/>
+
+				<TextView android:layout_width="match_parent"
+					android:id="@+id/txtPracticalPercentage"
+					android:textStyle="bold"
+
+					android:text="Practical Percentage"
+					android:textAppearance="@style/TextAppearance.AppCompat.Small"
+					android:layout_height="match_parent"/>
+
+				<TextView android:layout_width="match_parent"
+					android:id="@+id/txtClinicalPercentage"
+					android:textStyle="bold"
+
+					android:text="Clinical Percentage"
+					android:textAppearance="@style/TextAppearance.AppCompat.Small"
+					android:layout_height="match_parent"/>
+
 				<TextView android:layout_width="match_parent"
 				          android:id="@+id/txtPERCENTAGE"
 				          android:textStyle="bold"
 				          android:textColor="#EB333D"
-				          android:text="PERCENTAGE"
+				          android:text="Total Percentage"
 				          android:textAppearance="@style/TextAppearance.AppCompat.Small"
 				          android:layout_height="match_parent"/>
 			</LinearLayout>

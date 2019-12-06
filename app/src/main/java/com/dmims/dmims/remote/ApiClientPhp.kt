@@ -8,6 +8,9 @@ import java.util.concurrent.TimeUnit
 import com.google.gson.GsonBuilder
 import com.google.gson.Gson
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.ConnectionPool
+
+
 
 
 
@@ -26,12 +29,14 @@ class ApiClientPhp {
 //                val gson = GsonBuilder()
 //                    .setLenient()
 //                    .create()
+//                val connectionPool = ConnectionPool(5, 60, TimeUnit.SECONDS)
                 var okHttpClient = OkHttpClient.Builder()
 
                     .retryOnConnectionFailure(true)
+//                    .connectionPool(connectionPool)
                     .connectTimeout(1, TimeUnit.MINUTES)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
                     .build()
 
 //                val interceptor = HttpLoggingInterceptor()

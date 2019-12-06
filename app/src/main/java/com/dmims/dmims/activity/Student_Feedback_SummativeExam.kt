@@ -32,7 +32,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Student_Feedback_SummativeExam : AppCompatActivity() {
-    lateinit var spinner_SummaNameFaculty: Spinner
     lateinit var spinner_SummaExamination: Spinner
     lateinit var spinner_SummaYear: Spinner
 
@@ -408,7 +407,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
         }
 
-        spinner_SummaNameFaculty = findViewById(R.id.spinner_facultysummativeexam)
+
         spinner_SummaExamination = findViewById(R.id.spinner_examsummativeexam)
         spinner_SummaYear = findViewById(R.id.spinner_yearsummativeexam)
 
@@ -419,6 +418,18 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
         Stud_Name = mypref.getString("key_drawer_title", null)!!
         Stud_Roll_No = mypref.getString("roll_no", null)!!
         Stud_Institute = mypref.getString("key_institute_stud", null)!!
+
+        when(Stud_Institute)
+        {
+            "JNMC" ->str_summNameFaculty="Medicine"
+            "SPDC" ->str_summNameFaculty="Dental"
+            "MGAC" ->str_summNameFaculty="Ayurveda"
+            "SRMMCON" ->str_summNameFaculty="Nursing"
+            "RNPC" ->str_summNameFaculty="Physiotherapy"
+            "Inter Disciplinary" ->str_summNameFaculty="Inter Disciplinary"
+
+        }
+        txt_faculty.text=str_summNameFaculty
 
         if (InternetConnection.checkConnection(this)) {
         var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
@@ -460,7 +471,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
     }
         btnSubmit = findViewById(R.id.btn_summFeedSubmit)
         btnSubmit.setOnClickListener {
-            str_summNameFaculty = spinner_SummaNameFaculty.selectedItem.toString()
+
             str_summExamination = spinner_SummaExamination.selectedItem.toString()
             str_summYear = spinner_SummaYear.selectedItem.toString()
 
@@ -483,7 +494,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 //                stud_kstr = mypref.getString("Stud_id_key", null)
 //                stud_namestr = mypref.getString("key_drawer_title", null)
 //                stud_k = Integer.parseInt(stud_kstr)
-                str_summNameFaculty = spinner_SummaNameFaculty.selectedItem.toString()
+
                 str_summExamination = spinner_SummaExamination.selectedItem.toString()
                 str_summYear = spinner_SummaYear.selectedItem.toString()
 
@@ -703,7 +714,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
     fun Update() {
 
-        Toast.makeText(this, "Update called ", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "Update called ", Toast.LENGTH_SHORT).show()
 
 
 
@@ -746,8 +757,14 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
         var commonFeedBack = CommonFeedBack(
             "Summative",
             Course_ID, Stud_ID, Stud_Name, Stud_Roll_No, Course, Stud_Institute,
+            CurrentDate.substring(6),
+
             Summative(
-                str_summNameFaculty, str_summExamination, str_summYear, CurrentDate, str_SummBQ1,
+                str_summNameFaculty,
+                str_summExamination,
+                str_summYear,
+                CurrentDate,
+                str_SummBQ1,
                 Feed_Sum_SectA(
                     str_SummAQ1,
                     str_etAQ1,
@@ -828,10 +845,19 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
 //                                        Toast.makeText(this@InstituteNoticeBoard, result!!.Status, Toast.LENGTH_SHORT)
 //                                            .show()
+                        if (result!!.Responsecode==200){
                         GenericUserFunction.showPositivePopUp(
                             this@Student_Feedback_SummativeExam,
                             result!!.Status
                         )
+                        }else
+                        {
+                            GenericUserFunction.showApiError(
+                                this@Student_Feedback_SummativeExam,
+                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                            )
+
+                        }
                     }
                 })
 

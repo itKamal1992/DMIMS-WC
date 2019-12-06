@@ -33,6 +33,13 @@ class AttendanceAdapterCurrent(val userlist: ArrayList<AttendanceStudCurrent>) :
         p0.txtNO_LECTURER?.text = attStud.NO_LECTURER
         p0.txtCLINICAL_ABSENT?.text = attStud.CLINICAL_ABSENT
         p0.txtTHEORY_ABSENT?.text = attStud.THEORY_ABSENT
+
+        p0.txtTheoryPercentage?.text = attStud.TheoryPercentage
+        p0.txtPracticalPercentage?.text = attStud.PracticalPercentage
+        p0.txtClinicalPercentage?.text = attStud.ClinicalPercentage
+
+
+
         p0.txtPERCENTAGE?.text = attStud.PERCENTAGE
         p0.imageViews?.setImageResource(attStud.image)
     }
@@ -48,6 +55,12 @@ class AttendanceAdapterCurrent(val userlist: ArrayList<AttendanceStudCurrent>) :
         val txtNO_LECTURER = itemView.findViewById<TextView>(R.id.txtNO_LECTURER)
         val txtCLINICAL_ABSENT = itemView.findViewById<TextView>(R.id.txtCLINICAL_ABSENT)
         val txtTHEORY_ABSENT = itemView.findViewById<TextView>(R.id.txtTHEORY_ABSENT)
+
+        val txtTheoryPercentage = itemView.findViewById<TextView>(R.id.txtTheoryPercentage)
+        val txtPracticalPercentage = itemView.findViewById<TextView>(R.id.txtPracticalPercentage)
+        val txtClinicalPercentage = itemView.findViewById<TextView>(R.id.txtClinicalPercentage)
+
+
         val txtPERCENTAGE = itemView.findViewById<TextView>(R.id.txtPERCENTAGE)
         val imageViews = itemView.findViewById<ImageView>(R.id.camera_image)
     }

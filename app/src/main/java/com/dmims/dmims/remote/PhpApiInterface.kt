@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.http.*
 import retrofit2.http.PartMap
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.http.POST
 import retrofit2.http.Multipart
 
@@ -266,5 +267,9 @@ interface PhpApiInterface  {
 
     @GET("test_folder/graph_api.php")
     fun GetGraphData(): Call<GetGraphList>
+
+
+    @GET("time_table/get_start_date.php")
+    fun get_start_date(): Call<GetAcad_Start_Date>
 }
 

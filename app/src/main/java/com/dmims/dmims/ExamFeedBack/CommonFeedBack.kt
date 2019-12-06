@@ -9,10 +9,11 @@ class CommonFeedBack {
     private var ROLL_NO: String
     private var COURSE: String
     private var INSTITUTE_NAME: String
+    private var FEED_YEAR: String = ""
     private var Formative: Formative?=null
     private var Summative:Summative ?= null
 
-    constructor(FEEDBACK_TYPE: String, COURSE_ID: String, STUD_ID: String, STUD_NAME: String, ROLL_NO: String, COURSE: String, INSTITUTE_NAME: String, Formative: Formative
+    constructor(FEEDBACK_TYPE: String, COURSE_ID: String, STUD_ID: String, STUD_NAME: String, ROLL_NO: String, COURSE: String, INSTITUTE_NAME: String, FEED_YEAR: String, Formative: Formative
     ) {
         this.FEEDBACK_TYPE = FEEDBACK_TYPE
         this.COURSE_ID = COURSE_ID
@@ -21,11 +22,12 @@ class CommonFeedBack {
         this.ROLL_NO = ROLL_NO
         this.COURSE = COURSE
         this.INSTITUTE_NAME = INSTITUTE_NAME
+        this.FEED_YEAR = FEED_YEAR
         this.Formative = Formative
     }
 
     constructor(
-        FEEDBACK_TYPE: String, COURSE_ID: String, STUD_ID: String, STUD_NAME: String, ROLL_NO: String, COURSE: String, INSTITUTE_NAME: String, Summative: Summative
+        FEEDBACK_TYPE: String, COURSE_ID: String, STUD_ID: String, STUD_NAME: String, ROLL_NO: String, COURSE: String, INSTITUTE_NAME: String,FEED_YEAR: String, Summative: Summative
     ) {
         this.FEEDBACK_TYPE = FEEDBACK_TYPE
         this.COURSE_ID = COURSE_ID
@@ -34,6 +36,7 @@ class CommonFeedBack {
         this.ROLL_NO = ROLL_NO
         this.COURSE = COURSE
         this.INSTITUTE_NAME = INSTITUTE_NAME
+        this.FEED_YEAR = FEED_YEAR
         this.Summative = Summative
     }
 
