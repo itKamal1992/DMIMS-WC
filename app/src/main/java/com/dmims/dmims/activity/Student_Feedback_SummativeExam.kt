@@ -267,7 +267,6 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
         }
 
-
         rg_SummBQ4 = findViewById(R.id.rg_Summative_structuringpaperQ4)
         rg_SummBQ4.setOnCheckedChangeListener { group, checkedId ->
             val radio: RadioButton = findViewById(checkedId)
@@ -419,56 +418,58 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
         Stud_Roll_No = mypref.getString("roll_no", null)!!
         Stud_Institute = mypref.getString("key_institute_stud", null)!!
 
-        when(Stud_Institute)
-        {
-            "JNMC" ->str_summNameFaculty="Medicine"
-            "SPDC" ->str_summNameFaculty="Dental"
-            "MGAC" ->str_summNameFaculty="Ayurveda"
-            "SRMMCON" ->str_summNameFaculty="Nursing"
-            "RNPC" ->str_summNameFaculty="Physiotherapy"
-            "Inter Disciplinary" ->str_summNameFaculty="Inter Disciplinary"
+        when (Stud_Institute) {
+            "JNMC" -> str_summNameFaculty = "Medicine"
+            "SPDC" -> str_summNameFaculty = "Dental"
+            "MGAC" -> str_summNameFaculty = "Ayurveda"
+            "SRMMCON" -> str_summNameFaculty = "Nursing"
+            "RNPC" -> str_summNameFaculty = "Physiotherapy"
+            "Inter Disciplinary" -> str_summNameFaculty = "Inter Disciplinary"
 
         }
-        txt_faculty.text=str_summNameFaculty
+        txt_faculty.text = str_summNameFaculty
 
         if (InternetConnection.checkConnection(this)) {
-        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
-            PhpApiInterface::class.java
-        )
-        var call3: Call<DeptListStudData> = phpApiInterface.InstDetailsStudYear(Course_ID)
-        call3.enqueue(object : Callback<DeptListStudData> {
-            override fun onFailure(call: Call<DeptListStudData>, t: Throwable) {
-                Toast.makeText(this@Student_Feedback_SummativeExam, t.message, Toast.LENGTH_SHORT)
-                    .show()
-            }
+            var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
+                PhpApiInterface::class.java
+            )
+            var call3: Call<DeptListStudData> = phpApiInterface.InstDetailsStudYear(Course_ID)
+            call3.enqueue(object : Callback<DeptListStudData> {
+                override fun onFailure(call: Call<DeptListStudData>, t: Throwable) {
+                    Toast.makeText(
+                        this@Student_Feedback_SummativeExam,
+                        t.message,
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
 
-            override fun onResponse(
-                call: Call<DeptListStudData>,
-                response: Response<DeptListStudData>
-            ) {
-                var users = ArrayList<FeedBackDataC>()
+                override fun onResponse(
+                    call: Call<DeptListStudData>,
+                    response: Response<DeptListStudData>
+                ) {
+                    var users = ArrayList<FeedBackDataC>()
 
-                if (response.isSuccessful) {
-                    users.clear()
-                    Deptlist = response.body()!!.Data
-                    if (Deptlist!!.size > 0)
-                        Institute = Deptlist!![0].COURSE_INSTITUTE
-                    Course = Deptlist!![0].COURSE_NAME
+                    if (response.isSuccessful) {
+                        users.clear()
+                        Deptlist = response.body()!!.Data
+                        if (Deptlist!!.size > 0)
+                            Institute = Deptlist!![0].COURSE_INSTITUTE
+                        Course = Deptlist!![0].COURSE_NAME
+
+                    }
 
                 }
 
-            }
 
+            })
 
-        })
-
-    }
-    else
-    {
-        GenericUserFunction.showInternetNegativePopUp(
-            this,
-            getString(R.string.failureNoInternetErr))
-    }
+        } else {
+            GenericUserFunction.showInternetNegativePopUp(
+                this,
+                getString(R.string.failureNoInternetErr)
+            )
+        }
         btnSubmit = findViewById(R.id.btn_summFeedSubmit)
         btnSubmit.setOnClickListener {
 
@@ -485,10 +486,13 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
             if (str_summNameFaculty.equals("Select Faculty")) {
                 Toast.makeText(this, "Select Faculty", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
             } else if (str_summExamination.equals("Select Examination")) {
                 Toast.makeText(this, "Select exam", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
             } else if (str_summYear.equals("Select Year")) {
                 Toast.makeText(this, "Select year", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
             } else {
 //                COURSE_ID = mypref.getString("course_id", null)
 //                stud_kstr = mypref.getString("Stud_id_key", null)
@@ -652,48 +656,49 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 //    GenericPublicVariable.CustDialog.setCancelable(false)
                 btnOk.setOnClickListener {
                     if (InternetConnection.checkConnection(this)) {
-                    var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
-                        PhpApiInterface::class.java
-                    )
-                    var call3: Call<DeptListStudData> =
-                        phpApiInterface.InstDetailsStudYear(Course_ID)
-                    call3.enqueue(object : Callback<DeptListStudData> {
-                        override fun onFailure(call: Call<DeptListStudData>, t: Throwable) {
-                            Toast.makeText(
-                                this@Student_Feedback_SummativeExam,
-                                t.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
+                            PhpApiInterface::class.java
+                        )
+                        var call3: Call<DeptListStudData> =
+                            phpApiInterface.InstDetailsStudYear(Course_ID)
+                        call3.enqueue(object : Callback<DeptListStudData> {
+                            override fun onFailure(call: Call<DeptListStudData>, t: Throwable) {
+                                Toast.makeText(
+                                    this@Student_Feedback_SummativeExam,
+                                    t.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-                        override fun onResponse(
-                            call: Call<DeptListStudData>,
-                            response: Response<DeptListStudData>
-                        ) {
+                            override fun onResponse(
+                                call: Call<DeptListStudData>,
+                                response: Response<DeptListStudData>
+                            ) {
+                                CustDialog.dismiss()
 
-                            var users = ArrayList<DeptListStudDataRef>()
-                            if (response.isSuccessful) {
-                                users.clear()
-                                users = response.body()!!.Data!!
-                                if (users!!.size > 0) {
-                                    Institute = users!![0].COURSE_INSTITUTE
-                                    Course = users!![0].COURSE_NAME
-                                    Update()
+                                var users = ArrayList<DeptListStudDataRef>()
+                                if (response.isSuccessful) {
+                                    users.clear()
+                                    users = response.body()!!.Data!!
+                                    if (users!!.size > 0) {
+                                        Institute = users!![0].COURSE_INSTITUTE
+                                        Course = users!![0].COURSE_NAME
+                                        Update()
+                                    }
+
                                 }
 
+
                             }
-                            CustDialog.dismiss()
 
-                        }
-
-                    })
-                }
-                else
-                {
-                    GenericUserFunction.showInternetNegativePopUp(
-                        this,
-                        getString(R.string.failureNoInternetErr))
-                }
+                        })
+                    } else {
+                        CustDialog.dismiss()
+                        GenericUserFunction.showInternetNegativePopUp(
+                            this,
+                            getString(R.string.failureNoInternetErr)
+                        )
+                    }
                 }
                 btnCustomDialogCancel.setOnClickListener {
                     CustDialog.dismiss()
@@ -715,7 +720,6 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
     fun Update() {
 
 //        Toast.makeText(this, "Update called ", Toast.LENGTH_SHORT).show()
-
 
 
         println(
@@ -817,66 +821,66 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
             )
         )
         if (InternetConnection.checkConnection(this)) {
-        val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
-        try {
+            val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
+            try {
 
-            dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
-            dialog.setCancelable(false)
-            dialog.show()
+                dialog.setMessage("Please Wait!!! \nFeedback getting stored")
+                dialog.setCancelable(false)
+                dialog.show()
 //            Dialog End
-            GenericPublicVariable.mServices.SubmitExamFeedback(commonFeedBack)
-                .enqueue(object : Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                        Toast.makeText(
-                            this@Student_Feedback_SummativeExam,
-                            t.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                GenericPublicVariable.mServices.SubmitExamFeedback(commonFeedBack)
+                    .enqueue(object : Callback<APIResponse> {
+                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                            dialog.dismiss()
+                            Toast.makeText(
+                                this@Student_Feedback_SummativeExam,
+                                t.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
 
 
-                    override fun onResponse(
-                        call: Call<APIResponse>,
-                        response: Response<APIResponse>
-                    ) {
-                        dialog.dismiss()
-                        val result: APIResponse? = response.body()
-                        println("Result >>> " + result)
+                        override fun onResponse(
+                            call: Call<APIResponse>,
+                            response: Response<APIResponse>
+                        ) {
+                            dialog.dismiss()
+                            val result: APIResponse? = response.body()
+                            println("Result >>> " + result)
 
 //                                        Toast.makeText(this@InstituteNoticeBoard, result!!.Status, Toast.LENGTH_SHORT)
 //                                            .show()
-                        if (result!!.Responsecode==200){
-                        GenericUserFunction.showPositivePopUp(
-                            this@Student_Feedback_SummativeExam,
-                            result!!.Status
-                        )
-                        }else
-                        {
-                            GenericUserFunction.showApiError(
-                                this@Student_Feedback_SummativeExam,
-                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-                            )
+                            if (result!!.Responsecode == 200) {
+                                GenericUserFunction.showPositivePopUp(
+                                    this@Student_Feedback_SummativeExam,
+                                    result!!.Status
+                                )
+                            } else {
+                                GenericUserFunction.showApiError(
+                                    this@Student_Feedback_SummativeExam,
+                                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                                )
 
+                            }
                         }
-                    }
-                })
+                    })
 
 
-        } catch (ex: Exception) {
-            dialog.dismiss()
+            } catch (ex: Exception) {
+                dialog.dismiss()
 
-            ex.printStackTrace()
-            GenericUserFunction.showApiError(
-                this,
-                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-            )
+                ex.printStackTrace()
+                GenericUserFunction.showApiError(
+                    this,
+                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                )
 
-        }}
-        else
-        {
+            }
+        } else {
             GenericUserFunction.showInternetNegativePopUp(
                 this,
-                getString(R.string.failureNoInternetErr))
+                getString(R.string.failureNoInternetErr)
+            )
         }
     }
 

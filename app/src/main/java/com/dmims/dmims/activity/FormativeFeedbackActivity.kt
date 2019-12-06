@@ -282,6 +282,7 @@ class FormativeFeedbackActivity : AppCompatActivity() {
                                 call: Call<DeptListStudData>,
                                 response: Response<DeptListStudData>
                             ) {
+                                CustDialog.dismiss()
 
                                 var users = ArrayList<DeptListStudDataRef>()
                                 if (response.isSuccessful) {
@@ -294,7 +295,7 @@ class FormativeFeedbackActivity : AppCompatActivity() {
                                     }
 
                                 }
-                                CustDialog.dismiss()
+
 
                             }
 
@@ -465,7 +466,7 @@ class FormativeFeedbackActivity : AppCompatActivity() {
         if (InternetConnection.checkConnection(this)) {
             val dialog: android.app.AlertDialog = SpotsDialog.Builder().setContext(this).build()
             try {
-                dialog.setMessage("Please Wait!!! \nwhile we are updating your Notice")
+                dialog.setMessage("Please Wait!!! \nFeedback getting stored")
                 dialog.setCancelable(false)
                 dialog.show()
                 //Dialog End
