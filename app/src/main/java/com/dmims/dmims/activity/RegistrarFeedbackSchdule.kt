@@ -345,8 +345,6 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
 
                 val mDialog2 = mBuilder.create()
                 mDialog2.show()
-
-
             } else {
                 GenericUserFunction.DisplayToast(
                     this, "Please Choose Course then Departments to proceed"
@@ -773,7 +771,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
             R.style.AppTheme4,
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 // Display Selected date in Toast
-                val myFormat = "yyyy-MM-dd" // mention the format you need
+                val myFormat = "dd-MM-yyyy" // mention the format you need
                 val sdf = SimpleDateFormat(myFormat, Locale.US)
                 cal.set(year, monthOfYear, dayOfMonth)
                 val date = cal.time

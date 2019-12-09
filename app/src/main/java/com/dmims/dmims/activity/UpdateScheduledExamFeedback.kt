@@ -1,6 +1,8 @@
 package com.dmims.dmims.activity
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -17,6 +19,8 @@ import com.dmims.dmims.model.FeedBackMasterDataRef
 import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.IMyAPI
 import com.dmims.dmims.remote.PhpApiInterface
+import dmax.dialog.SpotsDialog
+import kotlinx.android.synthetic.main.update_scheduled_exam_feedback.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,10 +43,10 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
 
     private lateinit var btn_ScheduleFeedback: Button
     private lateinit var spinner_institue: Spinner
-    private lateinit var spinner_deptlist: Spinner
+
     private lateinit var spinner_courselist: Spinner
     private lateinit var spinner_FeedbackType: Spinner
-    private lateinit var spinner_YearDept: Spinner
+
     var listsinstz: Int = 0
     var instituteName1 = ArrayList<String>()
     var feedBackType = ArrayList<String>()
@@ -56,6 +60,10 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
     var dept_id: String = "All"
     var courselist = ArrayList<String>()
 
+    var studYearArray = arrayOf("1st", "2nd", "3rd", "4th", "5th", "All ( First to Final Year )")
+    internal var mUserItems = java.util.ArrayList<Int>()
+    internal var mUserDeptItems = java.util.ArrayList<Int>()
+
     var select_date: TextView? = null
     private lateinit var date_sel: String
     private lateinit var btn_submit: Button
@@ -67,7 +75,8 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
 
     private lateinit var mServices: IMyAPI
     var id:String=""
-
+    private lateinit var id_admin: String
+    private lateinit var roleadmin: String
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -75,10 +84,14 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
 
         select_date = findViewById<TextView>(R.id.select_date)
         spinner_institue = findViewById(R.id.spinner_institue)
-        spinner_deptlist = findViewById(R.id.spinner_deptlist)
         spinner_courselist = findViewById(R.id.spinner_courselist)
         spinner_FeedbackType = findViewById(R.id.spinner_FeedbackType)
-        spinner_YearDept=findViewById(R.id.spinner_Yeardeptlist)
+
+        var mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
+        var drawer_titler = mypref.getString("key_drawer_title", null)
+        id_admin = mypref.getString("Stud_id_key", null)!!
+        roleadmin = mypref.getString("key_userrole", null)!!
+
         btn_ScheduleFeedback = findViewById<Button>(R.id.btn_ScheduleFeedback)
 
      /*   btn_Scheduled.setOnClickListener {
@@ -91,8 +104,15 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
 
         id = intent.getStringExtra("id")
 
+        tv_TitleFeedback.text= intent.getStringExtra("title")
+        tv_scheduledate.text= intent.getStringExtra("scheduledate")
+        tv_startdate.text= intent.getStringExtra("startdate")
+        tv_enddate.text= intent.getStringExtra("enddate")
+        tv_year.text= intent.getStringExtra("YEAR")
+        tv_course.text= intent.getStringExtra("COURSE_NAME")
+        tv_dept.text= intent.getStringExtra("DEPT_NAME")
+
         instituteName1.add("Select institute")
-        instituteName1.add("All")
         feedBackType.add("Select Feedback Type")
 
         val myFormat = "dd-MM-yyyy" // mention the format you need
@@ -119,7 +139,219 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
         val sdf6= SimpleDateFormat(myFormat6, Locale.US)
         to_date_d = sdf6.format(cal.time).toString()
 
+        var checkedItems = BooleanArray(studYearArray.size)
+        txt_year.text = "Select Year"
+        linear_year.setOnClickListener {
 
+            val mBuilder = AlertDialog.Builder(this)
+            mBuilder.setTitle("Select year to send notice")
+            mBuilder.setMultiChoiceItems(
+                studYearArray, checkedItems
+            ) { dialogInterface, position, isChecked ->
+
+                if (isChecked) {
+                    mUserItems.add(position)
+                } else {
+                    mUserItems.remove(Integer.valueOf(position))
+                }
+            }
+
+            mBuilder.setCancelable(false)
+            mBuilder.setPositiveButton(
+                "Ok"
+            ) { dialogInterface, which ->
+                var item = ""
+                for (i in mUserItems.indices) {
+                    item = item + studYearArray[mUserItems.get(i)]
+                    if (i != mUserItems.size - 1) {
+                        item = "$item, "
+                    }
+                }
+                if (item.contains("All ( First to Final Year )")) {
+                    txt_year.text = "All ( First to Final Year )"
+                } else {
+                    txt_year.setText(item)
+                }
+
+                if (txt_year.text.toString() == "") {
+                    txt_year.text = "Select Year"
+                }
+            }
+
+            val negativeButton = mBuilder.setNegativeButton(
+                "Dismiss"
+            ) { dialogInterface, i -> dialogInterface.dismiss() }
+
+            mBuilder.setNeutralButton(
+                "Clear All"
+            ) { dialogInterface, which ->
+                for (i in checkedItems.indices) {
+                    checkedItems[i] = false
+                    mUserItems.clear()
+                    txt_year.setText("Select Year")
+                }
+            }
+
+            val mDialog = mBuilder.create()
+            mDialog.show()
+        }
+
+
+        txt_Dept.text = "Select Department"
+        selfMultipleDept.setOnClickListener {
+            if (!txt_Dept.text.toString().equals("Select Department")) {
+                var checkedDeptItems = BooleanArray(deptlist.size)
+                val mBuilder = AlertDialog.Builder(this)
+                mBuilder.setTitle("Select Department to send notice")
+                var deptArray = deptlist.toArray(arrayOfNulls<String>(deptlist.size))
+                mBuilder.setMultiChoiceItems(deptArray, checkedDeptItems)
+                { dialogInterface, position, isChecked ->
+                    if (isChecked) {
+                        mUserDeptItems.add(position)
+                    } else {
+                        mUserDeptItems.remove(Integer.valueOf(position))
+                    }
+                }
+
+                mBuilder.setCancelable(false)
+                mBuilder.setPositiveButton(
+                    "Ok"
+                ) { dialogInterface, which ->
+
+
+                    var item = ""
+                    txt_Dept.setText("")
+                    for (i in mUserDeptItems.indices) {
+                        item = item + deptArray[mUserDeptItems.get(i)]
+                        if (i != mUserDeptItems.size - 1) {
+                            item = "$item, "
+                        }
+                    }
+
+                    txt_Dept.text = item
+                    if (txt_Dept.text.toString().contains("All Department")) {
+                        dept_id = "D000000"
+                        txt_Dept.text = "All Department"
+                    }
+
+                    if (txt_Dept.text.toString() == "") {
+                        txt_Dept.text = "Select Department"
+                    }
+                    mUserDeptItems.removeAll(mUserDeptItems)
+
+                    if (InternetConnection.checkConnection(this)) {
+                        val dialog: android.app.AlertDialog =
+                            SpotsDialog.Builder().setContext(this).build()
+                        dialog.setMessage("Please Wait!!! \nwhile we are updating courses")
+                        dialog.setCancelable(false)
+                        dialog.show()
+                        try {
+//                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+                            selecteddeptlist = txt_Dept.text as String
+                            mServices.GetInstituteData()
+                                .enqueue(object : Callback<APIResponse> {
+                                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                                        dialog.dismiss()
+                                        Toast.makeText(
+                                            this@UpdateScheduledExamFeedback,
+                                            t.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    override fun onResponse(
+                                        call: Call<APIResponse>,
+                                        response: Response<APIResponse>
+                                    ) {
+                                        dialog.dismiss()
+                                        val result: APIResponse? = response.body()
+                                        if (result!!.Responsecode == 204) {
+                                            Toast.makeText(
+                                                this@UpdateScheduledExamFeedback,
+                                                result.Status,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            val listsinstz: Int = result.Data6!!.size
+                                            dept_id = ""
+                                            var selected_dept = selecteddeptlist.split(",")
+                                            var selected_dept_size = selected_dept.size
+                                            for (i in 0..listsinstz - 1) {
+                                                if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                    val listscoursez: Int =
+                                                        result.Data6!![i].Courses!!.size
+                                                    for (j in 0..listscoursez - 1) {
+                                                        if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                            val listsdeptz: Int =
+                                                                result.Data6!![i].Courses!![j].Departments!!.size
+                                                            for (k in 0 until listsdeptz) {
+                                                                for (m in 0 until selected_dept_size) {
+//                                                                println(" i >> $i , j >> $j, k >> $k, m >> $m Department >>> $dept_id")
+
+                                                                    if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME.equals(
+                                                                            selected_dept[m].trim()
+                                                                        )
+                                                                    ) {
+                                                                        dept_id =
+                                                                            dept_id + "_" + result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            println("Department >>> " + dept_id)
+
+                                        }
+                                    }
+                                })
+                        } catch (ex: Exception) {
+                            dialog.dismiss()
+                            ex.printStackTrace()
+                            GenericUserFunction.showApiError(
+                                this@UpdateScheduledExamFeedback,
+                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                            )
+                        }
+                    } else {
+                        GenericUserFunction.showInternetNegativePopUp(
+                            this@UpdateScheduledExamFeedback,
+                            getString(R.string.failureNoInternetErr)
+                        )
+                    }
+
+                }
+
+                val negativeButton = mBuilder.setNegativeButton(
+                    "Dismiss"
+                ) { dialogInterface, i -> dialogInterface.dismiss() }
+
+                mBuilder.setNeutralButton(
+                    "Clear All"
+                ) { dialogInterface, which ->
+                    for (i in checkedDeptItems.indices) {
+                        checkedDeptItems[i] = false
+                        mUserDeptItems.clear()
+                        txt_Dept.setText("Select Department")
+                    }
+                }
+
+                val mDialog2 = mBuilder.create()
+                mDialog2.show()
+
+
+            } else {
+                GenericUserFunction.DisplayToast(
+                    this, "Please Choose Course then Departments to proceed"
+                )
+            }
+
+        }
+
+        
         var userfeedBackTypeadp: ArrayAdapter<String> = ArrayAdapter<String>(
             this@UpdateScheduledExamFeedback,
             R.layout.support_simple_spinner_dropdown_item,
@@ -141,6 +373,7 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                                 Toast.makeText(this@UpdateScheduledExamFeedback, result.Status, Toast.LENGTH_SHORT).show()
                             } else {
                                 listsinstz = result.Data6!!.size
+                                instituteName1.add("All Institute")
 //                        instituteName1.remove("All")
                                 for (i in 0..listsinstz - 1) {
 
@@ -251,7 +484,7 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                                     }
                                 }
                             })
-                        courselist.add("All")
+                        courselist.add("All Courses")
                         var usercourselistadp: ArrayAdapter<String> = ArrayAdapter<String>(
                             this@UpdateScheduledExamFeedback,
                             R.layout.support_simple_spinner_dropdown_item,
@@ -317,13 +550,8 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                                     }
                                 }
                             })
-                        deptlist.add("All")
-                        var userdeptlistadp: ArrayAdapter<String> =
-                            ArrayAdapter<String>(
-                                this@UpdateScheduledExamFeedback,
-                                R.layout.support_simple_spinner_dropdown_item, deptlist
-                            )
-                        spinner_deptlist.adapter = userdeptlistadp
+                        deptlist.add(0, "All Department")
+                        txt_Dept.text = "All Department"
                     }catch (ex: Exception) {
                         ex.printStackTrace()
                         GenericUserFunction.showApiError(
@@ -341,89 +569,6 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-        }
-
-        spinner_deptlist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (InternetConnection.checkConnection(this@UpdateScheduledExamFeedback)) {
-                    try {
-                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
-                        mServices.GetInstituteData()
-                            .enqueue(object : Callback<APIResponse> {
-                                override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                                    Toast.makeText(
-                                        this@UpdateScheduledExamFeedback,
-                                        t.message,
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                                override fun onResponse(
-                                    call: Call<APIResponse>,
-                                    response: Response<APIResponse>
-                                ) {
-                                    val result: APIResponse? = response.body()
-                                    if (result!!.Responsecode == 204) {
-                                        Toast.makeText(
-                                            this@UpdateScheduledExamFeedback,
-                                            result.Status,
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    } else {
-                                        val listsinstz: Int = result.Data6!!.size
-                                        for (i in 0..listsinstz - 1) {
-                                            if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-                                                val listscoursez: Int =
-                                                    result.Data6!![i].Courses!!.size
-                                                for (j in 0..listscoursez - 1) {
-                                                    if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-                                                        val listsdeptz: Int =
-                                                            result.Data6!![i].Courses!![j].Departments!!.size
-                                                        for (k in 0 until listsdeptz) {
-                                                            if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME == selecteddeptlist)
-                                                            {
-                                                                dept_id = result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            })
-
-                    } catch (ex: Exception) {
-                        ex.printStackTrace()
-                        GenericUserFunction.showApiError(
-                            this@UpdateScheduledExamFeedback,
-                            "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-                        )
-                    }
-                }
-                else {
-                    GenericUserFunction.showInternetNegativePopUp(
-                        this@UpdateScheduledExamFeedback,
-                        getString(R.string.failureNoInternetErr)
-                    )
-                }
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
-
-        spinner_YearDept.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
-            {
-                selecteddeptYear=spinner_YearDept.selectedItem.toString()
-
-                println("yearSelected  "+selecteddeptYear)
-
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
         }
@@ -449,28 +594,84 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                 return@setOnClickListener
             }
 
-            if (selectedInstituteName.equals("Select institute")) {
-                showToast("Please select Institute")
+            if (selectedInstituteName == "Select Institute") {
+                Toast.makeText(this, "Please select Institute to proceed", Toast.LENGTH_SHORT)
+                    .show()
+                GenericUserFunction.DisplayToast(this, "Please select Institute to proceed")
                 return@setOnClickListener
+            }
+            if (txt_year.text.toString() == "Select Year") {
+                txt_year.error = "Please select year"
+                GenericUserFunction.DisplayToast(this, "Please select year to proceed")
+                return@setOnClickListener
+            } else {
+                txt_year.error = null
+                if (txt_year.text.contains("All ( First to Final Year )")) {
+                    txt_year.text = "All ( First to Final Year )"
+                }
             }
 
-            if (spinner_YearDept.selectedItem.toString().equals("Select")) {
-                showToast("Please select Year")
-                return@setOnClickListener
+            if (txt_Dept.text.toString() == "All Department") {
+                selecteddeptlist = "All Department"
+                dept_id = "D000000"
+            } else
+                if (txt_Dept.text.toString() == "Select Department") {
+                    txt_Dept.error = "Please Choose Departments to proceed"
+                    GenericUserFunction.DisplayToast(
+                        this, "Please Choose Departments to proceed"
+                    )
+                    return@setOnClickListener
+                } else
+                    if (dept_id != null || dept_id != "") {
+                        txt_Dept.error = null
+                        dept_id = dept_id!!.removeRange(0, 1)
+
+                    } else {
+
+                        txt_Dept.error = "Please Choose Departments to proceed"
+                        GenericUserFunction.DisplayToast(
+                            this, "Please Choose Departments to proceed"
+                        )
+                        return@setOnClickListener
+                    }
+
+            if (selectedcourselist == "All Courses") {
+                course_id = "C000000"
             }
+
+//            if (spinner_YearDept.selectedItem.toString().equals("Select")) {
+//                showToast("Please select Year")
+//                return@setOnClickListener
+//            }
             if (InternetConnection.checkConnection(this)) {
                 try{
                     var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
                         PhpApiInterface::class.java)
-                    var call: Call<FeedBackInsert> = phpApiInterface.UpdateFeedBackScheduler(selectedInstituteName,selectedcourselist!!,selecteddeptlist,selectedFeedbackName,select_date!!.text.toString(),from_date_conv.toString(),to_date_conv.toString(),selecteddeptYear,id)
+                    var call: Call<FeedBackInsert> = phpApiInterface.UpdateFeedBackScheduler(
+                        selectedInstituteName,
+                        selectedcourselist!!,
+                        selecteddeptlist,
+                        selectedFeedbackName,
+                        select_date!!.text.toString(),
+                        from_date_conv.toString(),
+                        to_date_conv.toString(),
+                        txt_year.text.toString(),
+                        id)
                     call.enqueue(object : Callback<FeedBackInsert> {
                         override fun onFailure(call: Call<FeedBackInsert>, t: Throwable) {
                             Toast.makeText(this@UpdateScheduledExamFeedback, t.message, Toast.LENGTH_SHORT).show()
                         }
                         override fun onResponse(call: Call<FeedBackInsert>, response: Response<FeedBackInsert>) {
                             val result: FeedBackInsert? = response.body()
-                            GenericUserFunction.showPositivePopUp(this@UpdateScheduledExamFeedback,result!!.Response)
-
+                            if(result!!.Response=="Feedback Schedule Updated Successfully"){
+                            sendNotice()
+                            }else
+                            {
+                                GenericUserFunction.showApiError(
+                                    this@UpdateScheduledExamFeedback,
+                                    "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                                )
+                            }
 
                         }
 
@@ -482,7 +683,7 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                         "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                     )
                 }
-                sendNotice()
+
             }
             else
             {
@@ -515,7 +716,7 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
             this,
             R.style.AppTheme4, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 // Display Selected date in Toast
-                val myFormat = "yyyy-MM-dd" // mention the format you need
+                val myFormat = "dd-MM-yyyy" // mention the format you need
                 val sdf = SimpleDateFormat(myFormat, Locale.US)
                 cal.set(year, monthOfYear, dayOfMonth)
                 val date = cal.time
@@ -588,7 +789,7 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                 cal.set(year, monthOfYear, dayOfMonth)
                 val date3 = cal.time
                 sdf3.format(date3)
-                from_date_conv = sdf.format(date3).toString()
+                from_date_conv = sdf3.format(date3).toString()
 
 
 
@@ -624,20 +825,20 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                     "Feedback Scheduled",
                     feedbackSche1 + from_date_d + " to " + to_date_d,
                     selectedInstituteName,
-                    "All",
-                    "All",
+                    "" + selectedcourselist,
+                    "" + selecteddeptlist,
                     "Administrative",
                     "Student",
                     "F",
-                    "EXAMINCHARGE",
-                    "61",
+                    roleadmin,
+                    id_admin,
                     "-",
-                    "All",
+                    course_id,
                     "All",
                     "T",
                     "F",
                     "T",
-                    selecteddeptYear
+                    txt_year.text.toString()
                 ).enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                         Toast.makeText(this@UpdateScheduledExamFeedback, t.message, Toast.LENGTH_SHORT)
@@ -647,20 +848,15 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                     override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
 
                         val result: APIResponse? = response.body()
-                        if (result!!.equals("Notice Inserted"))
+                        if (result!!.Responsecode==200)
                         {
-                            Toast.makeText(
-                                this@UpdateScheduledExamFeedback,
-                                "Feedback Scheduled Updated Successfully",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            GenericUserFunction.showPositivePopUp(this@UpdateScheduledExamFeedback,"Feedback Schedule Updated Successfully")
                         }else
                         {
-                            Toast.makeText(
-                                this@UpdateScheduledExamFeedback,
-                                ".",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            GenericUserFunction.showApiError(
+                                applicationContext,
+                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                            )
                         }
 
                     }

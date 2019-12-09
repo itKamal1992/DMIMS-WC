@@ -61,6 +61,10 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
         attendanceGrid.setOnClickListener(this)
         exam_grid.setOnClickListener(this)
         appraisal_grid.setOnClickListener(this)
+
+        result_grid.setOnClickListener(this)
+        gallery_grid.setOnClickListener(this)
+
         greviancegrid.setOnClickListener(this)
         noticeboardgrid.setOnClickListener(this)
         notification.setOnClickListener(this)
@@ -200,6 +204,23 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
                     var student_id_key15 = mypref15.getString("Stud_id_key", null)
                     intent.putExtra("stud_k", student_id_key15?.toString())
                     startActivity(intent)
+                }
+
+                R.id.action_gallery -> {
+                    this@StudentDashboard.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://www.dmimsu.edu.in/all-events.php")
+                        )
+                    )
+                }
+                R.id.action_result -> {
+                    this@StudentDashboard.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://www.dmimsu.edu.in/du-results.php")
+                        )
+                    )
                 }
                 R.id.action_help -> {
                     displayHelpAlert()
@@ -500,6 +521,22 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
                     Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse("http://103.68.25.22:81/aap")
+                    )
+                )
+            }
+            R.id.gallery_grid -> {
+                this@StudentDashboard.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://www.dmimsu.edu.in/all-events.php")
+                    )
+                )
+            }
+            R.id.result_grid -> {
+                this@StudentDashboard.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://www.dmimsu.edu.in/du-results.php")
                     )
                 )
             }

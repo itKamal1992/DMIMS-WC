@@ -60,7 +60,7 @@
 
 		android:textAppearance="@style/TextAppearance.AppCompat.Medium"
 		android:text="Purpose"
-		android:layout_marginLeft="30dp"
+		android:layout_marginLeft="10dp"
 		android:textSize="15sp"
 		android:textColor="@color/colorblack"
 		android:layout_height="wrap_content"/>
@@ -80,10 +80,9 @@
 					<TextView
 						android:layout_width="130dp"
 						android:layout_height="wrap_content"
-						android:text="Scheduled Date"
+						android:text="Sched. Date on"
 						android:textSize="17sp"
-						android:textStyle="bold"
-						/>
+						android:textStyle="bold" />
 					<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -95,7 +94,7 @@
 						android:text="schedule date"
 						android:textSize="15sp"
 						android:textColor="@color/colorblack"
-						android:layout_marginLeft="30dp"
+						android:layout_marginLeft="10dp"
 						/>
 				</LinearLayout>
 				<LinearLayout
@@ -121,7 +120,7 @@
 						android:id="@+id/tv_startdate"
 						android:text="start date"
 						android:textSize="15sp"
-						android:layout_marginLeft="30dp"
+						android:layout_marginLeft="10dp"
 						android:textColor="@color/colorblack"
 					/>
 				</LinearLayout>
@@ -148,11 +147,92 @@
 		android:id="@+id/tv_enddate"
 		android:text="end date"
 		android:textSize="15sp"
-		android:layout_marginLeft="30dp"
+		android:layout_marginLeft="10dp"
 		android:textColor="@color/colorblack"
 		/>
 
 </LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="130dp"
+						android:layout_height="wrap_content"
+						android:text="Stud. in Year"
+						android:textSize="17sp"
+						android:textStyle="bold"
+						/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:id="@+id/tv_year"
+						android:text="year"
+						android:textSize="15sp"
+						android:layout_marginLeft="10dp"
+						android:textColor="@color/colorblack"
+						/>
+
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="130dp"
+						android:layout_height="wrap_content"
+						android:text="For Course"
+						android:textSize="17sp"
+						android:textStyle="bold"
+						/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:id="@+id/tv_course"
+						android:text="course"
+						android:textSize="15sp"
+						android:layout_marginLeft="10dp"
+						android:textColor="@color/colorblack"
+						/>
+
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="130dp"
+						android:layout_height="wrap_content"
+						android:text="Departments"
+						android:textSize="17sp"
+						android:textStyle="bold"
+						/>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text=":"
+						/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/tv_dept"
+						android:text="department"
+						android:textSize="15sp"
+						android:layout_marginLeft="10dp"
+						android:textColor="@color/colorblack"
+						/>
+
+				</LinearLayout>
 				<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content">

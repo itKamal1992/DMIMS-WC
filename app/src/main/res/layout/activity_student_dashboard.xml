@@ -7,9 +7,7 @@
     android:orientation="vertical"
     tools:context="com.dmims.dmims.dashboard.StudentDashboard">
 
-    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -461,7 +459,7 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="20dp"
                                     android:background="@drawable/white_right_corner_bg"
-                                    android:src="@drawable/ic_event" />
+                                    android:src="@drawable/ic_complent" />
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -475,6 +473,81 @@
                                     android:textSize="14sp" />
 
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/gallery_grid"
+                                android:layout_width="0dp"
+                                android:layout_height="130dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                                android:background="@color/colorWhite"
+                                android:orientation="vertical"
+                                android:foreground="?android:attr/selectableItemBackground">
+
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="20dp"
+                                    android:background="@drawable/white_right_corner_bg"
+                                    android:src="@drawable/gallery" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="0dp"
+                                    android:background="@drawable/white_right_corner_bg"
+                                    android:padding="8dp"
+                                    android:text="Gallery"
+                                    android:textAlignment="center"
+                                    android:textColor="#000"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <!-- fifth Row-->
+                        <LinearLayout
+                            android:id="@+id/fourthrowlinerlayouts"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+
+
+
+                            <LinearLayout
+                                android:id="@+id/result_grid"
+                                android:layout_width="0dp"
+                                android:layout_height="130dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                                android:background="@color/colorWhite"
+                                android:orientation="vertical"
+                                android:foreground="?android:attr/selectableItemBackground">
+
+                                <ImageView
+                                    android:layout_width="53dp"
+                                    android:layout_height="60dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="20dp"
+                                    android:background="@drawable/white_right_corner_bg"
+                                    android:src="@drawable/ic_result" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="0dp"
+                                    android:background="@drawable/white_right_corner_bg"
+                                    android:padding="8dp"
+                                    android:text="Result"
+                                    android:textAlignment="center"
+                                    android:textColor="#000"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
                             <LinearLayout
                                 android:id="@+id/helpdiloadboad"
                                 android:layout_width="0dp"

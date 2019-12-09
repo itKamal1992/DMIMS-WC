@@ -56,8 +56,18 @@
 	<item
 			android:id="@+id/action_internal_complain"
 			android:title="Internal Complaint Committee"
-			android:icon="@drawable/ic_notice_drawer"
+			android:icon="@drawable/ic_complent_drawer"
 	/>
+	<item
+		android:id="@+id/action_gallery"
+		android:title="Gallery"
+		android:icon="@drawable/ic_add_photo"
+		/>
+	<item
+		android:id="@+id/action_result"
+		android:title="Result"
+		android:icon="@drawable/ic_result_drawer"
+		/>
 	<item
 			android:id="@+id/action_help"
 			android:title="Help"

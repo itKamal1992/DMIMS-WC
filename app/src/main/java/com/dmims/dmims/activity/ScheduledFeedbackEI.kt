@@ -51,10 +51,11 @@ class ScheduledFeedbackEI : AppCompatActivity()
         current_date = sdf.format(cal.time)
         if (InternetConnection.checkConnection(this)) {
         var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
-        var submitdate: Call<FeedBackSchedule> = phpApiInterface.CurrentDateSubmit(current_date)
+        var submitdate: Call<FeedBackSchedule> = phpApiInterface.CurrentDateSubmit("ExamIncharge")
         submitdate.enqueue(object :Callback<FeedBackSchedule>{
             override fun onFailure(call: Call<FeedBackSchedule>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+               GenericUserFunction.showApiError(this@ScheduledFeedbackEI,t.localizedMessage.toString())
+                //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onResponse(call: Call<FeedBackSchedule>, response: Response<FeedBackSchedule>)
@@ -79,7 +80,10 @@ class ScheduledFeedbackEI : AppCompatActivity()
                                 result!![i].SCHEDULE_DATE,
                                 result!![i].START_DATE,
                                 result!![i].END_DATE,
-                                result!![i].id
+                                result!![i].id,
+                                result!![i].COURSE_NAME,
+                                result!![i].DEPT_NAME,
+                                result!![i].YEAR
                             )
                         )
                     }
