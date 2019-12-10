@@ -48,9 +48,7 @@ class MyService : FirebaseMessagingService() {
 
 
 
-
-
-        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
+     // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
 //        Log.d(TAG, "From: " + p0!!.getFrom());
 
         // Check if message contains a data payload.
