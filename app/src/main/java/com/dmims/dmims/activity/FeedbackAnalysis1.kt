@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable
+import com.dmims.dmims.Generic.GenericPublicVariable.Companion.mServices
 import com.dmims.dmims.Generic.GenericUserFunction
 import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
@@ -525,5 +526,145 @@ class FeedbackAnalysis1 : AppCompatActivity() {
                 getString(R.string.failureNoInternetErr)
             )
         }
+    }
+    fun getGraphDatas() {
+//        if (InternetConnection.checkConnection(this)) {
+//            val dialog: android.app.AlertDialog =
+//                SpotsDialog.Builder().setContext(this).build()
+//            dialog.setMessage("Please Wait!!! \nwhile we delete ExamKey")
+//            dialog.setCancelable(false)
+//            dialog.show()
+//            try {
+//                mServices.GetGraph("2019")
+//                    .enqueue(object : Callback<APIResponse> {
+//                        override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+//                            dialog.dismiss()
+//                            Toast.makeText(this@FeedbackAnalysis1, t.message, Toast.LENGTH_SHORT).show()
+//
+//
+//                        }
+//
+//                        override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
+//                            val result: APIResponse? = response.body()
+//                            println("result 1 >>> "+result.toString())
+//                            if (result!!.Status == "ok") {
+//                                var listSize = result.Data14!!.size
+//                                val users = ArrayList<NoticeStudCurrent>()
+//                                println("result 4>>> "+users)
+//
+//                                for (i in 0..listSize - 1) {
+//                                    if (result.Data14!![i].ADMIN_FLAG == "T") {
+//                                        // if (result!!.Data14!![i].COURSE_ID == "All" || result!!.Data14!![i].COURSE_ID == COURSE_ID) {
+//                                        if (result.Data14!![i].RESOU_FLAG == "T") {
+////                                        k = R.drawable.ic_notice_yes
+//                                            result.Data14!![i].ID
+//
+//                                            if(result.Data14!![i].FILENAME.contains(".jpg",ignoreCase = true)||result.Data14!![i].FILENAME.contains(".jpeg",ignoreCase = true)||result.Data14!![i].FILENAME.contains(".png",ignoreCase = true))
+//                                            {
+//                                                k = R.drawable.ic_jpg
+//                                            }else
+//                                                if(result.Data14!![i].FILENAME.contains(".pdf",ignoreCase = true)) {
+//                                                    k = R.drawable.icon_pdf
+//                                                }
+////                                        ???
+//
+//                                        } else {
+//                                            k = R.drawable.ic_anotice_no
+//                                        }
+//
+//
+//                                        users.add(
+//                                            NoticeStudCurrent(
+//                                                "Notice Title : " + result.Data14!![i].NOTICE_TITLE,
+//                                                "Sender : " + result.Data14!![i].USER_ROLE,
+//                                                "Notice For : " + result.Data14!![i].USER_TYPE,
+//                                                "Notice Type : " + result.Data14!![i].NOTICE_TYPE,
+//                                                "Notice Desc : " + result.Data14!![i].NOTICE_DESC,
+//                                                "Notice Date : " + result.Data14!![i].NOTICE_DATE,
+//                                                "Institute : " + result.Data14!![i].INSTITUTE_NAME,
+//                                                "Course Name : " + result.Data14!![i].COURSE_NAME,
+//                                                "Course ID : " + result.Data14!![i].COURSE_ID,
+//                                                "Dept Name : " + result.Data14!![i].DEPT_NAME,
+//                                                "Dept ID : " + result.Data14!![i].DEPT_ID,
+//                                                "ATTACHMENT STATUS: " + result.Data14!![i].RESOU_FLAG,
+//                                                result.Data14!![i].FILENAME,
+//                                                result.Data14!![i].YEAR,
+//
+//                                                result.Data14!![i].STUDENT_FLAG,
+//                                                result.Data14!![i].FACULTY_FLAG,
+//                                                result.Data14!![i].ADMIN_FLAG,
+//                                                k
+//                                            )
+//                                        )
+//
+//                                    }
+//                                }
+//                                progressBar!!.visibility = View.INVISIBLE
+//                                progressBar.visibility = View.GONE
+//                                if(users.isEmpty())
+//                                {
+//                                    GenericUserFunction.showOopsError(
+//                                        this@FeedbackAnalysis1,
+//                                        "No Notices found for the current request"
+//                                    )
+//                                }else {
+//                                    val adapter = NoticeAdapterCurrent(users, this@FeedbackAnalysis1)
+//                                    recyclerView.adapter = adapter
+//                                }
+//
+//                            }
+//                            else {
+//                                if (result.Status.equals("No data found", ignoreCase = true)) {
+//
+//                                    progressBar!!.visibility = View.INVISIBLE
+//                                    progressBar!!.visibility = View.GONE
+//
+//                                    var msg="No Notices found for the current request"
+//                                    GenericPublicVariable.CustDialog = Dialog(this@FeedbackAnalysis1)
+//                                    GenericPublicVariable.CustDialog.setContentView(R.layout.api_oops_custom_popup)
+//                                    var ivNegClose1: ImageView =
+//                                        GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
+//                                    var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+//                                    var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+//                                    tvMsg.text = msg
+//                                    GenericPublicVariable.CustDialog.setCancelable(false)
+//                                    btnOk.setOnClickListener {
+//                                        GenericPublicVariable.CustDialog.dismiss()
+//                                        onBackPressed()
+//
+//                                    }
+//                                    ivNegClose1.setOnClickListener {
+//                                        GenericPublicVariable.CustDialog.dismiss()
+//                                        onBackPressed()
+//                                    }
+//                                    GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                                    GenericPublicVariable.CustDialog.show()
+//                                } else {
+//                                    progressBar.visibility = View.INVISIBLE
+//                                    progressBar.visibility = View.GONE
+//                                    println("result 3>>>" + result.Status)
+//                                    Toast.makeText(
+//                                        this@FeedbackAnalysis1,
+//                                        result.Status,
+//                                        Toast.LENGTH_SHORT
+//                                    )
+//                                        .show()
+//                                }
+//                            }
+//                        }
+//                    })
+//
+//            }catch (ex: Exception) {
+//
+//                ex.printStackTrace()
+//                GenericUserFunction.showApiError(this,"Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time.")
+//            }
+//        }
+//        else {
+//            GenericUserFunction.showInternetNegativePopUp(
+//                this,
+//                getString(R.string.failureNoInternetErr)
+//            )
+//        }
     }
 }

@@ -160,6 +160,12 @@ class ExamCellDashboard : AppCompatActivity() {
                     startActivity(intent)
                 }
 
+                R.id.action_feddbackAnalysis -> {
+                    val intent = Intent(this@ExamCellDashboard, FeedbackAnalysis1::class.java)
+                    //  intent.putExtra("info", "Notice Board Activity")
+                    startActivity(intent)
+                }
+
 
                 R.id.action_help -> {
                     displayhelpalert()

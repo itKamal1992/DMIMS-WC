@@ -40,6 +40,12 @@
 		android:title="Feedback Scheduler"
 		android:icon="@drawable/ic_notice_title"
 		/>
+
+	<item
+		android:id="@+id/action_feddbackAnalysis"
+		android:title="Feedback Analysis"
+		android:icon="@drawable/ic_search"
+		/>
 	<item
 			android:id="@+id/action_help"
 			android:title="Help"

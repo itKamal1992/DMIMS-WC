@@ -15,6 +15,10 @@ interface IMyAPI {
     @POST("Login/GetOtp")
     fun GetOtp(@Field("MobileNo") mobileno: String): Call<APIResponse>
 
+    @FormUrlEncoded
+    @POST("Login/GetOtp")
+    fun donotGetOtp(@Field("MobileNo") mobileno: String,@Field("Type") Type: String): Call<APIResponse>
+
     @GET("Feedback/GetGrievanceReport")
     fun GetRegisteredGreivance(): Call<APIResponse>
 
@@ -191,5 +195,9 @@ interface IMyAPI {
     @FormUrlEncoded
     @POST("Feedback/GetPrincipalDeanDataDetails")
     fun CheckPrincipal(@Field("ADMIN_MOBILE_NO") ADMIN_MOBILE_NO: String): Call<APIResponse>
+
+    @FormUrlEncoded
+    @POST("Graph/MAIN_FBUG")
+    fun GetGraph(@Field("YEAR") YEAR: String): Call<APIResponse>
 }
 

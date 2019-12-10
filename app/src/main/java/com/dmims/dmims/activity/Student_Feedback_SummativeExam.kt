@@ -497,10 +497,9 @@ Et_summdesc=findViewById(R.id.et_sumdescdetails)
             } else if (str_summYear.equals("Select Year")) {
                 Toast.makeText(this, "Select year", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
-            }  else if (Et_summdesc.text.toString().equals("")) {
-                Et_summdesc.setError("Plese Enter Details")
-                return@setOnClickListener
-            } else {
+            }
+
+            else {
 //                COURSE_ID = mypref.getString("course_id", null)
 //                stud_kstr = mypref.getString("Stud_id_key", null)
 //                stud_namestr = mypref.getString("key_drawer_title", null)
@@ -638,6 +637,13 @@ Et_summdesc=findViewById(R.id.et_sumdescdetails)
                     findViewById<EditText>(R.id.et_Summative_conductPractiexamQ6).text.toString()
                 if (str_etDQ6.equals("")) {
                     str_etDQ6 = "-"
+                }
+
+                if (Et_summdesc.text.isNotEmpty()) {
+                    Et_Str_summdesc=Et_summdesc.text.toString()
+                }else
+                {
+                    Et_Str_summdesc=""
                 }
 
 
