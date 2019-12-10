@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "710285981849",
+    "firebase_url": "https://dmims-wc.firebaseio.com",
+    "project_id": "dmims-wc",
+    "storage_bucket": "dmims-wc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710285981849:android:3025252a35b8e8c6126008",
+        "android_client_info": {
+          "package_name": "com.dmims.dmims"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710285981849-vu92dqmg8i7o50ft0rh557kjubk3n22m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dmims.dmims",
+            "certificate_hash": "b70cfe427b4cd0ed56f0e49733e35be6f7cb505e"
+          }
+        },
+        {
+          "client_id": "710285981849-k6v31mr9v1rls849m8es93qgfcefl1p8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWkJ0halOWl9gO0WtYC3JWPvRfaSX9HgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710285981849-k6v31mr9v1rls849m8es93qgfcefl1p8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
