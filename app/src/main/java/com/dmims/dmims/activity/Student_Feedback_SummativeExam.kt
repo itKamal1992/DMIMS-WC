@@ -34,6 +34,7 @@ import java.util.*
 class Student_Feedback_SummativeExam : AppCompatActivity() {
     lateinit var spinner_SummaExamination: Spinner
     lateinit var spinner_SummaYear: Spinner
+
     lateinit var Et_summdesc: EditText
 
     lateinit var rg_SummAQ1: RadioGroup
@@ -129,10 +130,10 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
     lateinit var Stud_Roll_No: String
     lateinit var Stud_Institute: String
     lateinit var CurrentDate: String
+    lateinit var Et_Str_summdesc: String
 
     lateinit var Course: String
     lateinit var Institute: String
-    lateinit var Et_Str_summdesc: String
 
     private var Deptlist: ArrayList<DeptListStudDataRef>? = null
 
@@ -171,8 +172,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
         et_Summative_conductPractiexamQ6.visibility = View.GONE
 
 
-
-        Et_summdesc=findViewById(R.id.et_sumdescdetails)
+Et_summdesc=findViewById(R.id.et_sumdescdetails)
         Et_Str_summdesc=Et_summdesc.text.toString()
 
         rg_SummAQ1 = findViewById(R.id.rg_Summative_PreexamQ1)
@@ -497,6 +497,9 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
             } else if (str_summYear.equals("Select Year")) {
                 Toast.makeText(this, "Select year", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
+            }  else if (Et_summdesc.text.toString().equals("")) {
+                Et_summdesc.setError("Plese Enter Details")
+                return@setOnClickListener
             } else {
 //                COURSE_ID = mypref.getString("course_id", null)
 //                stud_kstr = mypref.getString("Stud_id_key", null)
@@ -636,14 +639,6 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
                 if (str_etDQ6.equals("")) {
                     str_etDQ6 = "-"
                 }
-
-
-               if (Et_summdesc.text.toString().equals("")) {
-                    Et_Str_summdesc=""
-                }else
-               {
-                   Et_Str_summdesc=Et_summdesc.text.toString()
-               }
 
 
 //
