@@ -8,10 +8,9 @@ import retrofit2.Call
 import retrofit2.http.*
 import retrofit2.http.PartMap
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.http.POST
 import retrofit2.http.Multipart
-
+import java.sql.Array
 
 
 interface PhpApiInterface  {
@@ -267,6 +266,36 @@ interface PhpApiInterface  {
 
     @GET("test_folder/graph_api.php")
     fun GetGraphData(): Call<GetGraphList>
+
+
+    @FormUrlEncoded
+    @POST("test_folder/fcm_tokendata.php")
+    fun InserUpdateFCMData(
+        @Field("STUDENTID") STUDENTID: String,
+        @Field("TOKEN_ID") TOKEN_ID: String,
+        @Field("NAME") NAME: String,
+        @Field("PUNCHID") PUNCHID: String,
+        @Field("COURSE_ID") COURSE_ID: String,
+        @Field("SEM_ID") SEM_ID: String,
+        @Field("ROLL_NO") ROLL_NO: String,
+        @Field("ENROLLMENT_NO") ENROLLMENT_NO: String,
+        @Field("INST_NAME") INST_NAME: String,
+        @Field("MOBILE_NO") MOBILE_NO: String,
+        @Field("USER_ROLE") USER_ROLE: String,
+        @Field("DOA") DOA: String,
+        @Field("STATUS") STATUS: String,
+        @Field("REMARK") REMARK: String
+
+    ): Call<ServerResponse>
+
+
+    @FormUrlEncoded
+    @POST("test_folder/fcm_test.php")
+    fun SendNotificationToken(
+        @Field("device_id") device_id: ArrayList<String>,
+        @Field("message") TOKEN_ID: String,
+        @Field("title") title: String
+    ): Call<ServerResponse>
 
 
     @GET("time_table/get_start_date.php")

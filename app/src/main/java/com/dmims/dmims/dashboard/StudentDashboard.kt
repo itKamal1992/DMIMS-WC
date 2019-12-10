@@ -30,8 +30,11 @@ import com.dmims.dmims.adapter.ViewPagerAdapter
 import com.dmims.dmims.dataclass.FeedBackDataC
 import com.dmims.dmims.model.DeptListStudData
 import com.dmims.dmims.model.DeptListStudDataRef
+import com.dmims.dmims.model.ServerResponse
 import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.PhpApiInterface
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,6 +54,24 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
     private var dots: Array<ImageView?>? = null
     private lateinit var progressDiag: ProgressDialog
     private var DeptList: ArrayList<DeptListStudDataRef>? = null
+
+    private var STUDENTID      : String =""
+    private var TOKEN_ID       : String = ""
+    private var NAME           : String =""
+    private var PUNCHID        : String =""
+    private var SEM_ID         : String =""
+    private var ROLL_NO        : String =""
+    private var ENROLLMENT_NO  : String =""
+    private var INST_NAME      : String =""
+    private var MOBILE_NO      : String =""
+    private var USER_ROLE      : String =""
+
+    private var STATUS      : String = "-"
+    private var REMARK      : String = "-"
+
+
+    var auth: FirebaseAuth?= null
+
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +96,29 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
         layout_internal_complain.setOnClickListener(this)
 
 
+        auth=FirebaseAuth.getInstance()
+
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result!!.token
+                //saveToken(token)
+                TOKEN_ID=token
+
+                println("Token :--> $token")
+                //textView.setText("Token : "+token);*/
+            } else {
+
+            }
+        }
+
+
+
+
+
+
+
+
+
 
         val mypref12 = getSharedPreferences("mypref", Context.MODE_PRIVATE)
         val editor = mypref12.edit()
@@ -87,6 +131,15 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
 
         val mypref = getSharedPreferences("mypref", Context.MODE_PRIVATE)
         COURSE_ID = mypref.getString("course_id", null)
+        STUDENTID    =  mypref.getString("Stud_id_key", null)
+        NAME         =  mypref.getString("key_drawer_title", null)
+        PUNCHID      =  "-"
+        SEM_ID       = "-"
+        ROLL_NO      =  mypref.getString("roll_no", null)
+        ENROLLMENT_NO=  mypref.getString("key_enroll_no", null)
+
+        MOBILE_NO    =  mypref.getString("key_editmob", null)
+        USER_ROLE    =  mypref.getString("key_userrole", null)
 
         var drawerTitler = intent.getStringExtra("NAME")
         var enrollNor = intent.getStringExtra("STUD_INFO")
@@ -320,6 +373,46 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
         progressDiag.setCancelable(false)
         getInsDetails()
 
+
+
+
+    }
+
+    private fun FcmCheck() {
+
+
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerResponse> = phpApiInterface.InserUpdateFCMData(STUDENTID,TOKEN_ID,NAME,PUNCHID,COURSE_ID!!,SEM_ID,ROLL_NO,ENROLLMENT_NO
+            ,INST_NAME,MOBILE_NO,USER_ROLE,dateOfAdmission!!,STATUS,REMARK)
+        call4.enqueue(object : Callback<ServerResponse> {
+            override fun onResponse(
+                call: Call<ServerResponse>,
+                response: Response<ServerResponse>
+
+            ) {
+               var result= response.body()
+
+               var Res= result!!.response
+
+                Toast.makeText(this@StudentDashboard,Res, Toast.LENGTH_SHORT).show()
+
+            }
+
+            override fun onFailure(call: Call<ServerResponse>, t: Throwable) {
+                Toast.makeText(this@StudentDashboard, t.message, Toast.LENGTH_SHORT).show()
+            }
+
+
+
+
+
+
+
+
+
+        })
+
+
     }
 
     fun getInsDetails() {
@@ -352,6 +445,10 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
                     editor.putString("key_institute", DeptList!![0].COURSE_INSTITUTE)
                     editor.putString("key_course",DeptList!![0].COURSE_NAME)
                     editor.apply()
+
+
+                    INST_NAME    =  mypref.getString("key_institute_stud", "")
+                    FcmCheck()
 
                 }
             }

@@ -10,5 +10,5 @@ class ServerResponse {
 
      var filename:String?=null
 
-
+     var response:String?=null
 }
