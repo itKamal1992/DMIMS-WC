@@ -88,14 +88,38 @@ class EXAM_GET_UploadMCQ : AppCompatActivity() {
                     val result: MCQListUpload? = response.body()
                     println("result 1 >>> " + result!!.Data!![0])
                     var listSize = result.Data!!.size
-                    if (result!!.Data!!.isEmpty())
+                    progressBar!!.visibility = View.GONE
+                    if (result!!.Data!![0].id=="error")
                     {
+                        var msg="MCQ Answer Key Not found for the Exam Admin"
 
-                    }else
+                        GenericPublicVariable.CustDialog = Dialog(this@EXAM_GET_UploadMCQ)
+                        GenericPublicVariable.CustDialog.setContentView(R.layout.api_oops_custom_popup)
+                        var ivNegClose1: ImageView =
+                            GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
+                        var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+                        var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+                        tvMsg.text = msg
+                        GenericPublicVariable.CustDialog.setCancelable(false)
+                        btnOk.setOnClickListener {
+                            GenericPublicVariable.CustDialog.dismiss()
+                            onBackPressed()
+
+                        }
+                        ivNegClose1.setOnClickListener {
+                            GenericPublicVariable.CustDialog.dismiss()
+                            onBackPressed()
+                        }
+                        GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        GenericPublicVariable.CustDialog.show()
+
+                    }
+                    else
                     {
                         val users = ArrayList<McqFields>()
                         if (listSize!=0) {
-                            for (i in 0..listSize - 1) {
+                            for (i in 0..listSize - 1)
+                            {
                                 if(result.Data!![i].FileUrl.contains(".jpg",ignoreCase = true)||result.Data!![i].FileUrl.contains(".jpeg",ignoreCase = true)||result.Data!![i].FileUrl.contains(".png",ignoreCase = true))
                                 {
                                     k = R.drawable.ic_jpg
@@ -127,37 +151,18 @@ class EXAM_GET_UploadMCQ : AppCompatActivity() {
                                     )
                                 )
                             }
-                            progressBar!!.visibility = View.GONE
+
                             val adapter = ExamGetMCQAdapter(users,this@EXAM_GET_UploadMCQ)
                             recyclerView.adapter = adapter
-                        }else
+                        }
+                        //else
 
 //                            progressBar!!.visibility = View.INVISIBLE
 
-                            if(listSize==0){
-                                progressBar!!.visibility = View.GONE
-                                var msg="MCQ Answer Key Not found for the Exam Admin"
-
-                                GenericPublicVariable.CustDialog = Dialog(this@EXAM_GET_UploadMCQ)
-                                GenericPublicVariable.CustDialog.setContentView(R.layout.api_oops_custom_popup)
-                                var ivNegClose1: ImageView =
-                                    GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
-                                var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
-                                var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
-                                tvMsg.text = msg
-                                GenericPublicVariable.CustDialog.setCancelable(false)
-                                btnOk.setOnClickListener {
-                                    GenericPublicVariable.CustDialog.dismiss()
-                                    onBackPressed()
-
-                                }
-                                ivNegClose1.setOnClickListener {
-                                    GenericPublicVariable.CustDialog.dismiss()
-                                    onBackPressed()
-                                }
-                                GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                                GenericPublicVariable.CustDialog.show()
-                            }
+//                            if(listSize==0){
+//                                progressBar!!.visibility = View.GONE
+//
+//                            }
 
                     }
 //                        {UserName

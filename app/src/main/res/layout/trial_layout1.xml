@@ -8,129 +8,41 @@
     tools:context="com.dmims.dmims.dashboard.AdminDashboard">
 
 
-        <LinearLayout
-            android:id="@+id/drawer_header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="start"
-            android:background="#e71c3b"
-            >
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_margin="5dp"
+
+        app:cardCornerRadius="5dp"
+        >
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="3dp"
-                android:background="@drawable/nav_bg"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal">
+                android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/drawer_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_margin="2dp"
-                        android:background="@drawable/drawer_profile"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="5dp">
-
-                    <TextView
-                        android:id="@+id/drawer_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Student Name"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/user_role"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:text="User Role."
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/txt_designation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:text="Designation"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/txt_Email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:text="Email"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/txt_Mobile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:text="Mobile"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/enroll_no"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="5dp"
-                        android:text="Enrollment No."
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                >
-                <TextView
-                    android:id="@+id/txt_versionName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="App Version : 23.0"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="14sp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textStyle="bold"
-                    android:layout_gravity="end"
+                    android:text="@string/Summative_common_comment"
+                    android:textColor="@color/colorblack"
                     />
+                <EditText
+                    android:hint=" Specify Your Concern"
+                    android:id="@+id/et_Summative_conductPractiexamQ1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    />
+
+
             </LinearLayout>
 
 
-            <android.support.design.widget.NavigationView
-                android:id="@+id/navigation_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:menu="@menu/admin_drawer_menu"
-                />
-        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
 
 
 

@@ -88,11 +88,34 @@ class EXAM_InBox_GET_UploadMCQ : AppCompatActivity() {
                 override fun onResponse(call: Call<MCQListUpload>, response: Response<MCQListUpload>) {
                     val result: MCQListUpload? = response.body()
                     println("result 1 >>> " + result!!.Data!![0])
+                    progressBar!!.visibility = View.GONE
                     var listSize = result.Data!!.size
-                    if (result!!.Data!!.isEmpty())
+                    if (result!!.Data!![0].id=="error")
                     {
+                        var msg="No Exam Key Uploaded\nPlease upload then check for MCQ Inbox"
 
-                    }else
+                        GenericPublicVariable.CustDialog = Dialog(this@EXAM_InBox_GET_UploadMCQ)
+                        GenericPublicVariable.CustDialog.setContentView(R.layout.api_oops_custom_popup)
+                        var ivNegClose1: ImageView =
+                            GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
+                        var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+                        var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+                        tvMsg.text = msg
+                        GenericPublicVariable.CustDialog.setCancelable(false)
+                        btnOk.setOnClickListener {
+                            GenericPublicVariable.CustDialog.dismiss()
+                            onBackPressed()
+
+                        }
+                        ivNegClose1.setOnClickListener {
+                            GenericPublicVariable.CustDialog.dismiss()
+                            onBackPressed()
+                        }
+                        GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        GenericPublicVariable.CustDialog.show()
+
+                    }
+                    else
                     {
                         val users = ArrayList<McqFields>()
                         if(listSize!=0) {
@@ -131,34 +154,12 @@ class EXAM_InBox_GET_UploadMCQ : AppCompatActivity() {
                             }
 
 //                            progressBar!!.visibility = View.INVISIBLE
-                            progressBar!!.visibility = View.GONE
+
                             val adapter = ExamInBoxGetMCQAdapter(users,this@EXAM_InBox_GET_UploadMCQ)
                             recyclerView.adapter = adapter
 
-                        }else
-                            if(listSize==0){
-                                progressBar!!.visibility = View.GONE
-                                var msg="No Exam Key Uploaded\nPlease upload then check for MCQ Inbox"
-                                GenericPublicVariable.CustDialog = Dialog(this@EXAM_InBox_GET_UploadMCQ)
-                                GenericPublicVariable.CustDialog.setContentView(R.layout.api_oops_custom_popup)
-                                var ivNegClose1: ImageView =
-                                    GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView
-                                var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
-                                var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
-                                tvMsg.text = msg
-                                GenericPublicVariable.CustDialog.setCancelable(false)
-                                btnOk.setOnClickListener {
-                                    GenericPublicVariable.CustDialog.dismiss()
-                                    onBackPressed()
+                        }
 
-                                }
-                                ivNegClose1.setOnClickListener {
-                                    GenericPublicVariable.CustDialog.dismiss()
-                                    onBackPressed()
-                                }
-                                GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                                GenericPublicVariable.CustDialog.show()
-                            }
 
                     }
 //                        {UserName

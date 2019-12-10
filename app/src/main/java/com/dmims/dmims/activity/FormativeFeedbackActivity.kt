@@ -446,10 +446,10 @@ class FormativeFeedbackActivity : AppCompatActivity() {
                 Af_Ex_S2_Q5_q4_Text = "-"
             }
 
-            if ((Af_Ex_S3_suggest.text.length > 0) || (!Af_Ex_S3_suggest.text.equals(null))) {
+            if ((Af_Ex_S3_suggest.text.toString().isNotEmpty())) {
                 Af_Ex_S3_suggest_Text = Af_Ex_S3_suggest.text.toString()
             } else {
-                Af_Ex_S3_suggest_Text = "-"
+                Af_Ex_S3_suggest_Text = ""
             }
 
             if (selected_spinner_FeedbackFaculty.equals("Select Your Faculty")) {

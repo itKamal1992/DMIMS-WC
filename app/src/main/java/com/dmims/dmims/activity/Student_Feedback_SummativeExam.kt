@@ -34,6 +34,7 @@ import java.util.*
 class Student_Feedback_SummativeExam : AppCompatActivity() {
     lateinit var spinner_SummaExamination: Spinner
     lateinit var spinner_SummaYear: Spinner
+    lateinit var Et_summdesc: EditText
 
     lateinit var rg_SummAQ1: RadioGroup
     lateinit var rg_SummAQ2: RadioGroup
@@ -131,6 +132,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
     lateinit var Course: String
     lateinit var Institute: String
+    lateinit var Et_Str_summdesc: String
 
     private var Deptlist: ArrayList<DeptListStudDataRef>? = null
 
@@ -170,6 +172,8 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
 
 
 
+        Et_summdesc=findViewById(R.id.et_sumdescdetails)
+        Et_Str_summdesc=Et_summdesc.text.toString()
 
         rg_SummAQ1 = findViewById(R.id.rg_Summative_PreexamQ1)
         rg_SummAQ1.setOnCheckedChangeListener { group, checkedId ->
@@ -634,6 +638,14 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
                 }
 
 
+               if (Et_summdesc.text.toString().equals("")) {
+                    Et_Str_summdesc=""
+                }else
+               {
+                   Et_Str_summdesc=Et_summdesc.text.toString()
+               }
+
+
 //
 //                println(
 //                    "here text q1 " + str_summNameFaculty + " n " + str_summExamination + " n " + str_summYear + " n " + str_etAQ1 + "/" + str_etAQ2 + "/" + str_etAQ3 + "/" + str_etAQ4 + "/" + str_etBQ1 + "/" + str_etBQ2 + "/" + str_etBQ3 + "/" + str_etBQ4 + "/" + str_etBQ5 + "/"
@@ -768,7 +780,7 @@ class Student_Feedback_SummativeExam : AppCompatActivity() {
                 str_summExamination,
                 str_summYear,
                 CurrentDate,
-                str_SummBQ1,
+                Et_Str_summdesc,
                 Feed_Sum_SectA(
                     str_SummAQ1,
                     str_etAQ1,

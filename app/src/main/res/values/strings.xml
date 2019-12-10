@@ -138,6 +138,8 @@
     <string name="Summative_conductPractiexamQ4">Was examination conducted as per the structured format</string>
     <string name="Summative_conductPractiexamQ5">Was the time given adequate for each station</string>
     <string name="Summative_conductPractiexamQ6">Was examination conducted in fair and impartial way</string>
+    <string name="Summative_common_comment">Do you want to suggest / remark on any other aspect in the conduct of theory /practical examination especially in one or more subjects of the examination in order to improve the standard and credibility of the examination system?</string>
+
     <string name="Enrol_No">Enrol No : </string>
     <string name="submitted_grievance">Submitted Grievance</string>
 

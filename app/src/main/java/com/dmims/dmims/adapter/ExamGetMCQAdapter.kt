@@ -27,6 +27,7 @@ import com.dmims.dmims.dataclass.NoticeStudCurrent
 import com.dmims.dmims.model.APIResponse
 import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.PhpApiInterface
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.exam_get_mcq_adapter_layout.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -153,6 +154,11 @@ class ExamGetMCQAdapter(val userlist: ArrayList<McqFields>,context: Context) :
                 else
                 {
                     if (InternetConnection.checkConnection(ctx)) {
+                        val dialog: android.app.AlertDialog =
+                            SpotsDialog.Builder().setContext(ctx).build()
+                        dialog.setMessage("Please Wait!!! \nwhile we delete ExamKey")
+                        dialog.setCancelable(false)
+                        dialog.show()
 
                     var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(
                         PhpApiInterface::class.java
@@ -161,6 +167,7 @@ class ExamGetMCQAdapter(val userlist: ArrayList<McqFields>,context: Context) :
                         phpApiInterface.deleteMCQ(mcqFields!!.id)
                     call3.enqueue(object : Callback<APIResponse> {
                         override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                            dialog.dismiss()
                             Toast.makeText(ctx, t.message, Toast.LENGTH_SHORT)
                                 .show()
                         }
@@ -169,11 +176,13 @@ class ExamGetMCQAdapter(val userlist: ArrayList<McqFields>,context: Context) :
                             call: Call<APIResponse>,
                             response: Response<APIResponse>
                         ) {
+                            dialog.dismiss()
                             val result: APIResponse? =
                                 response.body()
                             result!!.response
                             if (result!!.response!!.contains("successfully"))
                             {
+
                                 println("result!!.response >>> "+result!!.response)
 //                                GenericUserFunction.showPositivePopUp(ctx,result!!.response!!)
                                 val intent = Intent(ctx, ctx::class.java)

@@ -2,11 +2,16 @@ package com.dmims.dmims.activity
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
 import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.Generic.showToast
@@ -851,7 +856,31 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
                         if (result!!.Responsecode==200)
                         {
                             GenericUserFunction.showPositivePopUp(this@UpdateScheduledExamFeedback,"Feedback Schedule Updated Successfully")
-                        }else
+                            GenericPublicVariable.CustDialog = Dialog(this@UpdateScheduledExamFeedback)
+                            GenericPublicVariable.CustDialog.setContentView(R.layout.positive_custom_popup)
+                            var ivPosClose1: ImageView =
+                                GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogPosClose) as ImageView
+                            var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
+                            var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
+                            tvMsg.text = "Feedback Schedule Updated Successfully"
+                            GenericPublicVariable.CustDialog.setCancelable(false)
+                            btnOk.setOnClickListener {
+                                GenericPublicVariable.CustDialog.dismiss()
+                                callSelf(this@UpdateScheduledExamFeedback)
+
+                            }
+                            ivPosClose1.setOnClickListener {
+                                GenericPublicVariable.CustDialog.dismiss()
+                                callSelf(this@UpdateScheduledExamFeedback)
+
+                            }
+
+                            GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(
+                                ColorDrawable(Color.TRANSPARENT)
+                            )
+                            GenericPublicVariable.CustDialog.show()
+                        }
+                        else
                         {
                             GenericUserFunction.showApiError(
                                 applicationContext,
@@ -876,5 +905,11 @@ class UpdateScheduledExamFeedback : AppCompatActivity()
             )
         }
 
+    }
+
+    fun callSelf (ctx:Context){
+        val intent = Intent(ctx, ScheduledFeedbackEI::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        ctx.startActivity(intent)
     }
 }
