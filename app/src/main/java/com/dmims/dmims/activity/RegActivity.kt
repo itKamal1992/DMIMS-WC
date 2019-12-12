@@ -32,32 +32,32 @@ class RegActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reg)
-        SecretCode="159357"
-        callOtp=true
+        callOtp=false
 
         GenericPublicVariable.btnGenOtp = findViewById<Button>(R.id.btn_genotp)
         btn_NewReg = findViewById<Button>(R.id.btn_NewReg)
         btn_Unable = findViewById<Button>(R.id.btn_Unable)
         GenericPublicVariable.editMobOtp = findViewById<EditText>(R.id.edit_mob_otp)
+        if (!callOtp) {
+            GenericPublicVariable.editMobOtp!!.hint = "Test Activated"
+            GenericPublicVariable.editMobOtp!!.highlightColor
+        }else
+        {
+            GenericPublicVariable.editMobOtp!!.hint = "Mobile"
+        }
         GenericPublicVariable.btnGenOtp!!.setOnClickListener {
-            if (GenericPublicVariable.editMobOtp!!.text.toString() == SecretCode)
-            {
-                callOtp=false
-                GenericUserFunction.DisplayToast(this,"Testing Activated")
-                GenericPublicVariable.editMobOtp!!.setText("")
-                return@setOnClickListener
-
-            }
 
             if (GenericPublicVariable.editMobOtp!!.text.toString().isEmpty()) {
                 Toast.makeText(this@RegActivity, "Please input mobile no.", Toast.LENGTH_SHORT).show()
 
             } else {
+
                 if (callOtp) {
                     verifyUserGenOtp(GenericPublicVariable.editMobOtp!!.text.toString())
                 }else  {
                     doNotGenOtp(GenericPublicVariable.editMobOtp!!.text.toString())
                 }
+
             }
         }
 

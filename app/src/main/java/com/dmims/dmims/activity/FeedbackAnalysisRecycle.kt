@@ -15,6 +15,9 @@ import com.dmims.dmims.Generic.GenericPublicVariable.Companion.mServices
 import com.dmims.dmims.Generic.GenericUserFunction
 import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
+import com.dmims.dmims.adapter.GraphListAdapter
+import com.dmims.dmims.dataclass.BarDatas
+import com.dmims.dmims.dataclass.GraphData
 import com.dmims.dmims.dataclass.GraphFields
 import com.dmims.dmims.model.APIResponse
 import com.dmims.dmims.model.GetGraphList
@@ -27,17 +30,18 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.activity_feedback_analysis1.*
+import kotlinx.android.synthetic.main.activity_feedback_analysis_recycle.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Float.parseFloat
 import java.util.*
 
-class FeedbackAnalysis1 : AppCompatActivity() {
+class FeedbackAnalysisRecycle : AppCompatActivity() {
 
 
     private var users: ArrayList<GraphFields>? = null
-    lateinit var mpBarChart: BarChart
+    lateinit var mpBarChart:  BarChart
     lateinit var mpBarChart1: BarChart
     lateinit var mpBarChart2: BarChart
     lateinit var mpBarChart3: BarChart
@@ -46,21 +50,23 @@ class FeedbackAnalysis1 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_feedback_analysis1)
-//        val recyclerView = findViewById<RecyclerView>(R.id.GraphType)
-//        GraphType.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        setContentView(R.layout.activity_feedback_analysis_recycle)
+        val recyclerView = findViewById<RecyclerView>(R.id.GraphType)
+        GraphType.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
-        mpBarChart1 = findViewById(R.id.barchart1)
-        mpBarChart2 = findViewById(R.id.barchart2)
-        mpBarChart3 = findViewById(R.id.barchart3)
-        mpBarChart4 = findViewById(R.id.barchart4)
-        mpBarChart5 = findViewById(R.id.barchart5)
-        btn_webGraph.setOnClickListener {
-            this.startActivity( Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("http://dmimsdu.in/web/test_folder/graph_report.php")
-            ))
-        }
+
+
+//        mpBarChart1 = findViewById(R.id.barchart1)
+//        mpBarChart2 = findViewById(R.id.barchart2)
+//        mpBarChart3 = findViewById(R.id.barchart3)
+//        mpBarChart4 = findViewById(R.id.barchart4)
+//        mpBarChart5 = findViewById(R.id.barchart5)
+//        btn_webGraph.setOnClickListener {
+//            this.startActivity( Intent(
+//                Intent.ACTION_VIEW,
+//                Uri.parse("http://dmimsdu.in/web/test_folder/graph_report.php")
+//            ))
+//        }
 
 
 
@@ -161,7 +167,7 @@ class FeedbackAnalysis1 : AppCompatActivity() {
                 mServices.GetGraph("2019")
                     .enqueue(object : Callback<APIResponse> {
                         override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-                            Toast.makeText(this@FeedbackAnalysis1, t.message, Toast.LENGTH_SHORT)
+                            Toast.makeText(this@FeedbackAnalysisRecycle, t.message, Toast.LENGTH_SHORT)
                                 .show()
                             dialog.dismiss()
                         }
@@ -173,156 +179,160 @@ class FeedbackAnalysis1 : AppCompatActivity() {
                             dialog.dismiss()
                             val result: APIResponse? = response.body()
                             if (result!!.Responsecode == 200) {
-                                var faculty: String = result.Data20!!.FBUG.Medicine_A1.faculty
-                                var barcount1: Float =
-                                    parseFloat(result.Data20!!.FBUG.Medicine_A1.count)
-                                var color: String = result.Data20!!.FBUG.Medicine_A1.color
-                                val barEntries1 = ArrayList<BarEntry>()
-                                barEntries1.add(BarEntry(1f, barcount1))
+                                val users = ArrayList<GraphData>()
+                                val BarDataList01 = ArrayList<BarDatas>()
+                                BarDataList01.add(BarDatas(result.Data20!!.FBUG.Medicine_A1.count,result.Data20!!.FBUG.Medicine_A1.percent,result.Data20!!.FBUG.Medicine_A1.color,"Medicine_A1"))
+                                BarDataList01.add(BarDatas(result.Data20!!.FBUG.Dental_A2.count,result.Data20!!.FBUG.Dental_A2.percent,result.Data20!!.FBUG.Dental_A2.color,"Dental_A2"))
+                                BarDataList01.add(BarDatas(result.Data20!!.FBUG.Ayurveda_A3.count,result.Data20!!.FBUG.Ayurveda_A3.percent,result.Data20!!.FBUG.Ayurveda_A3.color,"Ayurveda_A3"))
+                                BarDataList01.add(BarDatas(result.Data20!!.FBUG.Nursing_A4.count,result.Data20!!.FBUG.Nursing_A4.percent,result.Data20!!.FBUG.Nursing_A4.color,"Nursing_A4"))
+                                BarDataList01.add(BarDatas(result.Data20!!.FBUG.Inter_Disciplinary_A5.count,result.Data20!!.FBUG.Inter_Disciplinary_A5.percent,result.Data20!!.FBUG.Inter_Disciplinary_A5.color,"Inter_Disciplinary_A5"))
+                                BarDataList01.add(BarDatas(result.Data20!!.FBUG.No_Answer.count,result.Data20!!.FBUG.No_Answer.percent,result.Data20!!.FBUG.No_Answer.color,"No_Answer"))
+                                BarDataList01.add(BarDatas(result.Data20!!.FBUG.Physiotherapy.count,result.Data20!!.FBUG.Physiotherapy.percent,result.Data20!!.FBUG.Physiotherapy.color,"Physiotherapy"))
+                                users.add(GraphData(result.Data20!!.FBUG.DESC,7,BarDataList01))
 
-                                val barDataSet0 = BarDataSet(barEntries1, faculty)
-                                barDataSet0.color = Color.parseColor(color)
-                                barDataSet0.valueTextSize = 15f
+                                val BarDataList02 = ArrayList<BarDatas>()
+                                BarDataList02.add(BarDatas(result.Data20!!.FBUG1.Summer_A1.count,result.Data20!!.FBUG1.Summer_A1.percent,result.Data20!!.FBUG1.Summer_A1.color,"Summer_A1"))
+                                BarDataList02.add(BarDatas(result.Data20!!.FBUG1.Winter_A2.count,result.Data20!!.FBUG1.Winter_A2.percent,result.Data20!!.FBUG1.Winter_A2.color,"Winter_A2"))
+                                BarDataList02.add(BarDatas(result.Data20!!.FBUG1.Comments.count,result.Data20!!.FBUG1.Comments.percent,result.Data20!!.FBUG1.Comments.color,"Comments"))
+                                BarDataList02.add(BarDatas(result.Data20!!.FBUG1.No_Answer.count,result.Data20!!.FBUG1.No_Answer.percent,result.Data20!!.FBUG1.No_Answer.color,"No_Answer"))
+                                users.add(GraphData(result.Data20!!.FBUG1.DESC,4,BarDataList02))
 
-                                var facultyc: String = result.Data20!!.FBUG.Dental_A2.faculty
-                                var barcount1c: Float =
-                                    parseFloat(result.Data20!!.FBUG.Dental_A2.count)
-                                var colorc: String = result.Data20!!.FBUG.Dental_A2.color
-                                val barEntries1c = ArrayList<BarEntry>()
-                                barEntries1c.add(BarEntry(2f, barcount1c))
-                                val barDataSet1 = BarDataSet(barEntries1c, facultyc)
-                                barDataSet1.color = Color.parseColor(colorc)
-                                barDataSet1.valueTextSize = 15f
+//                                users.add(GraphData(result.Data20!!.FBUG4_SQ001.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG4_SQ002.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG4_SQ003.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG4_SQ004.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG5_SQ001.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG6.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG8.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG9.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG14.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG15.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG16.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG17.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG18.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG19.DESC,4))
+//                                users.add(GraphData(result.Data20!!.FBUG20.DESC,2))
 
-
-                                var faculty2: String = result.Data20!!.FBUG.Ayurveda_A3.faculty
-                                var barcount12: Float =
-                                    parseFloat(result.Data20!!.FBUG.Ayurveda_A3.count)
-                                var color2: String = result.Data20!!.FBUG.Ayurveda_A3.color
-                                val barEntries12 = ArrayList<BarEntry>()
-                                barEntries12.add(BarEntry(2f, barcount12))
-                                val barDataSet2 = BarDataSet(barEntries12, faculty2)
-                                barDataSet2.color = Color.parseColor(color2)
-                                barDataSet2.valueTextSize = 15f
-
-                                var faculty3: String = result.Data20!!.FBUG.Nursing_A4.faculty
-                                var barcount3: Float =
-                                    parseFloat(result.Data20!!.FBUG.Nursing_A4.count)
-                                var color3: String = result.Data20!!.FBUG.Nursing_A4.color
-                                val barEntries3 = ArrayList<BarEntry>()
-                                barEntries3.add(BarEntry(2f, barcount3))
-
-                                val barDataSet3 = BarDataSet(barEntries3, faculty3)
-                                barDataSet3.color = Color.parseColor(color3)
-                                barDataSet3.valueTextSize = 15f
-
-                                var faculty4: String =
-                                    result.Data20!!.FBUG.Inter_Disciplinary_A5.faculty
-                                var barcount14: Float =
-                                    parseFloat(result.Data20!!.FBUG.Inter_Disciplinary_A5.count)
-                                var color4: String =
-                                    result.Data20!!.FBUG.Inter_Disciplinary_A5.color
-                                val barEntries14 = ArrayList<BarEntry>()
-                                barEntries14.add(BarEntry(2f, barcount14))
-
-                                val barDataSet4 = BarDataSet(barEntries14, faculty4)
-                                barDataSet4.color = Color.parseColor(color4)
-                                barDataSet4.valueTextSize = 15f
-
-                                var faculty5: String = result.Data20!!.FBUG.No_Answer.faculty
-                                var barcount15: Float =
-                                    parseFloat(result.Data20!!.FBUG.No_Answer.count)
-                                var color5: String = result.Data20!!.FBUG.No_Answer.color
-                                val barEntries15 = ArrayList<BarEntry>()
-                                barEntries15.add(BarEntry(2f, barcount15))
-
-                                val barDataSet5 = BarDataSet(barEntries15, faculty5)
-                                barDataSet5.color = Color.parseColor(color5)
-                                barDataSet5.valueTextSize = 15f
-
-
-                                var faculty6: String = result.Data20!!.FBUG.Physiotherapy.faculty
-                                var barcount16: Float =
-                                    parseFloat(result.Data20!!.FBUG.Physiotherapy.count)
-                                var color6: String = result.Data20!!.FBUG.Physiotherapy.color
-                                val barEntries16 = ArrayList<BarEntry>()
-                                barEntries16.add(BarEntry(2f, barcount16))
-
-                                val barDataSet6 = BarDataSet(barEntries16, faculty6)
-                                barDataSet6.color = Color.parseColor(color6)
-                                barDataSet6.valueTextSize = 15f
-
-
-                                val data =
-                                    BarData(
-                                        barDataSet0,
-                                        barDataSet1,
-                                        barDataSet2,
-                                        barDataSet3,
-                                        barDataSet4,
-                                        barDataSet5,
-                                        barDataSet6
+                                if(users.isEmpty()){
+                                    GenericUserFunction.showOopsError(
+                                        this@FeedbackAnalysisRecycle,
+                                        "No Graph found data for the current request"
                                     )
+                                }else {
 
-                                /*----------------------------------------------------------------*/
+                                    val adapter = GraphListAdapter(users,this@FeedbackAnalysisRecycle)
+                                    GraphType.adapter = adapter
+                                }
 
-                                var faculty02_01: String = result.Data20!!.FBUG1.Summer_A1.faculty
-                                var barcount1c02_01: Float =parseFloat(result.Data20!!.FBUG1.Summer_A1.count)
-                                var colorc02_01: String = result.Data20!!.FBUG1.Summer_A1.color
-                                val barEntries1c02_01 = ArrayList<BarEntry>()
-                                barEntries1c02_01.add(BarEntry(2f, barcount1c02_01))
-                                val barDataSet102_01 = BarDataSet(barEntries1c02_01, faculty02_01)
-                                barDataSet102_01.color = Color.parseColor(colorc02_01)
-                                barDataSet102_01.valueTextSize = 15f
 
-                                var faculty02_02: String = result.Data20!!.FBUG1.Winter_A2.faculty
-                                var barcount1c02_02: Float =
-                                    parseFloat(result.Data20!!.FBUG1.Winter_A2.count)
-                                var colorc02_02: String = result.Data20!!.FBUG1.Winter_A2.color
-                                val barEntries1c02_02 = ArrayList<BarEntry>()
-                                barEntries1c02_02.add(BarEntry(2f, barcount1c02_02))
-                                val barDataSet102_02 = BarDataSet(barEntries1c02_02, faculty02_02)
-                                barDataSet102_02.color = Color.parseColor(colorc02_02)
-                                barDataSet102_02.valueTextSize = 15f
 
-                                var faculty02_03: String = result.Data20!!.FBUG1.Comments.faculty
-                                var barcount1c02_03: Float =
-                                    parseFloat(result.Data20!!.FBUG1.Comments.count)
-                                var colorc02_03: String = result.Data20!!.FBUG1.Comments.color
-                                val barEntries1c02_03 = ArrayList<BarEntry>()
-                                barEntries1c02_03.add(BarEntry(2f, barcount1c02_03))
-                                val barDataSet102_03 = BarDataSet(barEntries1c02_03, faculty02_03)
-                                barDataSet102_03.color = Color.parseColor(colorc02_03)
-                                barDataSet102_03.valueTextSize = 15f
 
-                                var faculty02_04: String = result.Data20!!.FBUG1.No_Answer.faculty
-                                var barcount1c02_04: Float =
-                                    parseFloat(result.Data20!!.FBUG1.No_Answer.count)
-                                var colorc02_04: String = result.Data20!!.FBUG1.No_Answer.color
-                                val barEntries1c02_04 = ArrayList<BarEntry>()
-                                barEntries1c02_04.add(BarEntry(2f, barcount1c02_04))
-                                val barDataSet102_04 = BarDataSet(barEntries1c02_04, faculty02_04)
-                                barDataSet102_04.color = Color.parseColor(colorc02_04)
-                                barDataSet102_04.valueTextSize = 15f
 
-                                val data02 =
-                                    BarData(
-                                        barDataSet102_01,
-                                        barDataSet102_02,
-                                        barDataSet102_03,
-                                        barDataSet102_04
-                                    )
-                                /*----------------------------------------------------------------*/
-
-//                                var faculty03_01: String = result.Data20!!.FBUG1.Summer_A1.faculty
+//
+//
+//                                var faculty: String = result.Data20!!.FBUG.Medicine_A1.faculty
+//                                var barcount1: Float =
+//                                    parseFloat(result.Data20!!.FBUG.Medicine_A1.count)
+//                                var color: String = result.Data20!!.FBUG.Medicine_A1.color
+//                                val barEntries1 = ArrayList<BarEntry>()
+//                                barEntries1.add(BarEntry(1f, barcount1))
+//
+//                                val barDataSet0 = BarDataSet(barEntries1, faculty)
+//                                barDataSet0.color = Color.parseColor(color)
+//                                barDataSet0.valueTextSize = 15f
+//
+//                                var facultyc: String = result.Data20!!.FBUG.Dental_A2.faculty
+//                                var barcount1c: Float =
+//                                    parseFloat(result.Data20!!.FBUG.Dental_A2.count)
+//                                var colorc: String = result.Data20!!.FBUG.Dental_A2.color
+//                                val barEntries1c = ArrayList<BarEntry>()
+//                                barEntries1c.add(BarEntry(2f, barcount1c))
+//                                val barDataSet1 = BarDataSet(barEntries1c, facultyc)
+//                                barDataSet1.color = Color.parseColor(colorc)
+//                                barDataSet1.valueTextSize = 15f
+//
+//
+//                                var faculty2: String = result.Data20!!.FBUG.Ayurveda_A3.faculty
+//                                var barcount12: Float =
+//                                    parseFloat(result.Data20!!.FBUG.Ayurveda_A3.count)
+//                                var color2: String = result.Data20!!.FBUG.Ayurveda_A3.color
+//                                val barEntries12 = ArrayList<BarEntry>()
+//                                barEntries12.add(BarEntry(2f, barcount12))
+//                                val barDataSet2 = BarDataSet(barEntries12, faculty2)
+//                                barDataSet2.color = Color.parseColor(color2)
+//                                barDataSet2.valueTextSize = 15f
+//
+//                                var faculty3: String = result.Data20!!.FBUG.Nursing_A4.faculty
+//                                var barcount3: Float =
+//                                    parseFloat(result.Data20!!.FBUG.Nursing_A4.count)
+//                                var color3: String = result.Data20!!.FBUG.Nursing_A4.color
+//                                val barEntries3 = ArrayList<BarEntry>()
+//                                barEntries3.add(BarEntry(2f, barcount3))
+//
+//                                val barDataSet3 = BarDataSet(barEntries3, faculty3)
+//                                barDataSet3.color = Color.parseColor(color3)
+//                                barDataSet3.valueTextSize = 15f
+//
+//                                var faculty4: String =
+//                                    result.Data20!!.FBUG.Inter_Disciplinary_A5.faculty
+//                                var barcount14: Float =
+//                                    parseFloat(result.Data20!!.FBUG.Inter_Disciplinary_A5.count)
+//                                var color4: String =
+//                                    result.Data20!!.FBUG.Inter_Disciplinary_A5.color
+//                                val barEntries14 = ArrayList<BarEntry>()
+//                                barEntries14.add(BarEntry(2f, barcount14))
+//
+//                                val barDataSet4 = BarDataSet(barEntries14, faculty4)
+//                                barDataSet4.color = Color.parseColor(color4)
+//                                barDataSet4.valueTextSize = 15f
+//
+//                                var faculty5: String = result.Data20!!.FBUG.No_Answer.faculty
+//                                var barcount15: Float =
+//                                    parseFloat(result.Data20!!.FBUG.No_Answer.count)
+//                                var color5: String = result.Data20!!.FBUG.No_Answer.color
+//                                val barEntries15 = ArrayList<BarEntry>()
+//                                barEntries15.add(BarEntry(2f, barcount15))
+//
+//                                val barDataSet5 = BarDataSet(barEntries15, faculty5)
+//                                barDataSet5.color = Color.parseColor(color5)
+//                                barDataSet5.valueTextSize = 15f
+//
+//
+//                                var faculty6: String = result.Data20!!.FBUG.Physiotherapy.faculty
+//                                var barcount16: Float =
+//                                    parseFloat(result.Data20!!.FBUG.Physiotherapy.count)
+//                                var color6: String = result.Data20!!.FBUG.Physiotherapy.color
+//                                val barEntries16 = ArrayList<BarEntry>()
+//                                barEntries16.add(BarEntry(2f, barcount16))
+//
+//                                val barDataSet6 = BarDataSet(barEntries16, faculty6)
+//                                barDataSet6.color = Color.parseColor(color6)
+//                                barDataSet6.valueTextSize = 15f
+//
+//
+//                                val data =
+//                                    BarData(
+//                                        barDataSet0,
+//                                        barDataSet1,
+//                                        barDataSet2,
+//                                        barDataSet3,
+//                                        barDataSet4,
+//                                        barDataSet5,
+//                                        barDataSet6
+//                                    )
+//
+//                                /*----------------------------------------------------------------*/
+//
+//                                var faculty02_01: String = result.Data20!!.FBUG1.Summer_A1.faculty
 //                                var barcount1c02_01: Float =parseFloat(result.Data20!!.FBUG1.Summer_A1.count)
 //                                var colorc02_01: String = result.Data20!!.FBUG1.Summer_A1.color
 //                                val barEntries1c02_01 = ArrayList<BarEntry>()
 //                                barEntries1c02_01.add(BarEntry(2f, barcount1c02_01))
-//                                val barDataSet102_01 = BarDataSet(barEntries1c02_01, faculty03_01)
+//                                val barDataSet102_01 = BarDataSet(barEntries1c02_01, faculty02_01)
 //                                barDataSet102_01.color = Color.parseColor(colorc02_01)
 //                                barDataSet102_01.valueTextSize = 15f
-
+//
+//
 //                                var faculty02_02: String = result.Data20!!.FBUG1.Winter_A2.faculty
 //                                var barcount1c02_02: Float =
 //                                    parseFloat(result.Data20!!.FBUG1.Winter_A2.count)
@@ -360,61 +370,60 @@ class FeedbackAnalysis1 : AppCompatActivity() {
 //                                        barDataSet102_03,
 //                                        barDataSet102_04
 //                                    )
-                                /*----------------------------------------------------------------*/
-                                
-                                mpBarChart1.data = data
-                                mpBarChart1.isHighlightFullBarEnabled
-                                mpBarChart1.getDescription().setEnabled(false);
-                                val xAxis1 = mpBarChart1.xAxis
-                                val Axis_right1 = mpBarChart1.axisRight
-                                Axis_right1.isEnabled = false
-
-                                xAxis1.textSize = 0.1f
-                                xAxis1.isEnabled = false
-                                xAxis1.setCenterAxisLabels(true)
-                                xAxis1.position = XAxis.XAxisPosition.TOP
-                                xAxis1.granularity = 1f
-                                xAxis1.isGranularityEnabled = true
-                                mpBarChart1.isDragEnabled = true
-                                mpBarChart1.setVisibleXRangeMaximum(2f)
-                                val barSpace = 0.01f
-                                val groupSpace = 0.00f
-                                data.barWidth = 0.05f
-                                mpBarChart1.xAxis.axisMinimum = 0f
-                                mpBarChart1.xAxis.axisMaximum = 1f
-                                mpBarChart1.axisLeft.axisMinimum = 0f
-                                mpBarChart1.groupBars(0.0f, 0.00f, 0.05f)
-                                mpBarChart1.invalidate()
-                                txt_barchart1.setText("Name of Faculty")
-                                /*----------------------------------------------------------------*/
-                                mpBarChart2.data = data02
-                                mpBarChart2.isHighlightFullBarEnabled
-                                mpBarChart2.getDescription().setEnabled(false);
-                                val xAxis2 = mpBarChart2.xAxis
-                                val Axis_right2 = mpBarChart2.axisRight
-                                Axis_right2.isEnabled = false
-
-                                xAxis2.textSize = 0.1f
-                                xAxis2.isEnabled = false
-                                xAxis2.setCenterAxisLabels(true)
-                                xAxis2.position = XAxis.XAxisPosition.TOP
-                                xAxis2.granularity = 1f
-                                xAxis2.isGranularityEnabled = true
-                                mpBarChart2.isDragEnabled = true
-                                mpBarChart2.setVisibleXRangeMaximum(2f)
+//                                /*----------------------------------------------------------------*/
+//                                mpBarChart1.data = data
+//                                mpBarChart1.isHighlightFullBarEnabled
+//                                mpBarChart1.getDescription().setEnabled(false);
+//                                val xAxis1 = mpBarChart1.xAxis
+//                                val Axis_right1 = mpBarChart1.axisRight
+//                                Axis_right1.isEnabled = false
+//
+//                                xAxis1.textSize = 0.1f
+//                                xAxis1.isEnabled = false
+//                                xAxis1.setCenterAxisLabels(true)
+//                                xAxis1.position = XAxis.XAxisPosition.TOP
+//                                xAxis1.granularity = 1f
+//                                xAxis1.isGranularityEnabled = true
+//                                mpBarChart1.isDragEnabled = true
+//                                mpBarChart1.setVisibleXRangeMaximum(2f)
 //                                val barSpace = 0.01f
 //                                val groupSpace = 0.00f
-                                data02.barWidth = 0.05f
-                                mpBarChart2.xAxis.axisMinimum = 0f
-                                mpBarChart2.xAxis.axisMaximum = 1f
-                                mpBarChart2.axisLeft.axisMinimum = 0f
-                                mpBarChart2.groupBars(0.0f, 0.00f, 0.05f)
-                                mpBarChart2.invalidate()
-                                txt_barchart2.setText("Summary of FBUG 1\nExamination")
+//                                data.barWidth = 0.05f
+//                                mpBarChart1.xAxis.axisMinimum = 0f
+//                                mpBarChart1.xAxis.axisMaximum = 1f
+//                                mpBarChart1.axisLeft.axisMinimum = 0f
+//                                mpBarChart1.groupBars(0.0f, 0.00f, 0.05f)
+//                                mpBarChart1.invalidate()
+//                                txt_barchart1.setText("Name of Faculty")
+//                                /*----------------------------------------------------------------*/
+//                                mpBarChart2.data = data02
+//                                mpBarChart2.isHighlightFullBarEnabled
+//                                mpBarChart2.getDescription().setEnabled(false);
+//                                val xAxis2 = mpBarChart2.xAxis
+//                                val Axis_right2 = mpBarChart2.axisRight
+//                                Axis_right2.isEnabled = false
+//
+//                                xAxis2.textSize = 0.1f
+//                                xAxis2.isEnabled = false
+//                                xAxis2.setCenterAxisLabels(true)
+//                                xAxis2.position = XAxis.XAxisPosition.TOP
+//                                xAxis2.granularity = 1f
+//                                xAxis2.isGranularityEnabled = true
+//                                mpBarChart2.isDragEnabled = true
+//                                mpBarChart2.setVisibleXRangeMaximum(2f)
+////                                val barSpace = 0.01f
+////                                val groupSpace = 0.00f
+//                                data02.barWidth = 0.05f
+//                                mpBarChart2.xAxis.axisMinimum = 0f
+//                                mpBarChart2.xAxis.axisMaximum = 1f
+//                                mpBarChart2.axisLeft.axisMinimum = 0f
+//                                mpBarChart2.groupBars(0.0f, 0.00f, 0.05f)
+//                                mpBarChart2.invalidate()
+//                                txt_barchart2.setText("Summary of FBUG 1\nExamination")
 
                             } else {
                                 GenericUserFunction.showApiError(
-                                    this@FeedbackAnalysis1,
+                                    this@FeedbackAnalysisRecycle,
                                     "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
                                 )
 
@@ -815,7 +824,7 @@ class FeedbackAnalysis1 : AppCompatActivity() {
                 var call2: Call<GetGraphList> = phpApiInterface.GetGraphData()
                 call2.enqueue(object : Callback<GetGraphList> {
                     override fun onFailure(call: Call<GetGraphList>, t: Throwable) {
-                        Toast.makeText(this@FeedbackAnalysis1, t.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@FeedbackAnalysisRecycle, t.message, Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
 
@@ -1028,7 +1037,7 @@ class FeedbackAnalysis1 : AppCompatActivity() {
                                     dialog.dismiss()
                                     var msg = "No data available for analysis"
                                     GenericPublicVariable.CustDialog =
-                                        Dialog(this@FeedbackAnalysis1)
+                                        Dialog(this@FeedbackAnalysisRecycle)
                                     GenericPublicVariable.CustDialog.setContentView(R.layout.api_oops_custom_popup)
                                     var ivNegClose1: ImageView =
                                         GenericPublicVariable.CustDialog.findViewById(R.id.ivCustomDialogNegClose) as ImageView

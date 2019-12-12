@@ -385,6 +385,11 @@
             android:name=".activity.CurrentGrievHodPrincConv"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2" />
+
+        <activity android:name=".activity.FeedbackAnalysisRecycle"
+            >
+
+        </activity>
     </application>
 
 </manifest>

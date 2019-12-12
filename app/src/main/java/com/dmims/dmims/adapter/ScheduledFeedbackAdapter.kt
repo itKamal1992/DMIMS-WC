@@ -46,8 +46,7 @@ class ScheduledFeedbackAdapter(userlist: ArrayList<ListScheduledFeedback>, conte
         p0.tv_endDate?.text = emUser.enddate
         p0.tv_year?.text = emUser.YEAR
         p0.tv_course?.text = emUser.COURSE_NAME
-        p0.tv_dept?.text = emUser.DEPT_NAME
-
+        //p0.tv_dept?.text = emUser.DEPT_NAME
 
     }
 
@@ -60,7 +59,7 @@ class ScheduledFeedbackAdapter(userlist: ArrayList<ListScheduledFeedback>, conte
         val btn_editSchedule = itemView.findViewById<Button>(R.id.btn_edit_feedbackSchedule)
         val tv_year = itemView.findViewById<TextView>(R.id.tv_year)
         val tv_course = itemView.findViewById<TextView>(R.id.tv_course)
-        val tv_dept = itemView.findViewById<TextView>(R.id.tv_dept)
+        //val tv_dept = itemView.findViewById<TextView>(R.id.tv_dept)
 
 
         init {
@@ -75,7 +74,7 @@ class ScheduledFeedbackAdapter(userlist: ArrayList<ListScheduledFeedback>, conte
                 var enddate = s.enddate
                 var YEAR = s.YEAR
                 var COURSE_NAME = s.COURSE_NAME
-                var DEPT_NAME = s.DEPT_NAME
+                //var DEPT_NAME = s.DEPT_NAME
                 println("b   " + b)
                 var intent: Intent = Intent(ctx, UpdateScheduledExamFeedback::class.java)
                 intent.putExtra("id", b)
@@ -86,7 +85,7 @@ class ScheduledFeedbackAdapter(userlist: ArrayList<ListScheduledFeedback>, conte
                 intent.putExtra("enddate", enddate)
                 intent.putExtra("YEAR", YEAR)
                 intent.putExtra("COURSE_NAME", COURSE_NAME)
-                intent.putExtra("DEPT_NAME", DEPT_NAME)
+                //intent.putExtra("DEPT_NAME", DEPT_NAME)
                 ctx.startActivity(intent)
 
 

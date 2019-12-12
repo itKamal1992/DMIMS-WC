@@ -126,18 +126,22 @@ class MainActivity : AppCompatActivity() {
                                 dialog.dismiss()
                                 val intent =
                                     Intent(this@MainActivity, StudentDashboard::class.java)
-
+                                println(" course >>> " + result.Data2!!.COURSE_ID!![0])
                                 saveData(
-                                    result.Data2!!.USER_ROLE,
-                                    result.Data2!!.GARDIAN_NAME,
+                                    "Student",
                                     result.Data2!!.NAME,
+                                    result.Data2!!.STUDENTID + " / " + result.Data2!!.PUNCH_ID,
                                     result.Data2!!.STUDENTID,
-                                    "-",
-                                    result.Data1!!.COURSE_ID!!.get(0),
-                                    "-"
+                                    result.Data2!!.DOA,
+                                    result.Data2!!.COURSE_ID!!.get(0),
+                                    result.Data2!!.ROLL_NO
+
                                 )
-                                intent.putExtra("NAME", result.Data2!!.GARDIAN_NAME)
-                                intent.putExtra("STUD_INFO", result.Data2!!.NAME)
+                                intent.putExtra("NAME", result.Data2!!.NAME)
+                                intent.putExtra(
+                                    "STUD_INFO",
+                                    result.Data2!!.STUDENTID + " / " + result.Data2!!.PUNCH_ID
+                                )
                                 intent.putExtra("STUD_ID_KEY", result.Data2!!.STUDENTID)
                                 startActivity(intent)
                             }

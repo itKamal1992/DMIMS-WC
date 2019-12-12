@@ -10,6 +10,7 @@ class APIResponse {
      var Data17:List<GrievanceStudGetData>?=null
      var Data18: List<GrievanceDataField>? = null
      var Data19: UserDataField? = null
+     var Data20: Data20? = null
      var Data14: List<GetNotice>? = null
      var Data2: GetParentData? = null
      var Data3: GetFacultyData? = null

@@ -21,6 +21,7 @@ import com.dmims.dmims.model.FeedBackScheduleField
 import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.IMyAPI
 import com.dmims.dmims.remote.PhpApiInterface
+import dmax.dialog.SpotsDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,16 +51,22 @@ class ScheduledFeedbackEI : AppCompatActivity()
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         current_date = sdf.format(cal.time)
         if (InternetConnection.checkConnection(this)) {
+            var dialog = SpotsDialog.Builder().setContext(this).build()
+            dialog!!.setMessage("Please Wait!!! \nwhile we are getting Feedback")
+            dialog!!.setCancelable(false)
+            dialog!!.show()
         var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
         var submitdate: Call<FeedBackSchedule> = phpApiInterface.CurrentDateSubmit("ExamIncharge")
         submitdate.enqueue(object :Callback<FeedBackSchedule>{
             override fun onFailure(call: Call<FeedBackSchedule>, t: Throwable) {
+                dialog.dismiss()
                GenericUserFunction.showApiError(this@ScheduledFeedbackEI,t.localizedMessage.toString())
                 //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onResponse(call: Call<FeedBackSchedule>, response: Response<FeedBackSchedule>)
             {
+                dialog.dismiss()
                 val result: List<FeedBackScheduleField>? = response.body()!!.Data
                 println("Response1 >> "+result!![0].id)
                 if (result!![0].id == "error") {
