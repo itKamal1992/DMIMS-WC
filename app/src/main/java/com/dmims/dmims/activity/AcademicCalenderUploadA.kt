@@ -18,6 +18,7 @@ import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiver
 import com.dmims.dmims.model.APIResponse
+import com.dmims.dmims.model.ServerNotificationResponse
 import com.dmims.dmims.model.ServerResponse
 import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.PhpApiInterface
@@ -39,8 +40,12 @@ import java.util.*
 class AcademicCalenderUploadA : AppCompatActivity(), SingleUploadBroadcastReceiver.Delegate {
     private var mediaPath: String? = null
     private val TAG1: String = "AndroidUploadService"
+
+    private val notificationType: String = "Academic Calendar"
+
     var dialogCommon: android.app.AlertDialog? = null
     val uploadReceiver: SingleUploadBroadcastReceiver = SingleUploadBroadcastReceiver()
+
 
     override fun onResume() {
         super.onResume()
@@ -312,9 +317,9 @@ class AcademicCalenderUploadA : AppCompatActivity(), SingleUploadBroadcastReceiv
                 if (serverResponse != null) {
                     dialogCommon!!.dismiss()
                     if (serverResponse.success) {
-
+        var messegeBody=notificationType+" for session "+spinnerSession.selectedItem.toString()+" is uploaded"
                         GenericUserFunction.showPositivePopUp(this@AcademicCalenderUploadA,serverResponse.message.toString())
-
+                        SendTokenNotification(notificationType,messegeBody,"All Institution","All")
 
                     } else {
                         GenericUserFunction.showNegativePopUp(this@AcademicCalenderUploadA,serverResponse.message.toString())
@@ -341,6 +346,71 @@ class AcademicCalenderUploadA : AppCompatActivity(), SingleUploadBroadcastReceiv
                 this,
                 getString(R.string.failureNoInternetErr))
         }
+    }
+
+    fun SendTokenNotification(
+        noticeTitle: String,
+        noticeDesc: String,
+        selectedInstituteName: String,
+        sendTo: String
+    ) {
+
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCM(noticeTitle,noticeDesc,selectedInstituteName,sendTo)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+
+
+            ) {
+                var result= response.body()
+
+
+                var re=result!!.results
+                var a= re!![1].message_id
+
+
+                var Ressuccess= result!!.success!!.toInt()
+                var Resfailure= result!!.failure!!.toInt()
+
+
+
+
+                println("result for test "+result)
+                Toast.makeText(this@AcademicCalenderUploadA,""+Ressuccess, Toast.LENGTH_SHORT).show()
+                NotificationRecord("Admin",notificationType,Ressuccess,Resfailure,"All","All Institution")
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@AcademicCalenderUploadA, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+    }
+
+    private fun NotificationRecord(roleadmin: String, notificationType: String, ressuccess: Int, resfailure: Int, sendTo: String, selectedInstituteName: String)
+    {
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCMRecord(roleadmin,notificationType,ressuccess,resfailure,sendTo,selectedInstituteName)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+
+
+            ) {
+                var res2= response.body()
+                println("res2 "+res2)
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@AcademicCalenderUploadA, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     companion object {

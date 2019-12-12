@@ -18,32 +18,22 @@ import android.support.annotation.RequiresApi
 import android.support.v4.content.CursorLoader
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.widget.*
 import com.dmims.dmims.Generic.GenericPublicVariable
 import com.dmims.dmims.Generic.GenericUserFunction
 import com.dmims.dmims.Generic.InternetConnection
-import com.dmims.dmims.ImageClass
-import com.dmims.dmims.ImageUpload
 import com.dmims.dmims.R
 /*import com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiver*/
-import com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiverAdmin
 import com.dmims.dmims.common.Common
 import com.dmims.dmims.model.APIResponse
-import com.dmims.dmims.model.MyResponse
+import com.dmims.dmims.model.ServerNotificationResponse
 import com.dmims.dmims.model.ServerResponse
-import com.dmims.dmims.remote.*
 import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.IMyAPI
 import com.dmims.dmims.remote.PhpApiInterface
-import com.google.gson.GsonBuilder
-import com.nbsp.materialfilepicker.MaterialFilePicker
-import com.nbsp.materialfilepicker.ui.FilePickerActivity
 import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.activity_admin_notice_board.*
-import net.gotev.uploadservice.MultipartUploadRequest
-import net.gotev.uploadservice.UploadNotificationConfig
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -51,15 +41,12 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 
@@ -117,6 +104,7 @@ class AdminNoticeBoard : AppCompatActivity() {
     var listsinstz: Int = 0
     private lateinit var id_admin: String
     private lateinit var roleadmin: String
+    private lateinit var notificationType: String
     private val REQUEST_GALLERY_CODE = 111
     private lateinit var pb_notice_institute: ProgressBar
     var REQUEST_CODE: Int = 0
@@ -151,7 +139,7 @@ class AdminNoticeBoard : AppCompatActivity() {
 
         pb_notice_institute = findViewById<ProgressBar>(R.id.pb_notice_admin)
         pb_notice_institute.visibility = View.INVISIBLE
-
+        notificationType="Notice";
 
         val myFormat = "dd-MM-yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
@@ -1380,6 +1368,7 @@ selfMultipleDept.setOnClickListener {
                                 var tvMsg: TextView =
                                     GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
                                 tvMsg.text = "Notice Send Successfully"
+                                SendTokenNotification(notice_title,notice_desc,selectedInstituteName,selectedFacultyStud,roleadmin)
                                 GenericPublicVariable.CustDialog.setCancelable(false)
                                 btnOk.setOnClickListener {
                                     GenericPublicVariable.CustDialog.dismiss()
@@ -1536,6 +1525,7 @@ selfMultipleDept.setOnClickListener {
                                                 var tvMsg: TextView =
                                                     GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
                                                 tvMsg.text = "Notice Send Successfully"
+                                                SendTokenNotification(notice_title,notice_desc,selectedInstituteName,selectedFacultyStud,roleadmin)
                                                 GenericPublicVariable.CustDialog.setCancelable(false)
                                                 btnOk.setOnClickListener {
                                                     GenericPublicVariable.CustDialog.dismiss()
@@ -1550,6 +1540,7 @@ selfMultipleDept.setOnClickListener {
 
                                                 GenericPublicVariable.CustDialog.window!!.setBackgroundDrawable(
                                                     ColorDrawable(android.graphics.Color.TRANSPARENT)
+
                                                 )
                                                 GenericPublicVariable.CustDialog.show()
                                             } else {
@@ -1605,12 +1596,78 @@ selfMultipleDept.setOnClickListener {
                 getString(R.string.failureNoInternetErr)
             )
         }
+
+    }
+    fun SendTokenNotification(
+        noticeTitle: String,
+        noticeDesc: String,
+        selectedInstituteName: String,
+        sendTo: String,
+        roleadmin: String
+    ) {
+
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCM(noticeTitle,noticeDesc,selectedInstituteName,sendTo)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+
+
+            ) {
+                var result= response.body()
+
+
+                var re=result!!.results
+                var a= re!![1].message_id
+
+
+                var Ressuccess= result!!.success!!.toInt()
+                var Resfailure= result!!.failure!!.toInt()
+
+
+
+
+                println("result for test "+result)
+                Toast.makeText(this@AdminNoticeBoard,""+Ressuccess, Toast.LENGTH_SHORT).show()
+                NotificationRecord(roleadmin,notificationType,Ressuccess,Resfailure,sendTo,selectedInstituteName)
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@AdminNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
+            }
+    })
+
+
+    }
+
+    private fun NotificationRecord(roleadmin: String, notificationType: String, ressuccess: Int, resfailure: Int, sendTo: String, selectedInstituteName: String)
+    {
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCMRecord(roleadmin,notificationType,ressuccess,resfailure,sendTo,selectedInstituteName)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+
+
+            ) {
+              var res2= response.body()
+                println("res2 "+res2)
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@AdminNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun callSelf(ctx: Context) {
-        val intent = Intent(ctx, ctx::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        ctx.startActivity(intent)
+//        val intent = Intent(ctx, ctx::class.java)
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//        ctx.startActivity(intent)
     }
 }
 

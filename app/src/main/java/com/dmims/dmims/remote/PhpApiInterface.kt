@@ -300,6 +300,5 @@ interface PhpApiInterface  {
 
     @GET("time_table/get_start_date.php")
     fun get_start_date(): Call<GetAcad_Start_Date>
-
 }
 

@@ -104,7 +104,8 @@ class StudentDashboard : AppCompatActivity(), View.OnClickListener {
                 //saveToken(token)
                 TOKEN_ID=token
 
-                println("Token :--> $token")
+                println("" +
+                        " $token")
                 //textView.setText("Token : "+token);*/
             } else {
 

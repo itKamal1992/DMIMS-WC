@@ -19,10 +19,7 @@ import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiver
 import com.dmims.dmims.dataclass.TimeTableDataC
-import com.dmims.dmims.model.APIResponse
-import com.dmims.dmims.model.ServerResponse
-import com.dmims.dmims.model.TimeTableData
-import com.dmims.dmims.model.TimeTableDataRef
+import com.dmims.dmims.model.*
 import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.PhpApiInterface
 import dmax.dialog.SpotsDialog
@@ -42,6 +39,8 @@ import kotlin.collections.ArrayList
 class AcademicCalUploadInsti : AppCompatActivity(), SingleUploadBroadcastReceiver.Delegate {
     private var mediaPath: String? = null
     private val TAG1: String = "AndroidUploadService"
+
+    private val notificationType: String = "Time Table"
     var dialogCommon: android.app.AlertDialog? = null
     val uploadReceiver: SingleUploadBroadcastReceiver = SingleUploadBroadcastReceiver()
 
@@ -532,6 +531,9 @@ class AcademicCalUploadInsti : AppCompatActivity(), SingleUploadBroadcastReceive
 
                         GenericUserFunction.showPositivePopUp(this@AcademicCalUploadInsti,serverResponse.message.toString())
 
+                        var MessegeTitle="Time Table uploaded"
+                        var MessegeBody="Please check uploade time table"
+                        SendTokenNotification(MessegeTitle,MessegeBody,institute_name,"All","Institute Admin")
 
                     } else {
                         GenericUserFunction.showNegativePopUp(this@AcademicCalUploadInsti,serverResponse.message.toString())
@@ -559,6 +561,74 @@ class AcademicCalUploadInsti : AppCompatActivity(), SingleUploadBroadcastReceive
                 getString(R.string.failureNoInternetErr))
         }
     }
+
+
+    fun SendTokenNotification(
+        noticeTitle: String,
+        noticeDesc: String,
+        selectedInstituteName: String,
+        sendTo: String,
+        roleadmin: String
+    ) {
+
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCM(noticeTitle,noticeDesc,selectedInstituteName,sendTo)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+
+
+            ) {
+                var result= response.body()
+
+
+                var re=result!!.results
+                var a= re!![1].message_id
+
+
+                var Ressuccess= result!!.success!!.toInt()
+                var Resfailure= result!!.failure!!.toInt()
+
+
+
+
+                println("result for test "+result)
+                Toast.makeText(this@AcademicCalUploadInsti,""+Ressuccess, Toast.LENGTH_SHORT).show()
+                NotificationRecord(roleadmin,notificationType,Ressuccess,Resfailure,sendTo,selectedInstituteName)
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@AcademicCalUploadInsti, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+    }
+
+    private fun NotificationRecord(roleadmin: String, notificationType: String, ressuccess: Int, resfailure: Int, sendTo: String, selectedInstituteName: String)
+    {
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCMRecord(roleadmin,notificationType,ressuccess,resfailure,sendTo,selectedInstituteName)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+
+
+            ) {
+                var res2= response.body()
+                println("res2 "+res2)
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@AcademicCalUploadInsti, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
 
 }

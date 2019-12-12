@@ -32,7 +32,7 @@
                     android:layout_below="@id/tvMainHeading2"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Academic Calender Upload"
+                    android:text="Time Table Upload"
                     android:textColor="#fff"
                     android:textSize="22sp"
                     android:layout_marginBottom="@dimen/layout_marginBottom_20dp"

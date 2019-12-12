@@ -35,6 +35,7 @@ import com.dmims.dmims.common.Common
 import com.dmims.dmims.dataclass.MultiSelectData
 import com.dmims.dmims.model.APIResponse
 import com.dmims.dmims.model.MyResponse
+import com.dmims.dmims.model.ServerNotificationResponse
 import com.dmims.dmims.model.ServerResponse
 import com.dmims.dmims.remote.Api
 import com.dmims.dmims.remote.ApiClientPhp
@@ -97,6 +98,9 @@ class ExamAdminNoticeBoard : AppCompatActivity() {
     var filename: String = "-"
     var course_id: String = "All"
     var dept_id: String = ""
+    var notificationType: String = "Exam Incharge"
+
+
     private lateinit var student_flag: String
     private lateinit var faculty_flag: String
     private lateinit var admin_flag: String
@@ -1089,6 +1093,7 @@ class ExamAdminNoticeBoard : AppCompatActivity() {
                                 var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
                                 var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
                                 tvMsg.text = "Notice Send Successfully"
+                                SendTokenNotification(notice_title,notice_desc,selectedInstituteName,selectedFacultyStud,UserRole)
                                 GenericPublicVariable.CustDialog.setCancelable(false)
                                 btnOk.setOnClickListener {
                                     GenericPublicVariable.CustDialog.dismiss()
@@ -1602,6 +1607,7 @@ class ExamAdminNoticeBoard : AppCompatActivity() {
                                                 var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
                                                 var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
                                                 tvMsg.text = "Notice Send Successfully"
+                                                SendTokenNotification(notice_title,notice_desc,selectedInstituteName,selectedFacultyStud,UserRole)
                                                 GenericPublicVariable.CustDialog.setCancelable(false)
                                                 btnOk.setOnClickListener {
                                                     GenericPublicVariable.CustDialog.dismiss()
@@ -1669,6 +1675,72 @@ class ExamAdminNoticeBoard : AppCompatActivity() {
             )
         }
     }
+
+    fun SendTokenNotification(
+        noticeTitle: String,
+        noticeDesc: String,
+        selectedInstituteName: String,
+        sendTo: String,
+        roleadmin: String
+    ) {
+
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCM(noticeTitle,noticeDesc,selectedInstituteName,sendTo)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+            )
+            {
+                var result= response.body()
+
+
+                var re=result!!.results
+                var a= re!![1].message_id
+
+
+                var Ressuccess= result!!.success!!.toInt()
+                var Resfailure= result!!.failure!!.toInt()
+
+
+
+
+                println("result for test "+result)
+                Toast.makeText(this@ExamAdminNoticeBoard,""+Ressuccess, Toast.LENGTH_SHORT).show()
+                NotificationRecord(roleadmin,notificationType,Ressuccess,Resfailure,sendTo,selectedInstituteName)
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@ExamAdminNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+    }
+
+    private fun NotificationRecord(roleadmin: String, notificationType: String, ressuccess: Int, resfailure: Int, sendTo: String, selectedInstituteName: String)
+    {
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCMRecord(roleadmin,notificationType,ressuccess,resfailure,sendTo,selectedInstituteName)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+
+
+            ) {
+                var res2= response.body()
+                println("res2 "+res2)
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@ExamAdminNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
     fun callSelf (ctx:Context){
         val intent = Intent(ctx, ctx::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

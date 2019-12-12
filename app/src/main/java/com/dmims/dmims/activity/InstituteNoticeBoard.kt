@@ -24,9 +24,6 @@ import com.dmims.dmims.Generic.GenericUserFunction
 import com.dmims.dmims.Generic.InternetConnection
 import com.dmims.dmims.R
 import com.dmims.dmims.common.Common
-import com.dmims.dmims.model.APIResponse
-import com.dmims.dmims.model.ApiVersion
-import com.dmims.dmims.model.MyResponse
 import com.dmims.dmims.remote.Api
 import com.dmims.dmims.remote.ApiClientPhp
 import com.dmims.dmims.remote.IMyAPI
@@ -50,7 +47,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import com.dmims.dmims.broadCasts.SingleUploadBroadcastReceiverAdmin
-import com.dmims.dmims.model.ServerResponse
+import com.dmims.dmims.model.*
 import kotlinx.android.synthetic.main.activity_institute_notice_board.*
 import okhttp3.MultipartBody
 
@@ -113,6 +110,7 @@ class InstituteNoticeBoard() : AppCompatActivity() {
 
     var RESOU_FLAG: String = "F"
     var Institute_Name: String? = null
+    var notificationType: String= "Notice"
 
     var cal = Calendar.getInstance()
     var listsinstz: Int = 0
@@ -978,6 +976,9 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                             var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
                             var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
                             tvMsg.text = "Notice Send Successfully"
+
+
+
                             GenericPublicVariable.CustDialog.setCancelable(false)
                             btnOk.setOnClickListener {
                                 GenericPublicVariable.CustDialog.dismiss()
@@ -1102,6 +1103,7 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                                         var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
                                         var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
                                         tvMsg.text = "Notice Send Successfully"
+                                        SendTokenNotification(notice_title,notice_desc,selectedInstituteName,selectedFacultyStud,roleadmin)
                                         GenericPublicVariable.CustDialog.setCancelable(false)
                                         btnOk.setOnClickListener {
                                             GenericPublicVariable.CustDialog.dismiss()
@@ -1546,6 +1548,8 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                                             var btnOk: Button = GenericPublicVariable.CustDialog.findViewById(R.id.btnCustomDialogAccept) as Button
                                             var tvMsg: TextView = GenericPublicVariable.CustDialog.findViewById(R.id.tvMsgCustomDialog) as TextView
                                             tvMsg.text = "Notice Send Successfully"
+
+                                            SendTokenNotification(notice_title,notice_desc,selectedInstituteName,selectedFacultyStud,roleadmin)
                                             GenericPublicVariable.CustDialog.setCancelable(false)
                                             btnOk.setOnClickListener {
                                                 GenericPublicVariable.CustDialog.dismiss()
@@ -1615,6 +1619,76 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                 getString(R.string.failureNoInternetErr))
         }
     }
+
+
+    fun SendTokenNotification(
+        noticeTitle: String,
+        noticeDesc: String,
+        selectedInstituteName: String,
+        sendTo: String,
+        roleadmin: String
+    ) {
+
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCM(noticeTitle,noticeDesc,selectedInstituteName,sendTo)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+
+
+            ) {
+                var result= response.body()
+
+
+                var re=result!!.results
+                var a= re!![1].message_id
+
+
+                var Ressuccess= result!!.success!!.toInt()
+                var Resfailure= result!!.failure!!.toInt()
+
+
+
+
+                println("result for test "+result)
+                Toast.makeText(this@InstituteNoticeBoard,""+Ressuccess, Toast.LENGTH_SHORT).show()
+                NotificationRecord(roleadmin,notificationType,Ressuccess,Resfailure,sendTo,selectedInstituteName)
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@InstituteNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+    }
+
+    private fun NotificationRecord(roleadmin: String, notificationType: String, ressuccess: Int, resfailure: Int, sendTo: String, selectedInstituteName: String)
+    {
+        var phpApiInterface: PhpApiInterface = ApiClientPhp.getClient().create(PhpApiInterface::class.java)
+        var call4: Call<ServerNotificationResponse> = phpApiInterface.SendNotificationFCMRecord(roleadmin,notificationType,ressuccess,resfailure,sendTo,selectedInstituteName)
+        call4.enqueue(object : Callback<ServerNotificationResponse> {
+            override fun onResponse(
+                call: Call<ServerNotificationResponse>,
+                response: Response<ServerNotificationResponse>
+
+
+            ) {
+                var res2= response.body()
+                println("res2 "+res2)
+
+            }
+
+            override fun onFailure(call: Call<ServerNotificationResponse>, t: Throwable) {
+                Toast.makeText(this@InstituteNoticeBoard, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+
     fun callSelf (ctx:Context){
         val intent = Intent(ctx, ctx::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

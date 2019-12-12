@@ -297,8 +297,7 @@ class InstituteDashboard : AppCompatActivity(), View.OnClickListener {
 
     private fun setnoticeInboxGridEvent(noticeInboxGrid: LinearLayout) {
         noticeInboxGrid.setOnClickListener(View.OnClickListener {
-            val intent =
-                Intent(this@InstituteDashboard, Activity_Institute_Admin_Inbox_notice::class.java)
+            val intent = Intent(this@InstituteDashboard, Activity_Institute_Admin_Inbox_notice::class.java)
             intent.putExtra("info", "noticeInboxGrid")
             startActivity(intent)
         })
