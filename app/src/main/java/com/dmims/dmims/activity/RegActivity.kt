@@ -32,7 +32,7 @@ class RegActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reg)
-        callOtp=false
+        callOtp=true
 
         GenericPublicVariable.btnGenOtp = findViewById<Button>(R.id.btn_genotp)
         btn_NewReg = findViewById<Button>(R.id.btn_NewReg)
