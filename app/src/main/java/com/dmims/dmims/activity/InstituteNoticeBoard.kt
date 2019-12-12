@@ -71,7 +71,7 @@ class InstituteNoticeBoard() : AppCompatActivity() {
     private var TAG = InstituteNoticeBoard::class.java.simpleName
     var noticetype = arrayOf("Administrative", "General")
     var facultystud = arrayOf("All", "Faculty", "Student")
-    var studYearArray = arrayOf("1st", "2nd", "3rd", "Final Year","All ( First to Final Year )")
+    var studYearArray = arrayOf("1st", "2nd", "3rd", "4th", "5th", "All ( First to Final Year )")
 
     internal var mUserItems = java.util.ArrayList<Int>()
     internal var mUserDeptItems = java.util.ArrayList<Int>()
@@ -487,11 +487,6 @@ class InstituteNoticeBoard() : AppCompatActivity() {
                 if (InternetConnection.checkConnection(this@InstituteNoticeBoard)) {
                     try {
                         selectedInstituteName = p0!!.getItemAtPosition(p2) as String
-                        if (selectedInstituteName=="JNMC"){
-                            studYearArray = arrayOf("1st", "2nd", "Final MBBS Part 1","Final MBBS Part 2", "All ( First to Final Year )")
-                        }else{
-                            studYearArray = arrayOf("1st", "2nd", "3rd", "Final Year","All ( First to Final Year )")
-                        }
                         courselist.clear()
                         mServices.GetInstituteData()
                             .enqueue(object : Callback<APIResponse> {

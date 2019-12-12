@@ -319,7 +319,7 @@ class AcademicCalenderUploadA : AppCompatActivity(), SingleUploadBroadcastReceiv
                     if (serverResponse.success) {
         var messegeBody=notificationType+" for session "+spinnerSession.selectedItem.toString()+" is uploaded"
                         GenericUserFunction.showPositivePopUp(this@AcademicCalenderUploadA,serverResponse.message.toString())
-                 /*       SendTokenNotification(notificationType,messegeBody,"All Institution","All")*/
+                        SendTokenNotification(notificationType,messegeBody,"All Institution","All")
 
                     } else {
                         GenericUserFunction.showNegativePopUp(this@AcademicCalenderUploadA,serverResponse.message.toString())
@@ -348,7 +348,7 @@ class AcademicCalenderUploadA : AppCompatActivity(), SingleUploadBroadcastReceiv
         }
     }
 
-/*    fun SendTokenNotification(
+    fun SendTokenNotification(
         noticeTitle: String,
         noticeDesc: String,
         selectedInstituteName: String,
@@ -411,7 +411,7 @@ class AcademicCalenderUploadA : AppCompatActivity(), SingleUploadBroadcastReceiv
                 Toast.makeText(this@AcademicCalenderUploadA, t.message, Toast.LENGTH_SHORT).show()
             }
         })
-    }*/
+    }
 
     companion object {
 

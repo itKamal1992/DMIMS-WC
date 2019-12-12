@@ -13,7 +13,6 @@ class GetParentData {
      var USER_ROLE: String = "-"
      var PUNCH_ID: String = "-"
      var NAME: String = "-"
-     var DOA: String = "-"
      var COURSE_ID: List<String>? = null
      var GARDIAN_NAME: String = "-"
 }

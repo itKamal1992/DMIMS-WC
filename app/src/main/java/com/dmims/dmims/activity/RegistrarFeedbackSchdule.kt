@@ -61,16 +61,14 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
     var feedBackType = ArrayList<String>()
     private lateinit var selectedInstituteName: String
     private lateinit var selectedFeedbackName: String
-    private var selecteddeptlist: String="-"
+    private lateinit var selecteddeptlist: String
     private lateinit var selecteddeptYear: String
     private var selectedcourselist: String? = null
     var deptlist = ArrayList<String>()
     var course_id: String = "All"
     var dept_id: String = ""
     var courselist = ArrayList<String>()
-    var studYearArray = arrayOf("1st", "2nd", "3rd", "Final Year","All ( First to Final Year )")
-    var JNMCstudYearArray = arrayOf("1st", "2nd", "3rd", "Final MBBS Part 1","Final MBBS Part 2", "All ( First to Final Year )")
-    var OTHERSstudYearArray = arrayOf("1st", "2nd", "3rd", "Final Year","All ( First to Final Year )")
+    var studYearArray = arrayOf("1st", "2nd", "3rd", "4th", "5th", "All ( First to Final Year )")
     internal var mUserItems = java.util.ArrayList<Int>()
     internal var mUserDeptItems = java.util.ArrayList<Int>()
 
@@ -146,7 +144,6 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
 
 
         var checkedItems = BooleanArray(studYearArray.size)
-
         txt_year.text = "Select Year"
         linear_year.setOnClickListener {
 
@@ -204,157 +201,157 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
         }
 
 
-//        txt_Dept.text = "Select Department"
-//        selfMultipleDept.setOnClickListener {
-//            if (!txt_Dept.text.toString().equals("Select Department")) {
-//                var checkedDeptItems = BooleanArray(deptlist.size)
-//                val mBuilder = AlertDialog.Builder(this)
-//                mBuilder.setTitle("Select Department to send notice")
-//                var deptArray = deptlist.toArray(arrayOfNulls<String>(deptlist.size))
-//                mBuilder.setMultiChoiceItems(deptArray, checkedDeptItems)
-//                { dialogInterface, position, isChecked ->
-//                    if (isChecked) {
-//                        mUserDeptItems.add(position)
-//                    } else {
-//                        mUserDeptItems.remove(Integer.valueOf(position))
-//                    }
-//                }
-//
-//                mBuilder.setCancelable(false)
-//                mBuilder.setPositiveButton(
-//                    "Ok"
-//                ) { dialogInterface, which ->
-//
-//
-//                    var item = ""
-//                    txt_Dept.setText("")
-//                    for (i in mUserDeptItems.indices) {
-//                        item = item + deptArray[mUserDeptItems.get(i)]
-//                        if (i != mUserDeptItems.size - 1) {
-//                            item = "$item, "
-//                        }
-//                    }
-//
-//                    txt_Dept.text = item
-//                    if (txt_Dept.text.toString().contains("All Department")) {
-//                        dept_id = "D000000"
-//                        txt_Dept.text = "All Department"
-//                    }
-//
-//                    if (txt_Dept.text.toString() == "") {
-//                        txt_Dept.text = "Select Department"
-//                    }
-//                    mUserDeptItems.removeAll(mUserDeptItems)
-//
-//                    if (InternetConnection.checkConnection(this)) {
-//                        val dialog: android.app.AlertDialog =
-//                            SpotsDialog.Builder().setContext(this).build()
-//                        dialog.setMessage("Please Wait!!! \nwhile we are updating courses")
-//                        dialog.setCancelable(false)
-//                        dialog.show()
-//                        try {
-////                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
-//                            selecteddeptlist = txt_Dept.text as String
-//                            mServices.GetInstituteData()
-//                                .enqueue(object : Callback<APIResponse> {
-//                                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
-//                                        dialog.dismiss()
-//                                        Toast.makeText(
-//                                            this@RegistrarFeedbackSchdule,
-//                                            t.message,
-//                                            Toast.LENGTH_SHORT
-//                                        ).show()
-//                                    }
-//
-//                                    override fun onResponse(
-//                                        call: Call<APIResponse>,
-//                                        response: Response<APIResponse>
-//                                    ) {
-//                                        dialog.dismiss()
-//                                        val result: APIResponse? = response.body()
-//                                        if (result!!.Responsecode == 204) {
-//                                            Toast.makeText(
-//                                                this@RegistrarFeedbackSchdule,
-//                                                result.Status,
-//                                                Toast.LENGTH_SHORT
-//                                            ).show()
-//                                        } else {
-//                                            val listsinstz: Int = result.Data6!!.size
-//                                            dept_id = ""
-//                                            var selected_dept = selecteddeptlist.split(",")
-//                                            var selected_dept_size = selected_dept.size
-//                                            for (i in 0..listsinstz - 1) {
-//                                                if (result.Data6!![i].Course_Institute == selectedInstituteName) {
-//                                                    val listscoursez: Int =
-//                                                        result.Data6!![i].Courses!!.size
-//                                                    for (j in 0..listscoursez - 1) {
-//                                                        if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
-//                                                            val listsdeptz: Int =
-//                                                                result.Data6!![i].Courses!![j].Departments!!.size
-//                                                            for (k in 0 until listsdeptz) {
-//                                                                for (m in 0 until selected_dept_size) {
-////                                                                println(" i >> $i , j >> $j, k >> $k, m >> $m Department >>> $dept_id")
-//
-//                                                                    if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME.equals(
-//                                                                            selected_dept[m].trim()
-//                                                                        )
-//                                                                    ) {
-//                                                                        dept_id =
-//                                                                            dept_id + "_" + result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
-//
-//                                                                    }
-//                                                                }
-//
-//                                                            }
-//                                                        }
-//                                                    }
-//                                                }
-//                                            }
-//                                            println("Department >>> " + dept_id)
-//
-//                                        }
-//                                    }
-//                                })
-//                        } catch (ex: Exception) {
-//                            dialog.dismiss()
-//                            ex.printStackTrace()
-//                            GenericUserFunction.showApiError(
-//                                this@RegistrarFeedbackSchdule,
-//                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
-//                            )
-//                        }
-//                    } else {
-//                        GenericUserFunction.showInternetNegativePopUp(
-//                            this@RegistrarFeedbackSchdule,
-//                            getString(R.string.failureNoInternetErr)
-//                        )
-//                    }
-//
-//                }
-//
-//                val negativeButton = mBuilder.setNegativeButton(
-//                    "Dismiss"
-//                ) { dialogInterface, i -> dialogInterface.dismiss() }
-//
-//                mBuilder.setNeutralButton(
-//                    "Clear All"
-//                ) { dialogInterface, which ->
-//                    for (i in checkedDeptItems.indices) {
-//                        checkedDeptItems[i] = false
-//                        mUserDeptItems.clear()
-//                        txt_Dept.setText("Select Department")
-//                    }
-//                }
-//
-//                val mDialog2 = mBuilder.create()
-//                mDialog2.show()
-//            } else {
-//                GenericUserFunction.DisplayToast(
-//                    this, "Please Choose Course then Departments to proceed"
-//                )
-//            }
-//
-//        }
+        txt_Dept.text = "Select Department"
+        selfMultipleDept.setOnClickListener {
+            if (!txt_Dept.text.toString().equals("Select Department")) {
+                var checkedDeptItems = BooleanArray(deptlist.size)
+                val mBuilder = AlertDialog.Builder(this)
+                mBuilder.setTitle("Select Department to send notice")
+                var deptArray = deptlist.toArray(arrayOfNulls<String>(deptlist.size))
+                mBuilder.setMultiChoiceItems(deptArray, checkedDeptItems)
+                { dialogInterface, position, isChecked ->
+                    if (isChecked) {
+                        mUserDeptItems.add(position)
+                    } else {
+                        mUserDeptItems.remove(Integer.valueOf(position))
+                    }
+                }
+
+                mBuilder.setCancelable(false)
+                mBuilder.setPositiveButton(
+                    "Ok"
+                ) { dialogInterface, which ->
+
+
+                    var item = ""
+                    txt_Dept.setText("")
+                    for (i in mUserDeptItems.indices) {
+                        item = item + deptArray[mUserDeptItems.get(i)]
+                        if (i != mUserDeptItems.size - 1) {
+                            item = "$item, "
+                        }
+                    }
+
+                    txt_Dept.text = item
+                    if (txt_Dept.text.toString().contains("All Department")) {
+                        dept_id = "D000000"
+                        txt_Dept.text = "All Department"
+                    }
+
+                    if (txt_Dept.text.toString() == "") {
+                        txt_Dept.text = "Select Department"
+                    }
+                    mUserDeptItems.removeAll(mUserDeptItems)
+
+                    if (InternetConnection.checkConnection(this)) {
+                        val dialog: android.app.AlertDialog =
+                            SpotsDialog.Builder().setContext(this).build()
+                        dialog.setMessage("Please Wait!!! \nwhile we are updating courses")
+                        dialog.setCancelable(false)
+                        dialog.show()
+                        try {
+//                        selecteddeptlist = p0!!.getItemAtPosition(p2) as String
+                            selecteddeptlist = txt_Dept.text as String
+                            mServices.GetInstituteData()
+                                .enqueue(object : Callback<APIResponse> {
+                                    override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                                        dialog.dismiss()
+                                        Toast.makeText(
+                                            this@RegistrarFeedbackSchdule,
+                                            t.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                    override fun onResponse(
+                                        call: Call<APIResponse>,
+                                        response: Response<APIResponse>
+                                    ) {
+                                        dialog.dismiss()
+                                        val result: APIResponse? = response.body()
+                                        if (result!!.Responsecode == 204) {
+                                            Toast.makeText(
+                                                this@RegistrarFeedbackSchdule,
+                                                result.Status,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            val listsinstz: Int = result.Data6!!.size
+                                            dept_id = ""
+                                            var selected_dept = selecteddeptlist.split(",")
+                                            var selected_dept_size = selected_dept.size
+                                            for (i in 0..listsinstz - 1) {
+                                                if (result.Data6!![i].Course_Institute == selectedInstituteName) {
+                                                    val listscoursez: Int =
+                                                        result.Data6!![i].Courses!!.size
+                                                    for (j in 0..listscoursez - 1) {
+                                                        if (result.Data6!![i].Courses!![j].COURSE_NAME == selectedcourselist) {
+                                                            val listsdeptz: Int =
+                                                                result.Data6!![i].Courses!![j].Departments!!.size
+                                                            for (k in 0 until listsdeptz) {
+                                                                for (m in 0 until selected_dept_size) {
+//                                                                println(" i >> $i , j >> $j, k >> $k, m >> $m Department >>> $dept_id")
+
+                                                                    if (result.Data6!![i].Courses!![j].Departments!![k].DEPT_NAME.equals(
+                                                                            selected_dept[m].trim()
+                                                                        )
+                                                                    ) {
+                                                                        dept_id =
+                                                                            dept_id + "_" + result.Data6!![i].Courses!![j].Departments!![k].DEPT_ID
+
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            println("Department >>> " + dept_id)
+
+                                        }
+                                    }
+                                })
+                        } catch (ex: Exception) {
+                            dialog.dismiss()
+                            ex.printStackTrace()
+                            GenericUserFunction.showApiError(
+                                this@RegistrarFeedbackSchdule,
+                                "Sorry for inconvenience\nServer seems to be busy,\nPlease try after some time."
+                            )
+                        }
+                    } else {
+                        GenericUserFunction.showInternetNegativePopUp(
+                            this@RegistrarFeedbackSchdule,
+                            getString(R.string.failureNoInternetErr)
+                        )
+                    }
+
+                }
+
+                val negativeButton = mBuilder.setNegativeButton(
+                    "Dismiss"
+                ) { dialogInterface, i -> dialogInterface.dismiss() }
+
+                mBuilder.setNeutralButton(
+                    "Clear All"
+                ) { dialogInterface, which ->
+                    for (i in checkedDeptItems.indices) {
+                        checkedDeptItems[i] = false
+                        mUserDeptItems.clear()
+                        txt_Dept.setText("Select Department")
+                    }
+                }
+
+                val mDialog2 = mBuilder.create()
+                mDialog2.show()
+            } else {
+                GenericUserFunction.DisplayToast(
+                    this, "Please Choose Course then Departments to proceed"
+                )
+            }
+
+        }
 
 
         var userfeedBackTypeadp: ArrayAdapter<String> = ArrayAdapter<String>(
@@ -493,11 +490,6 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                 if (InternetConnection.checkConnection(this@RegistrarFeedbackSchdule)) {
                     try {
                         selectedInstituteName = p0!!.getItemAtPosition(p2) as String
-                        if (selectedInstituteName=="JNMC"){
-                            studYearArray = arrayOf("1st", "2nd", "Final MBBS Part 1","Final MBBS Part 2", "All ( First to Final Year )")
-                        }else{
-                            studYearArray = arrayOf("1st", "2nd", "3rd", "Final Year","All ( First to Final Year )")
-                        }
                         courselist.clear()
                         mServices.GetInstituteData()
                             .enqueue(object : Callback<APIResponse> {
@@ -612,7 +604,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                                 }
                             })
                         deptlist.add(0, "All Department")
-//                        txt_Dept.text = "All Department"
+                        txt_Dept.text = "All Department"
                     } catch (ex: Exception) {
                         ex.printStackTrace()
                         GenericUserFunction.showApiError(
@@ -670,29 +662,29 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
                 }
             }
 
-//            if (txt_Dept.text.toString() == "All Department") {
-//                selecteddeptlist = "All Department"
-//                dept_id = "D000000"
-//            } else
-//                if (txt_Dept.text.toString() == "Select Department") {
-//                    txt_Dept.error = "Please Choose Departments to proceed"
-//                    GenericUserFunction.DisplayToast(
-//                        this, "Please Choose Departments to proceed"
-//                    )
-//                    return@setOnClickListener
-//                } else
-//                    if (dept_id != null || dept_id != "") {
-//                        txt_Dept.error = null
-//                        dept_id = dept_id!!.removeRange(0, 1)
-//
-//                    } else {
-//
-//                        txt_Dept.error = "Please Choose Departments to proceed"
-//                        GenericUserFunction.DisplayToast(
-//                            this, "Please Choose Departments to proceed"
-//                        )
-//                        return@setOnClickListener
-//                    }
+            if (txt_Dept.text.toString() == "All Department") {
+                selecteddeptlist = "All Department"
+                dept_id = "D000000"
+            } else
+                if (txt_Dept.text.toString() == "Select Department") {
+                    txt_Dept.error = "Please Choose Departments to proceed"
+                    GenericUserFunction.DisplayToast(
+                        this, "Please Choose Departments to proceed"
+                    )
+                    return@setOnClickListener
+                } else
+                    if (dept_id != null || dept_id != "") {
+                        txt_Dept.error = null
+                        dept_id = dept_id!!.removeRange(0, 1)
+
+                    } else {
+
+                        txt_Dept.error = "Please Choose Departments to proceed"
+                        GenericUserFunction.DisplayToast(
+                            this, "Please Choose Departments to proceed"
+                        )
+                        return@setOnClickListener
+                    }
 
             if (selectedcourselist == "All Courses") {
                 course_id = "C000000"

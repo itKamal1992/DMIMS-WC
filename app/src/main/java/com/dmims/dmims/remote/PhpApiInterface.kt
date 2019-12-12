@@ -300,5 +300,28 @@ interface PhpApiInterface  {
 
     @GET("time_table/get_start_date.php")
     fun get_start_date(): Call<GetAcad_Start_Date>
+
+
+
+    @FormUrlEncoded
+    @POST("test_folder/get_instwise_token.php")
+    fun SendNotificationFCM(
+        @Field("TITLE") TITLE: String ,
+        @Field("MESSAGE") MESSAGE: String,
+        @Field("INST_NAME") INST_NAME: String,
+    @Field("USER_ROLE") USER_ROLE: String
+    ): Call<ServerNotificationResponse>
+
+
+    @FormUrlEncoded
+    @POST("test_folder/notificationsend_record.php")
+    fun SendNotificationFCMRecord(
+        @Field("user") user: String ,
+        @Field("notification_type") notification_type: String,
+    @Field("success") success: Int,
+        @Field("failure") failure: Int ,
+        @Field("send_to") send_to: String,
+        @Field("institute") institute: String
+    ): Call<ServerNotificationResponse>
 }
 
