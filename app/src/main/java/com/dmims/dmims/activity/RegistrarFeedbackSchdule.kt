@@ -68,7 +68,7 @@ class RegistrarFeedbackSchdule : AppCompatActivity() {
     var course_id: String = "All"
     var dept_id: String = ""
     var courselist = ArrayList<String>()
-    var studYearArray = arrayOf("1st", "2nd", "3rd", "4th", "5th", "All ( First to Final Year )")
+    var studYearArray = arrayOf("1st", "2nd", "3rd", "Final Year","All ( First to Final Year )")
     var JNMCstudYearArray = arrayOf("1st", "2nd", "3rd", "Final MBBS Part 1","Final MBBS Part 2", "All ( First to Final Year )")
     var OTHERSstudYearArray = arrayOf("1st", "2nd", "3rd", "Final Year","All ( First to Final Year )")
     internal var mUserItems = java.util.ArrayList<Int>()
